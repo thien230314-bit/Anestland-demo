@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Những giá trị ANestLand gìn giữ: nguồn nguyên liệu chọn lọc, sự tận tâm và quà tặng tinh tế.">
+  <meta name="theme-color" content="#660b05">
+  <title>Giá Trị — ANestLand</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M5 18Q20 40 35 18M7 24Q20 40 33 24M20 18Q17 2 32 5Q30 18 20 18' fill='none' stroke='%23BF9F70' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="i18n.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body class="inner-page">
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-nest" viewBox="0 0 40 40"><path d="M4 19q16 22 32 0M7 26q13 14 26 0M12 32q8 6 16 0M20 19Q16 3 33 5Q31 18 20 19Zm0 0 9-10"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><path d="M2 3h3l2.5 12h12l2-9H6M8 15l-1 3h13"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 5H21M3 12H21M3 19H21"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12H21M15 6l6 6-6 6"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21 3.5 12.5a5.5 5.5 0 0 1 8.5-7 5.5 5.5 0 0 1 8.5 7Z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C-2 7 10 2 21 3c1 11-6 20-16 16ZM4 21 17 7M9 15V9M9 15h6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 9 4v6c0 5-9 10-9 10S3 17 3 12V6ZM8 12l3 3 6-6"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><path d="M3 10h18v11H3ZM2 6h20v4H2ZM12 6v15M12 6C1 7 5-4 12 6ZM12 6c11 1 7-10 0 0"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M19 5 5 19"/></symbol>
+  </defs></svg>
+  <a class="skip-link" href="#main">Đến nội dung chính</a>
+  <header class="site-header" id="header">
+    <a class="logo" href="index.html" aria-label="ANestLand, trang chủ"><svg><use href="#i-nest"/></svg><span>ANestLand<span class="logo-dot">.</span></span></a>
+    <nav class="desktop-nav" aria-label="Điều hướng chính"><a href="index.html">TRANG CHỦ</a><a href="about.html">CÂU CHUYỆN</a><a href="products.html">SẢN PHẨM</a><a href="values.html" class="active" aria-current="page">GIÁ TRỊ</a><a href="blog.html">BLOG</a><a href="contact.html">LIÊN HỆ</a></nav>
+    <div class="header-tools"><div class="header-search">
+      <button type="button" class="icon-button search-trigger" id="search-toggle" aria-label="Mở tìm kiếm" aria-expanded="false" aria-controls="search-panel"><svg><use href="#i-search"/></svg></button>
+      <form id="search-form" class="header-search-bar" role="search"><label class="sr-only" for="search-input">Tìm sản phẩm, bài viết</label><input id="search-input" type="search" autocomplete="off" maxlength="120" placeholder="Tìm sản phẩm..." aria-controls="search-results" aria-expanded="false"><button class="search-submit" type="submit" aria-label="Tìm kiếm"><svg><use href="#i-search"/></svg></button></form>
+      <div id="search-panel" class="search-dropdown" hidden><div class="search-dropdown-heading"><p id="search-status" role="status" aria-live="polite"></p><button type="button" class="search-close icon-button" aria-label="Đóng tìm kiếm"><svg><use href="#i-close"/></svg></button></div><div id="search-results" class="search-results"></div></div>
+    </div><a class="icon-button bag-button" id="bag-toggle" href="cart.html" aria-label="Giỏ hàng"><span class="sr-only">Giỏ hàng</span><svg><use href="#i-cart"/></svg><span class="bag-count" aria-hidden="true">0</span></a><button class="icon-button" id="menu-toggle" aria-label="Mở tài khoản ANestLand" aria-expanded="false" aria-controls="mobile-nav"><svg><use href="#i-menu"/></svg></button></div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Menu mở rộng" hidden><a href="index.html">Trang chủ</a><a href="about.html">Câu chuyện</a><a href="products.html">Sản phẩm</a><a href="values.html" class="active" aria-current="page">Giá trị</a><a href="blog.html">Chuyện về yến</a><a href="contact.html">Liên hệ</a><button type="button" class="mobile-account-entry" data-account-open>Tài khoản</button></nav>
+  </header>
+  <main id="main">
+    <section class="page-hero"><div class="container page-hero-inner"><div class="page-hero-copy"><p class="eyebrow">NHỮNG GIÁ TRỊ CHÚNG TÔI GÌN GIỮ</p><h1>Vì Sao Chọn<br><em>ANestLand?</em></h1><p>Từ nguồn nguyên liệu đến món quà trao tay, mỗi lựa chọn đều bắt đầu bằng sự tận tâm.</p><nav class="breadcrumbs" aria-label="Đường dẫn"><a href="index.html">Trang chủ</a><span aria-hidden="true">/</span><span aria-current="page">Giá trị</span></nav></div><svg class="page-hero-symbol" aria-hidden="true"><use href="#i-nest"/></svg></div></section>
+    <section class="benefits section container values-principles"><div class="section-heading reveal"><p class="eyebrow">BỐN ĐIỀU LÀM NÊN ANESTLAND</p><h2>Giá Trị Được Gìn Giữ<br><em>Trong Từng Lựa Chọn</em></h2></div><div class="benefit-grid">
+      <article class="reveal"><div class="benefit-icon"><svg><use href="#i-leaf"/></svg><span>01</span></div><h3>Nguồn nguyên liệu chọn lọc</h3><p>Nguồn gốc rõ ràng, nguyên liệu được lựa chọn kỹ.</p><a class="text-link button-secondary" href="#sourcing">TÌM HIỂU NGUỒN GỐC <svg><use href="#i-arrow"/></svg></a></article>
+      <article class="reveal"><div class="benefit-icon"><svg><use href="#i-shield"/></svg><span>02</span></div><h3>Giữ trọn giá trị tự nhiên</h3><p>Chế biến tinh giản, trân trọng sợi yến và hương vị thanh nhẹ.</p><a class="text-link button-secondary" href="#craft">KHÁM PHÁ CÔNG ĐOẠN <svg><use href="#i-arrow"/></svg></a></article>
+      <article class="reveal"><div class="benefit-icon"><svg><use href="#i-heart"/></svg><span>03</span></div><h3>Phù hợp nhiều thế hệ</h3><p>Lựa chọn phù hợp với nhu cầu và thói quen của gia đình.</p><a class="text-link button-secondary" href="#family-care">CHĂM SÓC GIA ĐÌNH <svg><use href="#i-arrow"/></svg></a></article>
+      <article class="reveal"><div class="benefit-icon"><svg><use href="#i-gift"/></svg><span>04</span></div><h3>Quà tặng tinh tế</h3><p>Sản phẩm chọn kỹ, trình bày trang nhã, gửi trao chân thành.</p><a class="text-link button-secondary" href="#gifting">GỬI TRAO YÊU THƯƠNG <svg><use href="#i-arrow"/></svg></a></article>
+    </div></section>
+    <section class="story section container sourcing" id="sourcing"><div class="editorial-copy reveal"><p class="eyebrow">CHẤT LƯỢNG BẮT ĐẦU TỪ NGUỒN GỐC</p><h2>Chọn Kỹ Nguyên Liệu,<br><em>Gìn Giữ Niềm Tin</em></h2><span class="section-rule"></span><p>Yến sào Khánh Hòa, nguồn gốc minh bạch. Thành phần và hướng dẫn rõ ràng để bạn an tâm lựa chọn.</p><p>Trân trọng từng sợi yến, chăm chút từ nguyên liệu đến thành phẩm.</p><a class="text-link button-secondary" href="about.html">CÂU CHUYỆN ANESTLAND <svg><use href="#i-arrow"/></svg></a></div><div class="story-visual reveal"><div class="image-arch"><img src="assets/images/refined-nest.jpg" alt="Tổ yến tinh chế màu ngà được tuyển chọn" width="800" height="800" loading="lazy"></div><p class="image-note">Trân trọng nguồn gốc. Chăm chút từng sợi yến.</p></div></section>
+    <section class="craft section" id="craft"><div class="container craft-inner"><div class="editorial-copy reveal"><p class="eyebrow">SỰ TỈ MỈ TẠO NÊN KHÁC BIỆT</p><h2>Chăm Chút Trong<br><em>Từng Công Đoạn</em></h2><p>Tuyển chọn kỹ, làm sạch tỉ mỉ, hoàn thiện chỉn chu.</p><ol class="process"><li><span>01</span><h3>Tuyển chọn</h3><p>Tìm hiểu nguồn gốc, chọn nguyên liệu phù hợp cho từng dòng sản phẩm.</p></li><li><span>02</span><h3>Làm sạch</h3><p>Tỉ mỉ xử lý, trân trọng cấu trúc và vẻ tự nhiên của sợi yến.</p></li><li><span>03</span><h3>Hoàn thiện</h3><p>Chăm chút quy cách, thông tin và cách trình bày trước khi trao tay.</p></li></ol></div><div class="craft-visual reveal"><img src="assets/images/craftsmanship.jpg" alt="Đôi bàn tay tỉ mỉ làm sạch tổ yến trên khay tre" width="800" height="800" loading="lazy"><span class="craft-note">Tận tâm từ những điều nhỏ nhất.</span></div></div></section>
+    <section class="story section container" id="family-care"><div class="story-visual reveal"><div class="image-arch"><img src="assets/images/wellness-bowl.jpg" alt="Chén yến chưng táo đỏ bên khăn linen" width="800" height="800" loading="lazy"></div><p class="image-note">Quan tâm mỗi ngày, theo cách của gia đình bạn.</p></div><div class="editorial-copy reveal"><p class="eyebrow">SỨC KHỎE &amp; SỰ QUAN TÂM</p><h2>Một Thói Quen Nhỏ,<br><em>Một Sự Chăm Sóc Lớn</em></h2><p>Một chén yến cho người thân, một khoảng nghỉ cho bản thân. Quan tâm mỗi ngày theo cách giản dị.</p><p>Đọc thành phần và hướng dẫn trên bao bì. Hỏi người có chuyên môn khi cần tư vấn dinh dưỡng riêng.</p><a class="text-link button-secondary" href="blog.html">ĐỌC CHUYỆN VỀ YẾN <svg><use href="#i-arrow"/></svg></a></div></section>
+    <section class="care-banner" id="gifting"><div class="container banner-inner"><div class="editorial-copy reveal"><p class="eyebrow">QUÀ TẶNG MANG THEO TẤM LÒNG</p><h2>Tinh Tế Khi Chọn,<br><em>Trọn Vẹn Khi Trao</em></h2><p>Dành cho một dịp sum họp, một lời cảm ơn hay một dấu mốc đáng nhớ: món quà sức khỏe mang ý nghĩa của sự quan tâm bền lâu.</p><p>Chọn theo sở thích người nhận, thêm một lời nhắn. Một món quà nhỏ, một sự quan tâm trọn vẹn.</p><a class="text-link button-secondary" href="products.html">KHÁM PHÁ QUÀ TẶNG <svg><use href="#i-arrow"/></svg></a></div><div class="banner-visual reveal"><img src="assets/images/gift-box.jpg" alt="Hộp quà yến sào được trình bày trang nhã" width="800" height="800" loading="lazy"><span class="banner-caption">Gửi trao sự quan tâm.</span></div></div></section>
+    <section class="page-cta section container"><div class="section-heading reveal"><p class="eyebrow">TÌM LỰA CHỌN CỦA BẠN</p><h2>Trao Gửi Điều Tốt Lành<br><em>Cùng ANestLand</em></h2><p>Khám phá tổ yến, yến chưng và những món quà dành cho người bạn yêu thương.</p><a class="button" href="products.html">KHÁM PHÁ SẢN PHẨM <svg><use href="#i-arrow"/></svg></a></div></section>
+  </main>
+  <footer id="footer"><div class="container footer-grid"><div class="footer-brand"><a class="logo" href="index.html"><svg><use href="#i-nest"/></svg><span>ANestLand<span class="logo-dot">.</span></span></a><p>Tinh hoa yến Việt.<br>Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.</p></div><div><h2>Khám phá</h2><a href="about.html">Câu chuyện</a><a href="products.html">Sản phẩm</a><a href="values.html">Giá trị</a><a href="blog.html">Blog</a></div><div><h2>Hỗ trợ</h2><a href="contact.html">Liên hệ</a><button data-info="policy">Chính sách</button><button data-info="shipping">Giao hàng</button></div><div><h2>Theo dõi</h2><button data-info="social">Facebook</button><button data-info="social">Instagram</button><button data-info="social">TikTok</button></div></div><div class="container footer-bottom"><p>© 2026 ANestLand.</p><span>ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN <svg><use href="#i-leaf"/></svg></span></div></footer>
+  
+  <div class="toast" role="status" aria-live="polite"></div>
+  <dialog id="content-dialog"><button class="dialog-close icon-button" aria-label="Đóng nội dung"><svg><use href="#i-close"/></svg></button><p class="eyebrow" id="dialog-label"></p><h2 id="dialog-title"></h2><div id="dialog-body"></div></dialog>
+</body>
+</html>
