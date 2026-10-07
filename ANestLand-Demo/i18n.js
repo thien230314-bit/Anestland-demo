@@ -168,7 +168,7 @@ TIẾP TỤC MUA SẮM|继续购物|CONTINUE SHOPPING|계속 쇼핑하기
 CHĂM CHÚT TỪNG LỰA CHỌN|用心于每个选择|CARE IN EVERY CHOICE|모든 선택에 담긴 정성
 TÓM TẮT ĐƠN HÀNG|订单摘要|ORDER SUMMARY|주문 요약
 TIẾN HÀNH THANH TOÁN|前往结算|CHECKOUT|결제하기
-Cần hỗ trợ chọn quà? Liên hệ ANestLand ↗|需要礼物建议？联系ANestLand ↗|Need help choosing a gift? Contact ANestLand ↗|선물 선택에 도움이 필요하신가요? ANestLand 문의 ↗
+Cần hỗ trợ chọn quà? Liên hệ ANestLand|需要礼物建议？联系ANestLand|Need help choosing a gift? Contact ANestLand|선물 선택에 도움이 필요하신가요? ANestLand 문의
 Mỗi lựa chọn là một cách gửi trao sự quan tâm.|每一份选择，都传递着关爱。|Every choice is a thoughtful gesture.|모든 선택은 마음을 전하는 방법입니다.
 Mã sản phẩm|产品编号|SKU|상품 코드
 Danh mục|分类|Category|분류
@@ -640,6 +640,8 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
 Giao hàng toàn quốc|全国配送|Nationwide delivery|전국 배송
 Tư vấn & hỗ trợ|咨询与支持|Advice & support|상담 및 지원
 Sản phẩm yêu thích|收藏的产品|Favorite products|관심 제품
+Danh sách yêu thích|收藏列表|Wishlist|관심 목록
+Đăng xuất|退出登录|Log out|로그아웃
 Đóng danh sách yêu thích|关闭收藏列表|Close favorites|관심 목록 닫기
 Bạn chưa lưu sản phẩm yêu thích nào.|您还没有收藏产品。|You haven’t saved any favorites yet.|아직 저장한 관심 제품이 없습니다.
 Khám phá sản phẩm|探索产品|Explore products|제품 둘러보기
@@ -870,7 +872,7 @@ Email ANestLand|ANestLand 邮箱|Email ANestLand|ANestLand 이메일`.split('\n'
     return button;
   });
   function updateSelector() {
-    trigger.innerHTML = flag(language) + '<span aria-hidden="true">⌄</span>';
+    trigger.innerHTML = flag(language) + '<span class="language-current">' + names[language] + '</span><span aria-hidden="true">⌄</span>';
     trigger.setAttribute('aria-label', ['Ngôn ngữ: ', '语言：', 'Language: ', '언어: '][languages.indexOf(language)] + names[language]);
     list.setAttribute('aria-label', text('Ngôn ngữ'));
     options.forEach(option => option.setAttribute('aria-selected', String(option.dataset.language === language)));
@@ -901,7 +903,7 @@ Email ANestLand|ANestLand 邮箱|Email ANestLand|ANestLand 이메일`.split('\n'
   }
   trigger.addEventListener('click', () => list.hidden ? open() : close());
   selector.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(true); return; }
+    if (event.key === 'Escape' && !list.hidden) { event.preventDefault(); event.stopPropagation(); close(true); return; }
     if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
     if (list.hidden) { open(event.key === 'ArrowUp'); return; }
@@ -914,9 +916,11 @@ Email ANestLand|ANestLand 邮箱|Email ANestLand|ANestLand 이메일`.split('\n'
   document.addEventListener('pointerdown', event => { if (!selector.contains(event.target)) close(); });
   selector.append(trigger, list);
   function positionSelector() {
-    const parent = document.querySelector('.header-tools');
-    if (selector.parentElement !== parent) close();
-    parent.insertBefore(selector, document.querySelector('#menu-toggle'));
+    const parent = document.querySelector('#account-language-slot') || document.querySelector('.header-tools');
+    if (selector.parentElement === parent) return;
+    close();
+    if (parent.id === 'account-language-slot') parent.append(selector);
+    else parent.insertBefore(selector, document.querySelector('#menu-toggle'));
   }
   window.addEventListener('resize', positionSelector);
   positionSelector();

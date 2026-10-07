@@ -1,0 +1,306 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - list [ref=e4]:
+    - listitem [ref=e5]:
+      - generic [ref=e8]: Yến sào tuyển chọn
+    - listitem [ref=e9]:
+      - generic [ref=e14]: Giao hàng toàn quốc
+    - listitem [ref=e15]:
+      - generic [ref=e18]: Tư vấn & hỗ trợ
+  - banner [ref=e19]:
+    - link "ANestLand, trang chủ" [ref=e21] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e24]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e25]:
+      - link "TRANG CHỦ" [ref=e26] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e27] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e28] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e29] [cursor=pointer]:
+        - /url: values.html
+      - link "TIN TỨC" [ref=e30] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e31] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e32]:
+      - search [ref=e34]:
+        - generic [ref=e35]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e36]
+        - button "Tìm kiếm" [ref=e37] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e40] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e41]: Giỏ hàng
+        - generic [aria-hidden] [ref=e44]: "0"
+      - button "Mở tài khoản" [ref=e45] [cursor=pointer]
+  - main [ref=e50]:
+    - article [ref=e51]:
+      - generic [ref=e53]:
+        - navigation "Đường dẫn" [ref=e54]:
+          - link "Trang chủ" [ref=e55] [cursor=pointer]:
+            - /url: index.html
+          - generic [aria-hidden] [ref=e56]: /
+          - link "TIN TỨC" [ref=e57] [cursor=pointer]:
+            - /url: blog.html
+          - generic [aria-hidden] [ref=e58]: /
+          - generic [ref=e59]: "Mua yến sào lần đầu: chọn tổ yến hay yến chưng?"
+        - button "QUAY LẠI" [ref=e60] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e61]: ←
+      - generic [ref=e63]:
+        - paragraph [ref=e64]: KIẾN THỨC VỀ YẾN
+        - 'heading "Mua yến sào lần đầu: chọn tổ yến hay yến chưng?" [level=1] [ref=e65]'
+        - paragraph [ref=e66]:
+          - generic [ref=e67]: Nhật ký ANestLand
+          - generic [ref=e68]: 07.10.2026
+          - generic [ref=e69]: 10 phút đọc
+      - region "Thông tin bài viết" [ref=e71]:
+        - generic [ref=e72]:
+          - img "Chân dung AI minh họa ban biên tập ANestLand" [ref=e74]
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: Tác giả
+            - strong [ref=e77]: Ban biên tập ANestLand
+            - paragraph [ref=e78]: Nội dung từ ANestLand
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - term [ref=e81]: Ngày đăng
+            - definition [ref=e82]:
+              - time [ref=e83]: 07.10.2026
+          - generic [ref=e84]:
+            - term [ref=e85]: Thời gian đọc
+            - definition [ref=e86]: 10 phút đọc
+          - generic [ref=e87]:
+            - term [ref=e88]: Đánh giá
+            - definition [ref=e89]: Chưa có đánh giá
+          - generic [ref=e90]:
+            - term [ref=e91]: Nhãn biên tập
+            - definition [ref=e92]:
+              - generic "Nhãn do ban biên tập lựa chọn" [ref=e93]: Yêu thích
+        - generic [ref=e97]:
+          - link "website ANestLand" [ref=e98] [cursor=pointer]:
+            - /url: https://anestland.vn/
+          - link "Email ANestLand" [ref=e103] [cursor=pointer]:
+            - /url: mailto:anestland@gmail.com
+          - link "085 379 3535" [ref=e108] [cursor=pointer]:
+            - /url: tel:0853793535
+      - figure "Tổ yến tinh chế để tự chế biến. Ảnh minh họa trong bộ ảnh ANestLand." [ref=e112]:
+        - img "Ảnh minh họa tổ yến khô màu ngà trong đĩa sứ, dùng cho bài hướng dẫn chọn yến lần đầu" [ref=e113]
+      - generic [ref=e115]:
+        - complementary [ref=e116]:
+          - button "NỘI DUNG" [expanded] [ref=e117] [cursor=pointer]:
+            - generic [aria-hidden] [ref=e119]: ⌄
+          - navigation "Nội dung bài viết" [ref=e120]:
+            - list [ref=e121]:
+              - listitem [ref=e122]:
+                - link "Chọn theo một lần dùng cụ thể" [ref=e123] [cursor=pointer]:
+                  - /url: "#chon-theo-mot-lan-dung-cu-the"
+              - listitem [ref=e124]:
+                - link "Tổ yến tinh chế dành cho người muốn tự chuẩn bị" [ref=e125] [cursor=pointer]:
+                  - /url: "#to-yen-tinh-che-danh-cho-nguoi-muon-tu-chuan-bi"
+                - list [ref=e126]:
+                  - listitem [ref=e127]:
+                    - link "Tính cả phần việc trước và sau khi chưng" [ref=e128] [cursor=pointer]:
+                      - /url: "#tinh-ca-phan-viec-truoc-va-sau-khi-chung"
+                  - listitem [ref=e129]:
+                    - link "Lần đầu, chọn quy cách vừa sức" [ref=e130] [cursor=pointer]:
+                      - /url: "#lan-dau-chon-quy-cach-vua-suc"
+              - listitem [ref=e131]:
+                - 'link "Yến chưng sẵn: đọc kỹ những gì có trong hũ" [ref=e132] [cursor=pointer]':
+                  - /url: "#yen-chung-san-doc-ky-nhung-gi-co-trong-hu"
+                - list [ref=e133]:
+                  - listitem [ref=e134]:
+                    - link "70 ml không phải là 70 g tổ yến" [ref=e135] [cursor=pointer]:
+                      - /url: "#70-ml-khong-phai-la-70-g-to-yen"
+              - listitem [ref=e136]:
+                - link "So giá theo đúng quy cách" [ref=e137] [cursor=pointer]:
+                  - /url: "#so-gia-theo-dung-quy-cach"
+              - listitem [ref=e138]:
+                - link "Nếu mua tặng, hỏi cả chuyện sử dụng" [ref=e139] [cursor=pointer]:
+                  - /url: "#neu-mua-tang-hoi-ca-chuyen-su-dung"
+              - listitem [ref=e140]:
+                - link "Những điều nên hỏi trước khi chốt đơn" [ref=e141] [cursor=pointer]:
+                  - /url: "#nhung-dieu-nen-hoi-truoc-khi-chot-don"
+              - listitem [ref=e142]:
+                - link "Thử một lựa chọn nhỏ, rồi quyết định lần sau" [ref=e143] [cursor=pointer]:
+                  - /url: "#thu-mot-lua-chon-nho-roi-quyet-dinh-lan-sau"
+              - listitem [ref=e144]:
+                - link "Chọn loại bạn sẽ thực sự dùng" [ref=e145] [cursor=pointer]:
+                  - /url: "#chon-loai-ban-se-thuc-su-dung"
+        - generic [ref=e146]:
+          - paragraph [ref=e147]: Bạn muốn tự tay chưng một chén yến, hay cần một hũ đã chuẩn bị sẵn? Với lần mua đầu tiên, hãy chọn theo thời gian bạn có và cách bạn định dùng, rồi đối chiếu thành phần, quy cách. Giá và chiếc hộp đẹp có thể xem sau.
+          - paragraph [ref=e148]: Trong danh mục ANestLand, tổ yến tinh chế và yến chưng táo đỏ, hạt sen là những lựa chọn khác nhau về cách chuẩn bị. Hộp quà lại đặt thêm câu hỏi về người nhận. Hiểu sự khác biệt này giúp bạn chọn có lý do, thay vì mua một bộ lớn rồi mới tìm cách dùng.
+          - heading "Chọn theo một lần dùng cụ thể" [level=2] [ref=e149]
+          - paragraph [ref=e150]: Trước khi xem sản phẩm, thử hình dung lần đầu bạn sẽ dùng yến. Đó là cuối tuần ở nhà, khi bạn muốn tự chuẩn bị một món ăn? Hay một khoảng nghỉ trong ngày làm việc, khi bạn không định dành thời gian cho việc chưng? Câu trả lời có thể rất bình thường, nhưng nó quyết định phần lớn sự thuận tiện của món bạn mua.
+          - paragraph [ref=e151]: "Nếu đã có dụng cụ và thích vào bếp, tổ yến tinh chế cho bạn chủ động chọn nguyên liệu đi cùng. Bạn cần dành thời gian đọc hướng dẫn, chuẩn bị và dọn rửa. Nếu muốn giảm phần việc ấy, hãy xem yến chưng sẵn cùng hướng dẫn sử dụng của từng loại. Nhớ kiểm tra điều kiện bảo quản: bạn sẽ cất hũ ở đâu trước lúc dùng?"
+          - paragraph [ref=e152]: Đừng lấy một lịch sinh hoạt lý tưởng làm căn cứ. Một người thích nấu ăn vẫn có thể cần hũ chưng sẵn trong tuần bận rộn; người thường chọn đồ tiện dùng cũng có thể muốn tự chưng vào ngày nghỉ. Lần mua đầu chỉ cần giải quyết nhu cầu gần nhất.
+          - heading "Tổ yến tinh chế dành cho người muốn tự chuẩn bị" [level=2] [ref=e153]
+          - paragraph [ref=e154]: "Tổ Yến Tinh Chế trong danh mục được giới thiệu là tổ yến đã làm sạch để người dùng tự chế biến. Sản phẩm này phù hợp để cân nhắc khi bạn muốn tự chọn nguyên liệu đi cùng, hoặc đã quen với việc chuẩn bị món ăn tại nhà. Cần phân biệt nguyên liệu đã làm sạch với món đã chưng xong: bạn vẫn có công đoạn chế biến phía sau."
+          - heading "Tính cả phần việc trước và sau khi chưng" [level=3] [ref=e155]
+          - paragraph [ref=e156]: Hãy đọc hướng dẫn của đúng sản phẩm trước khi lên kế hoạch. Các bước chuẩn bị, dụng cụ cần dùng và cách chia nguyên liệu nên dựa vào thông tin đó. Đừng ghép thời gian ngâm của một nơi với cách chưng của nơi khác rồi xem đó là công thức chung. Nếu nhãn chưa giải thích đủ, hỏi người bán trước khi bắt đầu.
+          - paragraph [ref=e157]: Khoảng thời gian bạn cần dành cho món ăn còn có việc lấy dụng cụ, chuẩn bị nguyên liệu kèm theo và rửa dọn. Đây là phần dễ quên khi chỉ nhìn một đĩa tổ yến đẹp. Nếu việc tự chưng khiến bạn hứng thú, những công đoạn ấy có thể là một phần dễ chịu của buổi nấu. Nếu chúng trở thành việc phải cố thu xếp, chọn dạng chưng sẵn sẽ hợp lý hơn.
+          - heading "Lần đầu, chọn quy cách vừa sức" [level=3] [ref=e158]
+          - paragraph [ref=e159]: Danh mục hiện có Tổ Yến Tinh Chế 50 g và Tổ Yến Tinh Chế 100 g. Hai con số cho biết khối lượng của hai quy cách, chưa cho biết gia đình bạn sẽ dùng hết trong bao lâu. Việc đó còn phụ thuộc hướng dẫn chia phần của sản phẩm và số lần bạn thực sự chế biến.
+          - paragraph [ref=e160]: Với người chưa từng tự chưng, quy cách nhỏ hơn giúp bạn có ít nguyên liệu cần bảo quản hơn trong lần thử đầu. Ghi lại phần việc nào thuận tiện, phần nào mất công rồi hãy cân nhắc lần mua tiếp theo.
+          - figure "Tổ yến tinh chế là nguyên liệu để tự chế biến. Ảnh minh họa, không phải tư liệu quy trình sản xuất thực tế." [ref=e161]:
+            - img "Ảnh minh họa thao tác làm sạch tổ yến bằng nhíp trên mặt bàn sáng" [ref=e162]
+          - 'heading "Yến chưng sẵn: đọc kỹ những gì có trong hũ" [level=2] [ref=e164]'
+          - paragraph [ref=e165]: Trong hai lựa chọn hũ 70 ml đang được giới thiệu, Yến Chưng Táo Đỏ có yến sào, táo đỏ, nước tinh khiết và đường phèn; Yến Chưng Hạt Sen thay táo đỏ bằng hạt sen. Tên vị giúp bạn chọn hướng hương vị quen thuộc. Danh sách thành phần mới giúp bạn biết món đó được kết hợp từ những gì.
+          - paragraph [ref=e166]: Nếu mua cho mình, hãy nghĩ đến món bạn thường thích ăn thay vì chọn theo màu sắc trên ảnh. Nếu mua cho người thân, hỏi họ có thích táo đỏ hay hạt sen không. Những tên gọi như “thanh nhẹ” trong phần giới thiệu không thay thế thông tin về lượng đường hoặc tỷ lệ nguyên liệu. Khi cần biết một con số cụ thể, tìm trên nhãn hoặc hỏi đơn vị bán hàng.
+          - paragraph [ref=e167]:
+            - text: Bạn có thể xem
+            - link "thông tin Yến Chưng Táo Đỏ" [ref=e168] [cursor=pointer]:
+              - /url: product-detail.html?product=tao-do
+            - text: để làm quen với cách trình bày thành phần và quy cách. Trước khi sử dụng, vẫn cần đối chiếu với bao bì của sản phẩm nhận được. Hướng dẫn bảo quản, hạn dùng và hướng dẫn sau khi mở nắp là những thông tin cần kiểm tra riêng, không nên suy ra từ kích thước hũ.
+          - heading "70 ml không phải là 70 g tổ yến" [level=3] [ref=e169]
+          - paragraph [ref=e170]: Một hũ ghi 70 ml mô tả thể tích sản phẩm trong hũ. Một hộp tổ yến ghi 50 g mô tả khối lượng nguyên liệu của hộp. Hai đơn vị này không thể thay thế nhau khi so lượng yến. Phần chất lỏng và nguyên liệu đi kèm trong hũ cũng cần được tính đến.
+          - paragraph [ref=e171]: Vì vậy, đừng dùng số 70 và số 50 để kết luận lựa chọn nào “nhiều yến hơn”. Muốn so lượng yến, bạn cần thông tin về lượng hoặc tỷ lệ yến theo cách công bố của từng sản phẩm. Nếu chưa có thông tin tương ứng ở cả hai bên, nên để câu hỏi đó chưa kết luận.
+          - heading "So giá theo đúng quy cách" [level=2] [ref=e172]
+          - paragraph [ref=e173]: Giá của một hũ dùng riêng và giá của một hộp nguyên liệu phục vụ nhiều lần chế biến đang trả lời hai câu hỏi khác nhau. Đặt chúng cạnh nhau mà bỏ qua quy cách sẽ khiến lựa chọn lệch ngay từ đầu. Bạn có thể bắt đầu bằng số tiền sẵn sàng chi cho lần thử, sau đó kiểm tra mình nhận được sản phẩm nào với số tiền ấy.
+          - paragraph [ref=e174]: Với yến chưng, ghi lại số hũ, thể tích mỗi hũ và thành phần của lựa chọn đang xem. Nếu cân nhắc một combo, kiểm tra các hũ trong bộ có cùng loại và cùng quy cách với hũ bán riêng hay không. Chỉ khi thông tin tương ứng, phép chia giá bộ cho số hũ mới giúp so giá mỗi hũ có ý nghĩa.
+          - paragraph [ref=e175]: Với tổ yến cùng dạng, có thành phần và cách công bố khối lượng tương ứng, bạn có thể đưa giá về cùng đơn vị khối lượng để so sánh. Phép tính này cho biết chi phí mua nguyên liệu, chưa cho biết giá của mỗi chén đã chế biến. Muốn ước tính giá mỗi chén, bạn còn cần cách chia nguyên liệu theo hướng dẫn và chi phí của những nguyên liệu dùng kèm.
+          - paragraph [ref=e176]: Đừng tự quy đổi một hộp tổ yến thành số hũ chưng sẵn khi chưa biết lượng yến của từng hũ. Nếu còn thiếu dữ liệu để tính giá mỗi lần dùng, bạn vẫn có thể chọn theo ngân sách của lần thử. Kiểm tra xem số tiền ấy mua được bao nhiêu sản phẩm và bạn có kế hoạch dùng hết lượng đã chọn chưa.
+          - heading "Nếu mua tặng, hỏi cả chuyện sử dụng" [level=2] [ref=e177]
+          - paragraph [ref=e178]: Hộp quà có thể là lựa chọn bạn nghĩ đến đầu tiên khi ghé thăm gia đình. Nhưng chiếc hộp sẽ được mở ra, và người nhận sẽ phải quyết định dùng những gì bên trong. Nếu họ không tự chế biến, tặng nguyên liệu có thể khiến họ cần nhờ thêm người chuẩn bị. Nếu họ thích vào bếp, một lựa chọn để tự chưng lại có thể hợp với sở thích ấy.
+          - paragraph [ref=e179]: Ở ANestLand, Hộp Quà ANestLand được giới thiệu gồm các hũ yến chưng táo đỏ và hạt sen. Khi xem một bộ quà cụ thể, cần kiểm tra lại số hũ, từng vị và quy cách thực tế; đừng mặc định mọi hộp dùng chung một cấu hình chỉ vì có ảnh giống nhau.
+          - paragraph [ref=e180]:
+            - text: Bạn cũng nên hỏi người nhận có chỗ bảo quản theo yêu cầu của sản phẩm không và khi nào họ thuận tiện nhận quà. Một lời nhắn ngắn kèm thông tin sản phẩm sẽ hữu ích hơn lời hứa về tác dụng sức khỏe. Phần lựa chọn hình thức và dịp tặng đã có trong bài
+            - link "gợi ý quà cho gia đình" [ref=e181] [cursor=pointer]:
+              - /url: blog-detail.html?article=qua-tang
+            - text: ; ở lần mua đầu, ưu tiên để người nhận biết cách dùng món quà của mình.
+          - heading "Những điều nên hỏi trước khi chốt đơn" [level=2] [ref=e182]
+          - paragraph [ref=e183]: "Sau khi chọn được dạng sản phẩm, dành một lượt kiểm tra cho các thông tin còn thiếu. Có thể gửi người bán một nhóm câu hỏi ngắn, dựa trên đúng sản phẩm bạn đang cân nhắc:"
+          - list [ref=e184]:
+            - listitem [ref=e185]: Quy cách nhận được gồm bao nhiêu hũ hoặc bao nhiêu gam tổ yến? Có những vị nào?
+            - listitem [ref=e186]: Thành phần và lượng hoặc tỷ lệ yến được công bố ra sao trên nhãn?
+            - listitem [ref=e187]: Hạn dùng, điều kiện bảo quản và hướng dẫn sau khi mở bao bì là gì?
+            - listitem [ref=e188]: Với tổ yến tinh chế, cần chuẩn bị thế nào theo hướng dẫn của sản phẩm?
+            - listitem [ref=e189]: Khi nhận hàng, nên đối chiếu những thông tin nào với đơn đặt?
+          - paragraph [ref=e190]: Câu trả lời nên giúp bạn hiểu món mình sắp mua. Những lời như “ai cũng dùng được” hoặc “loại nào cũng như nhau” không giải quyết được câu hỏi về thành phần và cách dùng. Bạn có thể yêu cầu thông tin cụ thể hơn, hoặc chưa chốt đơn nếu phần quan trọng vẫn chưa rõ.
+          - paragraph [ref=e191]: Bộ ảnh sản phẩm đang dùng trên website là ảnh minh họa, giúp bạn nhận ra kiểu tổ yến, hũ chưng hoặc hộp quà. Ảnh không cho biết nhãn, lô hàng hay tình trạng sản phẩm được giao. Khi quyết định mua, hãy kiểm tra thông tin sản phẩm thực tế; màu tổ yến hay vẻ ngoài của hũ trong ảnh không đủ để xác nhận chất lượng.
+          - heading "Thử một lựa chọn nhỏ, rồi quyết định lần sau" [level=2] [ref=e192]
+          - paragraph [ref=e193]: "Lần dùng đầu là lúc kiểm tra những điều trang giới thiệu khó trả lời thay bạn: vị đó có hợp khẩu vị không, phần chuẩn bị có vừa với lịch của mình không, quy cách đã chọn có thuận tiện không. Nếu mua nhiều loại cùng lúc, bạn sẽ khó biết lý do mình thích hay không thích từng lựa chọn."
+          - paragraph [ref=e194]: Với yến chưng, có thể bắt đầu từ một vị bạn đã quen với nguyên liệu đi kèm. Với tổ yến tinh chế, hãy chọn một cách chuẩn bị theo hướng dẫn rồi ghi lại trải nghiệm. Chưa cần thêm nhiều nguyên liệu hoặc đổi cách làm liên tục trong lần đầu. Mục đích là hiểu lựa chọn mình vừa mua, không phải làm một món thật cầu kỳ.
+          - paragraph [ref=e195]:
+            - text: Sau đó, bạn có thể quay lại
+            - link "danh mục sản phẩm" [ref=e196] [cursor=pointer]:
+              - /url: products.html
+            - text: để xem một quy cách khác, hoặc chuyển sang dạng thuận tiện hơn. Nếu món chưa hợp, thử xác định mình không thích vị đó, mua quá nhiều hay thấy khâu chuẩn bị mất công. Mỗi lý do sẽ dẫn đến một lựa chọn khác cho lần sau.
+          - heading "Chọn loại bạn sẽ thực sự dùng" [level=2] [ref=e197]
+          - paragraph [ref=e198]: Tổ yến tinh chế đáng cân nhắc khi bạn muốn tự chuẩn bị và có thời gian cho việc đó. Yến chưng sẵn đáng cân nhắc khi bạn cần giảm công đoạn chế biến. Cả hai đều cần thông tin rõ ràng về sản phẩm; tên gọi và hình thức không đủ để chọn thay bạn.
+          - paragraph [ref=e199]:
+            - text: "Trước khi đặt hàng, thử nói gọn lựa chọn của mình: mua cho ai, định dùng trong hoàn cảnh nào, đã kiểm tra quy cách và hướng dẫn chưa. Nếu còn vướng một thông tin cụ thể, bạn có thể"
+            - link "hỏi ANestLand" [ref=e200] [cursor=pointer]:
+              - /url: contact.html
+            - text: về sản phẩm đang xem. Còn nếu đã rõ, hãy chọn lượng vừa với lần dùng đầu và để trải nghiệm ấy làm căn cứ cho lần mua sau.
+        - region [ref=e201]:
+          - heading "Bài viết này hữu ích với bạn?" [level=2] [ref=e202]
+          - paragraph [ref=e203]: Đánh giá, lượt thích và bình luận chỉ lưu trên trình duyệt này, không phải dữ liệu cộng đồng. Không chia sẻ thông tin nhạy cảm.
+          - group "Đánh giá bài viết" [ref=e204]:
+            - button "1 sao" [ref=e205] [cursor=pointer]
+            - button "2 sao" [ref=e208] [cursor=pointer]
+            - button "3 sao" [ref=e211] [cursor=pointer]
+            - button "4 sao" [ref=e214] [cursor=pointer]
+            - button "5 sao" [ref=e217] [cursor=pointer]
+          - paragraph [ref=e220]: Chưa có đánh giá
+          - generic [ref=e221]:
+            - button "Thích bài viết" [ref=e222] [cursor=pointer]
+            - button "Sao chép liên kết" [ref=e226] [cursor=pointer]
+          - status [ref=e227]
+          - generic [ref=e228]:
+            - heading "BÌNH LUẬN" [level=2] [ref=e229]
+            - textbox "BÌNH LUẬN" [ref=e230]:
+              - /placeholder: Chia sẻ suy nghĩ của bạn...
+            - paragraph [ref=e231]: Tối đa 1000 ký tự. Bình luận chỉ hiển thị trên trình duyệt này.
+            - button "GỬI BÌNH LUẬN" [ref=e232] [cursor=pointer]
+            - status [ref=e233]
+          - generic "Bình luận đã lưu" [ref=e234]:
+            - paragraph [ref=e235]: Chưa có bình luận. Hãy là người đầu tiên chia sẻ.
+      - generic [ref=e236]:
+        - generic [ref=e237]: KIẾN THỨC VỀ YẾN
+        - link "TRỞ VỀ CHUYỆN VỀ YẾN" [ref=e238] [cursor=pointer]:
+          - /url: blog.html
+    - generic [ref=e241]:
+      - generic [ref=e242]:
+        - paragraph [ref=e243]: TIẾP TỤC CÂU CHUYỆN
+        - heading [level=2] [ref=e244]:
+          - text: Có Thể Bạn
+          - emphasis [ref=e245]: Muốn Đọc
+      - generic [ref=e246]:
+        - article [ref=e247]:
+          - link [ref=e248] [cursor=pointer]:
+            - /url: blog-detail.html?article=thoi-diem
+            - img "Yến sào nên dùng vào thời điểm nào?" [ref=e249]
+          - paragraph [ref=e250]:
+            - text: SỐNG KHỎE
+            - time [ref=e251]: 12.09.2026
+          - heading [level=3] [ref=e252]:
+            - link "Yến sào nên dùng vào thời điểm nào?" [ref=e253] [cursor=pointer]:
+              - /url: blog-detail.html?article=thoi-diem
+          - link "Đọc thêm" [ref=e254] [cursor=pointer]:
+            - /url: blog-detail.html?article=thoi-diem
+        - article [ref=e257]:
+          - link [ref=e258] [cursor=pointer]:
+            - /url: blog-detail.html?article=chat-luong
+            - img "Cách nhận biết tổ yến chất lượng" [ref=e259]
+          - paragraph [ref=e260]:
+            - text: KIẾN THỨC VỀ YẾN
+            - time [ref=e261]: 08.09.2026
+          - heading [level=3] [ref=e262]:
+            - link "Cách nhận biết tổ yến chất lượng" [ref=e263] [cursor=pointer]:
+              - /url: blog-detail.html?article=chat-luong
+          - link "Đọc thêm" [ref=e264] [cursor=pointer]:
+            - /url: blog-detail.html?article=chat-luong
+        - article [ref=e267]:
+          - link [ref=e268] [cursor=pointer]:
+            - /url: blog-detail.html?article=doi-tuong
+            - img "Ai nên sử dụng yến sào?" [ref=e269]
+          - paragraph [ref=e270]:
+            - text: SỐNG KHỎE
+            - time [ref=e271]: 06.09.2026
+          - heading [level=3] [ref=e272]:
+            - link "Ai nên sử dụng yến sào?" [ref=e273] [cursor=pointer]:
+              - /url: blog-detail.html?article=doi-tuong
+          - link "Đọc thêm" [ref=e274] [cursor=pointer]:
+            - /url: blog-detail.html?article=doi-tuong
+      - link "TẤT CẢ BÀI VIẾT" [ref=e278] [cursor=pointer]:
+        - /url: blog.html
+  - contentinfo [ref=e281]:
+    - generic [ref=e282]:
+      - generic [ref=e283]:
+        - link "ANestLand." [ref=e284] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e288]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e289]:
+        - heading "Khám phá" [level=2] [ref=e290]
+        - link "Câu chuyện" [ref=e291] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e292] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e293] [cursor=pointer]:
+          - /url: values.html
+        - link "TIN TỨC" [ref=e294] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e295]:
+        - heading "Hỗ trợ" [level=2] [ref=e296]
+        - link "Liên hệ" [ref=e297] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e298] [cursor=pointer]
+        - button "Giao hàng" [ref=e299] [cursor=pointer]
+      - generic [ref=e300]:
+        - heading "Theo dõi" [level=2] [ref=e301]
+        - button "Facebook" [ref=e302] [cursor=pointer]
+        - button "Instagram" [ref=e303] [cursor=pointer]
+        - button "TikTok" [ref=e304] [cursor=pointer]
+    - generic [ref=e305]:
+      - paragraph [ref=e306]: © 2026 ANestLand.
+      - generic [ref=e307]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - status
+  - navigation "Liên hệ nhanh ANestLand" [ref=e310]:
+    - link "Liên hệ qua Messenger" [ref=e311] [cursor=pointer]:
+      - /url: contact.html?channel=facebook
+    - link "Liên hệ qua Zalo" [ref=e313] [cursor=pointer]:
+      - /url: contact.html?channel=zalo
+    - link "Gọi điện" [ref=e315] [cursor=pointer]:
+      - /url: contact.html?channel=phone
+  - status [ref=e317]

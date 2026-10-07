@@ -22,6 +22,29 @@ floatingContact.className = 'floating-contact';
 floatingContact.setAttribute('aria-label', 'Liên hệ nhanh ANestLand');
 floatingContact.innerHTML = '<a class="floating-contact-link contact-facebook" href="contact.html?channel=facebook" aria-label="Liên hệ qua Messenger"><img src="assets/icons/contact-messenger.svg" width="54" height="54" alt="" aria-hidden="true"><span>Messenger</span></a><a class="floating-contact-link contact-zalo" href="contact.html?channel=zalo" aria-label="Liên hệ qua Zalo"><img src="assets/icons/contact-zalo.svg" width="54" height="54" alt="" aria-hidden="true"><span>Zalo</span></a><a class="floating-contact-link contact-phone" href="contact.html?channel=phone" aria-label="Gọi điện"><img src="assets/icons/contact-phone.svg" width="54" height="54" alt="" aria-hidden="true"><span>Gọi điện</span></a>';
 document.body.append(floatingContact);
+// Keep fixed contact links from covering page controls, without moving page content.
+let contactClearanceFrame = 0;
+function updateContactClearance() {
+  contactClearanceFrame = 0;
+  const contacts = [...floatingContact.children].map(link => link.getBoundingClientRect());
+  const obstructed = [...document.querySelectorAll('main :is(a, button, input, select, textarea), footer :is(a, button, input, select, textarea)')].some(control => {
+    if (!control.getClientRects().length || getComputedStyle(control).visibility !== 'visible') return false;
+    const rect = control.getBoundingClientRect();
+    return contacts.some(contact => rect.left < contact.right && rect.right > contact.left && rect.top < contact.bottom && rect.bottom > contact.top);
+  });
+  floatingContact.classList.toggle('is-obstructing-controls', obstructed && !floatingContact.contains(document.activeElement));
+}
+function scheduleContactClearance() {
+  if (!contactClearanceFrame) contactClearanceFrame = requestAnimationFrame(updateContactClearance);
+}
+window.addEventListener('scroll', scheduleContactClearance, { passive: true });
+window.addEventListener('resize', scheduleContactClearance);
+window.addEventListener('anestland:languagechange', scheduleContactClearance);
+document.addEventListener('focusin', scheduleContactClearance);
+document.addEventListener('focusout', scheduleContactClearance);
+if ('ResizeObserver' in window) new ResizeObserver(scheduleContactClearance).observe(document.body);
+document.fonts.ready.then(scheduleContactClearance);
+scheduleContactClearance();
 let toastTimer;
 function hideToast() {
   toast.classList.remove('visible');
@@ -46,35 +69,74 @@ function updateHeader() {
 }
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
-// Keep desktop links alongside the shared navigation popover and separate account button.
+// Desktop uses its navbar; narrow layouts use the popover with a separate account button.
+const narrowNavigation = window.matchMedia('(max-width: 1200px)');
 mobileNav.querySelector('.mobile-account-entry')?.remove();
 const menuPopover = document.createElement('div');
 menuPopover.className = 'navigation-popover'; menuPopover.hidden = true;
 mobileNav.before(menuPopover); menuPopover.append(mobileNav);
 const accountAvatar = document.createElement('button');
 accountAvatar.type = 'button'; accountAvatar.id = 'account-avatar'; accountAvatar.className = 'account-avatar';
-accountAvatar.setAttribute('aria-controls','account-drawer');
+accountAvatar.setAttribute('aria-controls','account-menu');
 accountAvatar.setAttribute('aria-haspopup','dialog'); accountAvatar.setAttribute('aria-expanded','false');
 accountAvatar.innerHTML = '<span class="account-avatar-surface"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="11" r="5"/><path d="M6 27v-3a10 10 0 0 1 20 0v3Z"/></svg></span>';
 menuToggle.after(accountAvatar);
 const headerFavorite = document.createElement('button');
-headerFavorite.type = 'button'; headerFavorite.id = 'header-favorite'; headerFavorite.className = 'icon-button header-favorite';
+headerFavorite.type = 'button'; headerFavorite.id = 'header-favorite'; headerFavorite.className = 'account-menu-item account-wishlist';
 headerFavorite.setAttribute('aria-label', 'Sản phẩm yêu thích');
 headerFavorite.setAttribute('aria-haspopup', 'dialog'); headerFavorite.setAttribute('aria-controls', 'favorites-dialog');
 headerFavorite.setAttribute('aria-expanded', 'false');
-headerFavorite.innerHTML = '<svg aria-hidden="true"><use href="#i-heart"/></svg>';
-menuToggle.after(headerFavorite);
-headerFavorite.addEventListener('click', () => {
-  if (!hasLoginState()) { openAccount(headerFavorite); return; }
-  openFavorites();
+headerFavorite.textContent = 'Danh sách yêu thích';
+headerFavorite.dataset.i18n = 'Danh sách yêu thích';
+headerFavorite.addEventListener('click', openFavorites);
+const accountMenu = document.createElement('section');
+accountMenu.id = 'account-menu'; accountMenu.className = 'account-menu'; accountMenu.hidden = true;
+accountMenu.setAttribute('role', 'dialog'); accountMenu.setAttribute('aria-modal', 'false');
+accountMenu.setAttribute('aria-labelledby', 'account-menu-title');
+accountMenu.innerHTML = '<h2 id="account-menu-title" class="sr-only" data-i18n="Tài khoản">Tài khoản</h2><button type="button" class="account-menu-item" data-account-action="login" data-i18n="Đăng nhập">Đăng nhập</button><button type="button" class="account-menu-item" data-account-action="register" data-i18n="Đăng ký">Đăng ký</button><button type="button" class="account-menu-item" data-account-action="account" data-i18n="Tài khoản" hidden>Tài khoản</button><button type="button" class="account-menu-item" data-account-action="logout" data-i18n="Đăng xuất" hidden>Đăng xuất</button><div id="account-language-slot"><p data-i18n="Ngôn ngữ">Ngôn ngữ</p></div>';
+accountMenu.append(headerFavorite); header.append(accountMenu);
+accountMenu.querySelector('#account-language-slot').append(document.querySelector('.language-selector'));
+const brandNavigation = document.createElement('div'); brandNavigation.className = 'header-brand-nav';
+const headerLogo = header.querySelector('.logo'); headerLogo.before(brandNavigation);
+brandNavigation.append(headerLogo, menuToggle);
+function closeAccountMenu(restoreFocus = false) {
+  accountMenu.hidden = true; accountAvatar.setAttribute('aria-expanded', 'false');
+  document.querySelector('.language-options')?.setAttribute('hidden', '');
+  document.querySelector('.language-trigger')?.setAttribute('aria-expanded', 'false');
+  if (restoreFocus) accountAvatar.focus({ preventScroll: true });
+}
+function openAccountMenu() {
+  if (document.querySelector('dialog[open]')) return;
+  closeMenu(); closeSearch(); closeMiniCart(); updateAccountAvatar();
+  accountMenu.hidden = false; accountAvatar.setAttribute('aria-expanded', 'true');
+  accountMenu.querySelector('button:not([hidden])').focus({ preventScroll: true });
+}
+accountAvatar.addEventListener('click', () => accountMenu.hidden ? openAccountMenu() : closeAccountMenu(true));
+accountMenu.addEventListener('click', event => {
+  const action = event.target.closest('[data-account-action]')?.dataset.accountAction;
+  if (!action) return;
+  if (action === 'logout') {
+    memoryLoginState = false;
+    try { sessionStorage.removeItem(loginStateKey); localStorage.removeItem(loginStateKey); } catch { /* Presentation-only state. */ }
+    updateAccountAvatar(); closeAccountMenu(true);
+  } else openAccount(event.target.closest('button'), action === 'register' ? 'register' : 'login');
 });
-accountAvatar.addEventListener('click',()=>openAccount(accountAvatar));
+document.addEventListener('pointerdown', event => {
+  if (!accountMenu.contains(event.target) && !accountAvatar.contains(event.target)) closeAccountMenu();
+});
+document.addEventListener('focusin', event => {
+  if (!accountMenu.contains(event.target) && !accountAvatar.contains(event.target)) closeAccountMenu();
+});
+accountMenu.addEventListener('keydown', event => {
+  if (event.key === 'Escape') { event.preventDefault(); closeAccountMenu(true); }
+});
+window.ANestI18n?.refresh(accountMenu);
 let menuAnimation;
 function positionMenu() {
   if(menuPopover.hidden) return;
-  const bounds=header.getBoundingClientRect(),button=menuToggle.getBoundingClientRect(),avatar=accountAvatar.getBoundingClientRect();
+  const bounds=header.getBoundingClientRect(),button=menuToggle.getBoundingClientRect();
   const width=menuPopover.offsetWidth;
-  const left=Math.max(8,Math.min(avatar.right-width,document.documentElement.clientWidth-width-8));
+  const left=Math.max(8,Math.min(button.left,document.documentElement.clientWidth-width-8));
   menuPopover.style.left=(left-bounds.left)+'px';
   menuPopover.style.setProperty('--menu-caret-x',Math.max(18,Math.min(width-18,(button.left+button.right)/2-left))+'px');
 }
@@ -92,6 +154,8 @@ function closeMenu(immediate = true, restoreFocus = false) {
   if(restoreFocus) menuToggle.focus({preventScroll:true});
 }
 menuToggle.addEventListener('click', () => {
+  if (!narrowNavigation.matches) return;
+  closeAccountMenu();
   if(menuToggle.getAttribute('aria-expanded')==='true'){closeMenu(false);return;}
   closeSearch(); closeMiniCart();
   document.querySelector('.language-options')?.setAttribute('hidden','');
@@ -106,6 +170,12 @@ new ResizeObserver(positionMenu).observe(menuToggle);
 new ResizeObserver(positionMenu).observe(header);
 window.addEventListener('resize',positionMenu);
 closeMenu();
+narrowNavigation.addEventListener('change', event => {
+  if (event.matches) return;
+  const restoreFocus = menuPopover.contains(document.activeElement) || document.activeElement === menuToggle;
+  closeMenu();
+  if (restoreFocus) (header.querySelector('.desktop-nav a.active') || header.querySelector('.desktop-nav a'))?.focus({ preventScroll: true });
+});
 mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 document.addEventListener('click', event => {
   if (!menuPopover.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
@@ -131,7 +201,7 @@ if (backFallbacks[currentPage]) {
     backButton.type = 'button';
     backButton.className = 'context-back';
     backButton.dataset.backFallback = backFallbacks[currentPage];
-    backButton.innerHTML = '<span class="context-back-arrow" aria-hidden="true">←</span><span data-i18n="nav.back">QUAY LẠI</span>';
+    backButton.innerHTML = '<svg class="context-back-arrow return-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 4 9l5 5M4 9h9a7 7 0 0 1 7 7v4"/></svg><span data-i18n="nav.back">QUAY LẠI</span>';
     breadcrumb.after(backButton);
     window.ANestI18n?.refresh(backButton);
     backButton.addEventListener('click', () => {
@@ -537,37 +607,42 @@ function rememberLogin(persistent) {
 }
 function updateAccountAvatar() {
   // No display name/photo is retained by the current account flow: keep the neutral avatar.
-  accountAvatar.setAttribute('aria-label',window.ANestI18n?.text(hasLoginState()?'Mở tài khoản':'Đăng nhập hoặc đăng ký') || 'Đăng nhập hoặc đăng ký');
+  accountAvatar.setAttribute('aria-label', window.ANestI18n?.text('Mở tài khoản') || 'Mở tài khoản');
+  const loggedIn = hasLoginState();
+  accountMenu.querySelectorAll('[data-account-action]').forEach(button => {
+    button.hidden = ['login', 'register'].includes(button.dataset.accountAction) ? loggedIn : !loggedIn;
+  });
 }
 updateAccountAvatar();
 window.addEventListener('storage',updateAccountAvatar);
 window.addEventListener('pageshow',updateAccountAvatar);
 window.addEventListener('anestland:languagechange',()=>{updateAccountAvatar();positionMenu();});
 function toggleWishlist(button) {
-  if (!hasLoginState()) {
-    openAccount(button);
-    return;
-  }
   const id = wishlistProductId(button);
   if (!id) return;
   const liked = !favoriteIds.has(id);
   if (liked) favoriteIds.add(id); else favoriteIds.delete(id);
-  try { localStorage.setItem('anestland.favoriteProducts', JSON.stringify([...favoriteIds])); } catch { /* Keep this page's state when storage is unavailable. */ }
+  try { localStorage.setItem(favoriteStorageKey, JSON.stringify([...favoriteIds])); } catch { /* Keep this page's state when storage is unavailable. */ }
   syncFavorites();
   notify(liked ? 'Đã đánh dấu sản phẩm yêu thích.' : 'Đã bỏ đánh dấu yêu thích.');
 }
-let favoriteIds = new Set();
-try {
-  const saved = JSON.parse(localStorage.getItem('anestland.favoriteProducts') || '[]');
-  if (Array.isArray(saved)) favoriteIds = new Set(saved.filter(id => typeof id === 'string'));
-} catch { /* Invalid or unavailable storage starts empty. */ }
+const favoriteStorageKey = 'anestland.favoriteProducts';
+function readFavoriteIds(fallback = new Set()) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(favoriteStorageKey) || '[]');
+    return new Set(Array.isArray(saved) ? saved.filter(id => typeof id === 'string') : []);
+  } catch { return fallback; }
+}
+let favoriteIds = readFavoriteIds();
 function wishlistProductId(button) {
+  if (button.dataset.favoriteId) return button.dataset.favoriteId;
   const link = button.closest('.product-card')?.querySelector('.product-photo-link');
   return link ? new URL(link.href).searchParams.get('product') : currentPage === 'product-detail.html' ? new URLSearchParams(location.search).get('product') || 'tao-do' : null;
 }
 function syncFavorites() {
   document.querySelectorAll('.wishlist,#detail-wishlist').forEach(button => button.setAttribute('aria-pressed', String(favoriteIds.has(wishlistProductId(button)))));
   headerFavorite.classList.toggle('has-favorites', catalog.some(product => favoriteIds.has(product.id)));
+  if (favoritesDialog.open) renderFavorites();
 }
 document.querySelectorAll('.wishlist').forEach(button => button.addEventListener('click', () => toggleWishlist(button)));
 
@@ -649,6 +724,7 @@ function cyclePlaceholder() {
   placeholderTimer = setTimeout(cyclePlaceholder, delay);
 }
 function openSearch(focusInput = true) {
+  closeAccountMenu();
   closeMenu(); closeMiniCart();
   pausePlaceholder();
   headerSearch.classList.add('is-open');
@@ -1120,6 +1196,7 @@ function closeMiniCart(restoreFocus = false) {
 }
 function openMiniCart(focus = false) {
   if (document.querySelector('dialog[open]')) return;
+  closeAccountMenu();
   closeMenu();
   closeSearch();
   renderMiniCart();
@@ -1730,12 +1807,25 @@ function buildArticleContents(body) {
   toc.className = 'article-contents';
   toc.innerHTML = '<button type="button" class="contents-toggle" aria-expanded="true" aria-controls="article-contents-nav"><span data-i18n="news.contents">NỘI DUNG</span><span class="contents-chevron" aria-hidden="true">⌄</span></button><nav id="article-contents-nav" aria-label="Nội dung bài viết"><ol></ol></nav>';
   const nav = toc.querySelector('nav'), list = nav.querySelector('ol');
-  let parentItem;
+  let parentItem, sectionIndex = 0;
+  const roman = number => {
+    let result = '';
+    for (const [value, symbol] of [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]) {
+      while (number >= value) { result += symbol; number -= value; }
+    }
+    return result + '.';
+  };
   const links = headings.map(heading => {
     const item = document.createElement('li');
     const link = document.createElement('a');
     link.href = '#' + heading.id;
     link.textContent = heading.textContent;
+    if (heading.tagName === 'H2') {
+      sectionIndex++;
+      if (!/^\s*(?:[IVXLCDM]+|\d+)[.)、:]\s*/i.test(heading.textContent)) {
+        heading.dataset.sectionNumber = link.dataset.sectionNumber = roman(sectionIndex);
+      }
+    }
     link.lang = 'vi';
     link.dataset.i18nIgnore = '';
     item.append(link);
@@ -1747,16 +1837,40 @@ function buildArticleContents(body) {
     return link;
   });
   body.before(layout);
-  layout.append(toc,body);
+  const column = document.createElement('div'); column.className = 'article-content-column';
+  column.append(document.querySelector('.article-hero-image'), body);
+  layout.append(toc,column);
   const compact = matchMedia('(max-width:1100px)');
   const trigger = toc.querySelector('button');
-  function setExpanded(expanded) { nav.hidden = !expanded; trigger.setAttribute('aria-expanded',String(expanded)); }
+  const sheetHeading = document.createElement('div'); sheetHeading.className = 'contents-sheet-heading';
+  sheetHeading.innerHTML = '<strong data-i18n="news.contents">NỘI DUNG</strong><button type="button" class="contents-close" aria-label="Đóng nội dung">×</button>';
+  nav.prepend(sheetHeading);
+  function setExpanded(expanded) {
+    nav.hidden = !expanded; trigger.setAttribute('aria-expanded',String(expanded));
+    toc.classList.toggle('is-expanded',expanded);
+  }
   const syncMode = () => setExpanded(!compact.matches);
   syncMode(); compact.addEventListener('change',syncMode);
-  trigger.addEventListener('click',()=>setExpanded(trigger.getAttribute('aria-expanded') !== 'true'));
+  trigger.addEventListener('click',()=>{
+    const expanded = trigger.getAttribute('aria-expanded') !== 'true';
+    setExpanded(expanded);
+    if (expanded && compact.matches) links[0].focus({preventScroll:true});
+  });
+  const closeSheet = (restoreFocus = false) => {
+    if (!compact.matches) return;
+    setExpanded(false);
+    if (restoreFocus) trigger.focus({preventScroll:true});
+  };
+  sheetHeading.querySelector('button').addEventListener('click',()=>closeSheet(true));
+  document.addEventListener('keydown',event=>{
+    if (event.key === 'Escape' && compact.matches && !nav.hidden) { event.preventDefault(); closeSheet(true); }
+  });
+  document.addEventListener('pointerdown',event=>{if (!toc.contains(event.target)) closeSheet();});
+  document.addEventListener('focusin',event=>{if (!toc.contains(event.target)) closeSheet();});
   function updateActive() {
-    // Include the header's 28px shrink transition and the heading's 28px gap.
-    const offset = header.getBoundingClientRect().bottom + 64;
+    // Include the heading gap and the header/utility-strip shrink during anchor scrolling.
+    const offset = Math.max(header.getBoundingClientRect().bottom + 64,
+      parseFloat(getComputedStyle(headings[0]).scrollMarginTop) + 64);
     let active = 0;
     headings.forEach((heading,index) => { if (heading.getBoundingClientRect().top <= offset) active = index; });
     links.forEach((link,index) => {
@@ -1929,7 +2043,6 @@ function setupArticleEngagement(article, minutes) {
   </section>`;
   const date = metaWrap.querySelector('time');
   date.textContent = article.date; date.dateTime = article.date.split('.').reverse().join('-');
-  document.querySelector('.article-hero-image').before(metaWrap);
   const engagement = document.createElement('section');
   engagement.className = 'article-engagement';
   engagement.setAttribute('aria-labelledby','article-engagement-title');
@@ -1940,9 +2053,9 @@ function setupArticleEngagement(article, minutes) {
     <p class="article-action-status" role="status"></p>
     <form class="article-comment-form" novalidate><h2><label for="article-comment">BÌNH LUẬN</label></h2><textarea id="article-comment" rows="4" maxlength="1000" placeholder="Chia sẻ suy nghĩ của bạn..." aria-describedby="article-comment-hint article-comment-status"></textarea><p id="article-comment-hint">Tối đa 1000 ký tự. Bình luận chỉ hiển thị trên trình duyệt này.</p><button type="submit" class="button">GỬI BÌNH LUẬN</button><p id="article-comment-status" role="status"></p></form>
     <div class="article-comments" aria-label="Bình luận đã lưu"></div>`;
-  const layout = document.querySelector('.article-reading-layout');
-  if (layout) layout.append(engagement);
-  else document.querySelector('.article-end').before(engagement);
+  const column = document.querySelector('.article-content-column');
+  if (column) column.append(metaWrap, engagement, document.querySelector('.article-end'));
+  else document.querySelector('.article-end').before(metaWrap, engagement);
   const starGroup = engagement.querySelector('.article-rating-stars');
   const stars = Array.from({length:5},(_,index)=>{
     const button = document.createElement('button'); button.type = 'button';
@@ -2150,15 +2263,16 @@ function setAccountMode(mode, focus = true) {
     }
   }, reducedMotion.matches ? 0 : 450);
 }
-function openAccount(trigger) {
+function openAccount(trigger, mode = 'login') {
   if (accountDrawer.open) return;
+  closeAccountMenu();
   closeMenu();
   closeSearch(); closeMiniCart();
   document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close());
   clearTimeout(accountCloseTimer);
   accountTrigger = trigger;
   resetAccountForms();
-  setAccountMode('login', false);
+  setAccountMode(mode, false);
   previousHtmlOverflow = document.documentElement.style.overflow;
   previousBodyOverflow = document.body.style.overflow;
   document.documentElement.style.overflow = 'hidden';
@@ -2168,8 +2282,7 @@ function openAccount(trigger) {
   accountDrawer.scrollTop = 0;
   accountDrawer.getBoundingClientRect();
   accountDrawer.classList.add('is-open');
-  accountAvatar.setAttribute('aria-expanded','true');
-  accountDrawer.querySelector('#login-identity').focus({ preventScroll: true });
+  accountDrawer.querySelector('#account-' + mode + '-panel input').focus({ preventScroll: true });
 }
 function closeAccount() {
   if (!accountDrawer.open) return;
@@ -2216,7 +2329,7 @@ accountDrawer.addEventListener('close', () => {
   document.body.style.overflow = previousBodyOverflow;
   menuToggle.setAttribute('aria-controls', 'mobile-nav');
   closeMenu();
-  const returnTarget = accountTrigger?.closest('#mobile-nav') ? menuToggle : accountTrigger;
+  const returnTarget = accountTrigger?.closest('#account-menu') ? accountAvatar : accountTrigger?.closest('#mobile-nav') ? menuToggle : accountTrigger;
   returnTarget?.focus({ preventScroll: true });
 });
 document.querySelectorAll('[data-account-open]').forEach(button => button.addEventListener('click', () => openAccount(button)));
@@ -2300,7 +2413,7 @@ window.addEventListener('anestland:languagechange', () => {
   if (accountDrawer.open) requestAnimationFrame(sizeAccountPanel);
 });
 
-// Shared wishlist uses product IDs only; the existing login gate remains unchanged.
+// Product favorites are a local product-ID list, independent of the demo login flag.
 const favoritesDialog = document.createElement('dialog');
 favoritesDialog.id = 'favorites-dialog'; favoritesDialog.className = 'favorites-dialog';
 favoritesDialog.setAttribute('aria-labelledby', 'favorites-title');
@@ -2315,11 +2428,16 @@ function renderFavorites() {
     const img = document.createElement('img'); img.src = 'assets/images/' + product.image; img.alt = ''; img.width = img.height = 56;
     const copy = document.createElement('span'), name = document.createElement('strong'), price = document.createElement('span');
     name.textContent = translate(product.name); price.className = 'favorite-price'; displayPrice(price, product.price);
-    copy.append(name, price); link.append(img, copy); list.append(link);
+    const row = document.createElement('div'); row.className = 'favorite-product-row';
+    const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'favorite-remove';
+    remove.dataset.favoriteId = product.id; remove.textContent = '×';
+    remove.setAttribute('aria-label', translate('Xóa') + ' ' + translate(product.name));
+    copy.append(name, price); link.append(img, copy); row.append(link, remove); list.append(row);
   });
   window.ANestI18n?.refresh(favoritesDialog);
 }
 function openFavorites() {
+  closeAccountMenu();
   closeMenu(); closeSearch(); closeMiniCart();
   document.querySelector('.language-options')?.setAttribute('hidden', '');
   document.querySelector('.language-trigger')?.setAttribute('aria-expanded', 'false');
@@ -2332,6 +2450,17 @@ favoritesDialog.addEventListener('click', event => {
   const r = favoritesDialog.getBoundingClientRect();
   if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) favoritesDialog.close();
 });
-favoritesDialog.addEventListener('close', () => { headerFavorite.setAttribute('aria-expanded', 'false'); headerFavorite.focus({preventScroll:true}); });
+favoritesDialog.addEventListener('close', () => { headerFavorite.setAttribute('aria-expanded', 'false'); accountAvatar.focus({preventScroll:true}); });
+favoritesDialog.addEventListener('click', event => {
+  const remove = event.target.closest('.favorite-remove');
+  if (!remove) return;
+  const index = [...favoritesDialog.querySelectorAll('.favorite-remove')].indexOf(remove);
+  toggleWishlist(remove);
+  (favoritesDialog.querySelectorAll('.favorite-remove')[index] || favoritesDialog.querySelector('.favorites-close')).focus({preventScroll:true});
+});
 window.addEventListener('anestland:languagechange', () => { if (favoritesDialog.open) renderFavorites(); });
+window.addEventListener('pageshow', () => { favoriteIds = readFavoriteIds(favoriteIds); syncFavorites(); });
+window.addEventListener('storage', event => {
+  if (event.key === favoriteStorageKey || event.key === null) { favoriteIds = readFavoriteIds(favoriteIds); syncFavorites(); }
+});
 syncFavorites();

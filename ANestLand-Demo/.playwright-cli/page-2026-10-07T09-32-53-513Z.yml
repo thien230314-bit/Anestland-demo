@@ -1,0 +1,160 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - list [ref=e4]:
+    - listitem [ref=e5]:
+      - generic [ref=e8]: Yến sào tuyển chọn
+    - listitem [ref=e9]:
+      - generic [ref=e14]: Giao hàng toàn quốc
+    - listitem [ref=e15]:
+      - generic [ref=e18]: Tư vấn & hỗ trợ
+  - banner [ref=e19]:
+    - link "ANestLand, trang chủ" [ref=e20] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e23]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e24]:
+      - link "TRANG CHỦ" [ref=e25] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e26] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e27] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e28] [cursor=pointer]:
+        - /url: values.html
+      - link "TIN TỨC" [ref=e29] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e30] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e31]:
+      - search [ref=e33]:
+        - generic [ref=e34]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e35]
+        - button "Tìm kiếm" [ref=e36] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e39] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e40]: Giỏ hàng
+        - generic [aria-hidden] [ref=e43]: "0"
+      - 'button "Ngôn ngữ: Tiếng Việt" [ref=e45] [cursor=pointer]':
+        - generic [aria-hidden] [ref=e50]: ⌄
+      - button "Sản phẩm yêu thích" [ref=e51] [cursor=pointer]
+      - button "Đăng nhập hoặc đăng ký" [ref=e54] [cursor=pointer]
+  - main [ref=e59]:
+    - generic [ref=e62]:
+      - paragraph [ref=e63]: TỰ NHIÊN TRONG TỪNG LỰA CHỌN
+      - heading [level=1] [ref=e64]:
+        - text: Sản Phẩm
+        - emphasis [ref=e65]: ANestLand
+      - paragraph [ref=e66]: Tổ yến, yến chưng và những món quà được chăm chút cho người bạn yêu thương.
+      - navigation "Đường dẫn" [ref=e67]:
+        - link "Trang chủ" [ref=e68] [cursor=pointer]:
+          - /url: index.html
+        - generic [aria-hidden] [ref=e69]: /
+        - generic [ref=e70]: Sản phẩm
+    - generic [ref=e75]:
+      - complementary [ref=e76]:
+        - group [ref=e77]:
+          - generic "DANH MỤC SẢN PHẨM −" [ref=e78] [cursor=pointer]
+          - generic "Lọc sản phẩm" [ref=e79]:
+            - button "Tất cả sản phẩm" [pressed] [ref=e80] [cursor=pointer]
+            - button "Yến chưng" [ref=e81] [cursor=pointer]
+            - button "Tổ yến" [ref=e82] [cursor=pointer]
+            - button "Quà tặng" [ref=e83] [cursor=pointer]
+      - generic [ref=e84]:
+        - generic [ref=e86]:
+          - status [ref=e87]: 4 sản phẩm
+          - generic [ref=e88]: Sắp xếp
+          - button "Sắp xếp" [ref=e90] [cursor=pointer]: Nổi bật ⌄
+        - generic [ref=e91]:
+          - article [ref=e92]:
+            - generic [ref=e93]:
+              - button "Yêu thích Yến Chưng Táo Đỏ" [ref=e94] [cursor=pointer]
+              - link [ref=e97] [cursor=pointer]:
+                - /url: product-detail.html?product=tao-do
+                - img "Yến Chưng Táo Đỏ" [ref=e98]
+            - paragraph [ref=e99]: YẾN CHƯNG · 70 ML
+            - heading [level=3] [ref=e100]:
+              - link "Yến Chưng Táo Đỏ" [ref=e101] [cursor=pointer]:
+                - /url: product-detail.html?product=tao-do
+            - paragraph [ref=e102]: 89.000₫
+          - article [ref=e103]:
+            - generic [ref=e104]:
+              - button "Yêu thích Yến Chưng Hạt Sen" [ref=e105] [cursor=pointer]
+              - link [ref=e108] [cursor=pointer]:
+                - /url: product-detail.html?product=hat-sen
+                - img "Yến Chưng Hạt Sen" [ref=e109]
+            - paragraph [ref=e110]: YẾN CHƯNG · 70 ML
+            - heading [level=3] [ref=e111]:
+              - link "Yến Chưng Hạt Sen" [ref=e112] [cursor=pointer]:
+                - /url: product-detail.html?product=hat-sen
+            - paragraph [ref=e113]: 95.000₫
+          - article [ref=e114]:
+            - generic [ref=e115]:
+              - button "Yêu thích Tổ Yến Tinh Chế" [ref=e116] [cursor=pointer]
+              - link [ref=e119] [cursor=pointer]:
+                - /url: product-detail.html?product=tinh-che
+                - img "Tổ Yến Tinh Chế" [ref=e120]
+            - paragraph [ref=e121]: TỔ YẾN · 50 G
+            - heading [level=3] [ref=e122]:
+              - link "Tổ Yến Tinh Chế" [ref=e123] [cursor=pointer]:
+                - /url: product-detail.html?product=tinh-che
+            - paragraph [ref=e124]: 590.000₫
+          - article [ref=e125]:
+            - generic [ref=e126]:
+              - button "Yêu thích Hộp Quà ANestLand" [ref=e127] [cursor=pointer]
+              - link [ref=e130] [cursor=pointer]:
+                - /url: product-detail.html?product=hop-qua
+                - img "Hộp Quà ANestLand" [ref=e131]
+            - paragraph [ref=e132]: BỘ SƯU TẬP QUÀ TẶNG
+            - heading [level=3] [ref=e133]:
+              - link "Hộp Quà ANestLand" [ref=e134] [cursor=pointer]:
+                - /url: product-detail.html?product=hop-qua
+            - paragraph [ref=e135]: 790.000₫
+    - generic [ref=e137]:
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: TRAO DƯỠNG CHẤT, GỬI YÊU THƯƠNG
+        - heading [level=2] [ref=e140]:
+          - text: Một món quà nhỏ.
+          - emphasis [ref=e141]: Gửi Trao Yêu Thương
+        - paragraph [ref=e142]: Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ yến nhỏ để chăm sóc mỗi ngày.
+        - link "CÂU CHUYỆN ANESTLAND" [ref=e143] [cursor=pointer]:
+          - /url: about.html
+      - img "Hộp quà ANestLand màu xanh tự nhiên" [ref=e147]
+  - contentinfo [ref=e148]:
+    - generic [ref=e149]:
+      - generic [ref=e150]:
+        - link "ANestLand." [ref=e151] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e155]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e156]:
+        - heading "Khám phá" [level=2] [ref=e157]
+        - link "Câu chuyện" [ref=e158] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e159] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e160] [cursor=pointer]:
+          - /url: values.html
+        - link "TIN TỨC" [ref=e161] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e162]:
+        - heading "Hỗ trợ" [level=2] [ref=e163]
+        - link "Liên hệ" [ref=e164] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e165] [cursor=pointer]
+        - button "Giao hàng" [ref=e166] [cursor=pointer]
+      - generic [ref=e167]:
+        - heading "Theo dõi" [level=2] [ref=e168]
+        - button "Facebook" [ref=e169] [cursor=pointer]
+        - button "Instagram" [ref=e170] [cursor=pointer]
+        - button "TikTok" [ref=e171] [cursor=pointer]
+    - generic [ref=e172]:
+      - paragraph [ref=e173]: © 2026 ANestLand.
+      - generic [ref=e174]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - status
+  - navigation "Liên hệ nhanh ANestLand" [ref=e177]:
+    - link "Liên hệ qua Messenger" [ref=e178] [cursor=pointer]:
+      - /url: contact.html?channel=facebook
+    - link "Liên hệ qua Zalo" [ref=e180] [cursor=pointer]:
+      - /url: contact.html?channel=zalo
+    - link "Gọi điện" [ref=e182] [cursor=pointer]:
+      - /url: contact.html?channel=phone
+  - status [ref=e184]

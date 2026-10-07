@@ -1,0 +1,303 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - link "ANestLand, trang chủ" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e7]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e8]:
+      - link "TRANG CHỦ" [ref=e9] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e10] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e11] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e12] [cursor=pointer]:
+        - /url: values.html
+      - link "BLOG" [ref=e13] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e14] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e15]:
+      - search [ref=e17]:
+        - generic [ref=e18]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e19]
+        - button "Tìm kiếm" [ref=e20] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e23] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e24]: Giỏ hàng
+        - generic [aria-hidden] [ref=e27]: "0"
+      - button "Mở tài khoản ANestLand" [ref=e28] [cursor=pointer]
+  - main [ref=e31]:
+    - region "Tinh hoa yến Việt" [ref=e32]:
+      - generic [aria-hidden] [ref=e33]:
+        - generic [ref=e43]: ✳
+        - generic [ref=e45]: THUẦN TỰ NHIÊN · TRỌN TINH TÚY
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: TINH HOA TỪ THIÊN NHIÊN
+        - heading [level=1] [ref=e49]:
+          - text: Tinh Hoa
+          - emphasis [ref=e50]: Yến Việt
+        - generic [aria-hidden] [ref=e51]: ⌁ ❧ ⌁
+        - paragraph [ref=e52]: Yến sào tuyển chọn cho sức khỏe và những khoảnh khắc chăm sóc đầy ý nghĩa.
+        - link "KHÁM PHÁ NGAY" [ref=e53] [cursor=pointer]:
+          - /url: products.html
+        - link "CÂU CHUYỆN ANESTLAND ↗" [ref=e56] [cursor=pointer]:
+          - /url: about.html
+          - text: CÂU CHUYỆN ANESTLAND
+          - generic [ref=e57]: ↗
+      - generic "Chọn slide" [ref=e58]:
+        - 'button "Slide 1: Tinh hoa yến Việt" [pressed] [ref=e59] [cursor=pointer]': "01"
+        - 'button "Slide 2: Món quà cho sức khỏe" [ref=e61] [cursor=pointer]': "02"
+        - button "Tạm dừng trình chiếu" [ref=e62] [cursor=pointer]: Ⅱ
+      - link "KHÁM PHÁ ANESTLAND ↓" [ref=e63] [cursor=pointer]:
+        - /url: "#story"
+        - generic [ref=e64]: KHÁM PHÁ ANESTLAND
+        - generic [ref=e65]: ↓
+    - generic [ref=e66]:
+      - generic [ref=e67]:
+        - img "Chén yến chưng táo đỏ bên khăn linen và nhành lá xanh" [ref=e69]
+        - generic [ref=e70]:
+          - text: TỪ THIÊN NHIÊN
+          - generic [ref=e73]: ĐẾN YÊU THƯƠNG
+        - paragraph [ref=e74]: Một món quà nhỏ. Một sự chăm sóc lớn.
+      - generic [ref=e75]:
+        - paragraph [ref=e76]: VỀ ANESTLAND
+        - heading [level=2] [ref=e77]:
+          - text: Từ món quà của thiên nhiênđến sự chăm sóc
+          - emphasis [ref=e78]: mỗi ngày.
+        - paragraph [ref=e80]: Yến sào tuyển chọn, nguồn gốc rõ ràng. Chăm chút một món quà cho sức khỏe và người thân.
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - strong [ref=e83]: 100%
+            - text: Yến tuyển chọn
+          - generic [ref=e84]:
+            - strong [ref=e85]: Tinh tế
+            - text: Trong từng sản phẩm
+          - generic [ref=e86]:
+            - strong [ref=e87]: An tâm
+            - text: Cho người thân
+        - link "TÌM HIỂU THÊM" [ref=e88] [cursor=pointer]:
+          - /url: about.html#craft
+    - generic [ref=e92]:
+      - generic [ref=e93]:
+        - paragraph [ref=e94]: TỪ TỔ YẾN ĐẾN THÀNH PHẨM
+        - heading [level=2] [ref=e95]:
+          - text: Chăm Chút Trong
+          - emphasis [ref=e96]: Từng Công Đoạn
+        - paragraph [ref=e97]: Kiên nhẫn với từng sợi yến, trân trọng từng nguyên liệu. Sự chỉn chu bắt đầu từ những điều nhỏ nhất.
+        - list [ref=e98]:
+          - listitem [ref=e99]:
+            - generic [ref=e100]: "01"
+            - heading "Tuyển chọn" [level=3] [ref=e101]
+            - paragraph [ref=e102]: Chọn những tổ yến nguyên vẹn.
+          - listitem [ref=e103]:
+            - generic [ref=e104]: "02"
+            - heading "Làm sạch" [level=3] [ref=e105]
+            - paragraph [ref=e106]: Tỉ mỉ gìn giữ sợi yến tự nhiên.
+          - listitem [ref=e107]:
+            - generic [ref=e108]: "03"
+            - heading "Hoàn thiện" [level=3] [ref=e109]
+            - paragraph [ref=e110]: Chăm chút đến khi trao tay.
+      - generic [ref=e111]:
+        - img "Đôi bàn tay tỉ mỉ làm sạch tổ yến bằng nhíp trên khay tre" [ref=e112]
+        - generic [ref=e113]: Tỉ mỉ từ những điều nhỏ nhất.
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - paragraph [ref=e116]: NHỮNG GIÁ TRỊ CHÚNG TÔI GÌN GIỮ
+        - heading [level=2] [ref=e117]:
+          - text: Vì Sao Chọn
+          - emphasis [ref=e118]: ANestLand?
+        - generic [aria-hidden] [ref=e119]: — ❧ —
+      - generic [ref=e120]:
+        - article [ref=e121]:
+          - generic [ref=e122]: "01"
+          - heading "Nguồn nguyên liệu chọn lọc" [level=3] [ref=e126]
+          - paragraph [ref=e127]: Yến được lựa chọn kỹ lưỡng cho từng dòng sản phẩm.
+        - article [ref=e128]:
+          - generic [ref=e129]: "02"
+          - heading "Giữ trọn giá trị tự nhiên" [level=3] [ref=e133]
+          - paragraph [ref=e134]: Quy trình chế biến hướng đến sự tinh giản và an toàn.
+        - article [ref=e135]:
+          - generic [ref=e136]: "03"
+          - heading "Phù hợp nhiều thế hệ" [level=3] [ref=e140]
+          - paragraph [ref=e141]: Một lựa chọn chăm sóc sức khỏe cho cả gia đình.
+        - article [ref=e142]:
+          - generic [ref=e143]: "04"
+          - heading "Quà tặng tinh tế" [level=3] [ref=e147]
+          - paragraph [ref=e148]: Bao bì trang nhã dành cho những dịp ý nghĩa.
+    - generic [ref=e150]:
+      - generic [ref=e151]:
+        - paragraph [ref=e152]: CHẬM LẠI MỘT CHÚT, CHĂM SÓC NHIỀU HƠN
+        - heading [level=2] [ref=e153]:
+          - text: Chăm Sóc Mỗi Ngày,
+          - emphasis [ref=e154]: Gửi Trao Yêu Thương
+        - paragraph [ref=e155]: Một chén yến cho hôm nay, một món quà cho người bạn yêu thương.
+        - link "KHÁM PHÁ CÂU CHUYỆN" [ref=e156] [cursor=pointer]:
+          - /url: about.html
+      - generic [ref=e159]:
+        - img "Khoảnh khắc thưởng thức chén yến chưng táo đỏ" [ref=e160]
+        - generic [ref=e162]: Nourish with nature.
+    - generic [ref=e163]:
+      - generic [ref=e164]:
+        - paragraph [ref=e165]: TỰ NHIÊN TRONG TỪNG LỰA CHỌN
+        - heading [level=2] [ref=e166]:
+          - text: Sản Phẩm
+          - emphasis [ref=e167]: Nổi Bật
+        - generic [aria-hidden] [ref=e168]: — ❧ —
+        - paragraph [ref=e169]: Những lựa chọn được yêu thích tại ANestLand.
+      - generic "Lọc sản phẩm" [ref=e170]:
+        - button "TẤT CẢ" [pressed] [ref=e171] [cursor=pointer]
+        - button "YẾN CHƯNG" [ref=e172] [cursor=pointer]
+        - button "TỔ YẾN" [ref=e173] [cursor=pointer]
+        - button "QUÀ TẶNG" [ref=e174] [cursor=pointer]
+      - generic [ref=e175]:
+        - article [ref=e176]:
+          - generic [ref=e177]:
+            - generic [ref=e178]: YÊU THÍCH
+            - button "Yêu thích Yến Chưng Táo Đỏ" [ref=e179] [cursor=pointer]
+            - link [ref=e182] [cursor=pointer]:
+              - /url: product-detail.html?product=tao-do
+              - img "Hũ yến chưng táo đỏ nắp xanh" [ref=e183]
+          - paragraph [ref=e184]: YẾN CHƯNG · 70 ML
+          - heading [level=3] [ref=e185]:
+            - link "Yến Chưng Táo Đỏ" [ref=e186] [cursor=pointer]:
+              - /url: product-detail.html?product=tao-do
+          - paragraph [ref=e187]: 89.000₫
+        - article [ref=e188]:
+          - generic [ref=e189]:
+            - button "Yêu thích Yến Chưng Hạt Sen" [ref=e190] [cursor=pointer]
+            - link [ref=e193] [cursor=pointer]:
+              - /url: product-detail.html?product=hat-sen
+              - img "Hũ yến chưng hạt sen nắp xanh" [ref=e194]
+          - paragraph [ref=e195]: YẾN CHƯNG · 70 ML
+          - heading [level=3] [ref=e196]:
+            - link "Yến Chưng Hạt Sen" [ref=e197] [cursor=pointer]:
+              - /url: product-detail.html?product=hat-sen
+          - paragraph [ref=e198]: 95.000₫
+        - article [ref=e199]:
+          - generic [ref=e200]:
+            - generic [ref=e201]: THUẦN KHIẾT
+            - button "Yêu thích Tổ Yến Tinh Chế" [ref=e202] [cursor=pointer]
+            - link [ref=e205] [cursor=pointer]:
+              - /url: product-detail.html?product=tinh-che
+              - img "Tổ yến tinh chế màu ngà trong chén sứ" [ref=e206]
+          - paragraph [ref=e207]: TỔ YẾN · 50 G
+          - heading [level=3] [ref=e208]:
+            - link "Tổ Yến Tinh Chế" [ref=e209] [cursor=pointer]:
+              - /url: product-detail.html?product=tinh-che
+          - paragraph [ref=e210]: 590.000₫
+        - article [ref=e211]:
+          - generic [ref=e212]:
+            - button "Yêu thích Hộp Quà ANestLand" [ref=e213] [cursor=pointer]
+            - link [ref=e216] [cursor=pointer]:
+              - /url: product-detail.html?product=hop-qua
+              - img "Hộp quà xanh thanh lịch với những hũ yến tuyển chọn" [ref=e217]
+          - paragraph [ref=e218]: BỘ SƯU TẬP QUÀ TẶNG
+          - heading [level=3] [ref=e219]:
+            - link "Hộp Quà ANestLand" [ref=e220] [cursor=pointer]:
+              - /url: product-detail.html?product=hop-qua
+          - paragraph [ref=e221]: 790.000₫
+      - link "XEM TẤT CẢ SẢN PHẨM" [ref=e223] [cursor=pointer]:
+        - /url: products.html
+    - generic [ref=e226]:
+      - generic [ref=e227]:
+        - paragraph [ref=e228]: CẢM HỨNG SỐNG KHỎE
+        - heading [level=2] [ref=e229]:
+          - text: Chuyện
+          - emphasis [ref=e230]: Về Yến
+        - generic [aria-hidden] [ref=e231]: — ❧ —
+        - paragraph [ref=e232]: Kiến thức và cảm hứng sống khỏe cùng ANestLand.
+      - generic [ref=e233]:
+        - article [ref=e234]:
+          - 'link "Đọc: Yến sào nên dùng vào thời điểm nào?" [ref=e235] [cursor=pointer]':
+            - /url: blog-detail.html?article=thoi-diem
+            - img "Chén yến cho một buổi sáng nhẹ nhàng" [ref=e236]
+          - paragraph [ref=e237]:
+            - text: SỐNG KHỎE
+            - generic [ref=e238]: 12.09.2026
+          - heading [level=3] [ref=e239]:
+            - link "Yến sào nên dùng vào thời điểm nào?" [ref=e240] [cursor=pointer]:
+              - /url: blog-detail.html?article=thoi-diem
+          - link "Đọc thêm" [ref=e241] [cursor=pointer]:
+            - /url: blog-detail.html?article=thoi-diem
+        - article [ref=e244]:
+          - 'link "Đọc: Cách nhận biết tổ yến chất lượng" [ref=e245] [cursor=pointer]':
+            - /url: blog-detail.html?article=chat-luong
+            - img "Cận cảnh những sợi tổ yến tinh chế" [ref=e246]
+          - paragraph [ref=e247]:
+            - text: KIẾN THỨC VỀ YẾN
+            - generic [ref=e248]: 08.09.2026
+          - heading [level=3] [ref=e249]:
+            - link "Cách nhận biết tổ yến chất lượng" [ref=e250] [cursor=pointer]:
+              - /url: blog-detail.html?article=chat-luong
+          - link "Đọc thêm" [ref=e251] [cursor=pointer]:
+            - /url: blog-detail.html?article=chat-luong
+        - article [ref=e254]:
+          - 'link "Đọc: Gợi ý quà sức khỏe cho gia đình" [ref=e255] [cursor=pointer]':
+            - /url: blog-detail.html?article=qua-tang
+            - img "Hộp quà yến sào tinh tế cho người thân" [ref=e256]
+          - paragraph [ref=e257]:
+            - text: QUÀ TẶNG
+            - generic [ref=e258]: 02.09.2026
+          - heading [level=3] [ref=e259]:
+            - link "Gợi ý quà sức khỏe cho gia đình" [ref=e260] [cursor=pointer]:
+              - /url: blog-detail.html?article=qua-tang
+          - link "Đọc thêm" [ref=e261] [cursor=pointer]:
+            - /url: blog-detail.html?article=qua-tang
+      - link "XEM TẤT CẢ BÀI VIẾT" [ref=e265] [cursor=pointer]:
+        - /url: blog.html
+    - generic [ref=e269]:
+      - generic [ref=e270]:
+        - paragraph [ref=e271]: MỘT CHÚT CẢM HỨNG MỖI NGÀY
+        - heading [level=2] [ref=e272]:
+          - text: Nhận Những Câu Chuyện Mới
+          - emphasis [ref=e273]: Từ ANestLand
+        - paragraph [ref=e274]: Kiến thức về yến sào, sức khỏe và những sản phẩm mới.
+      - generic [ref=e275]:
+        - generic [ref=e276]: Địa chỉ email của bạn
+        - generic [ref=e277]:
+          - textbox "Địa chỉ email của bạn" [ref=e278]:
+            - /placeholder: Email của bạn
+          - button "ĐĂNG KÝ" [ref=e279] [cursor=pointer]
+        - status [ref=e282]: Để những câu chuyện tốt lành tìm đến bạn.
+  - contentinfo [ref=e283]:
+    - generic [ref=e284]:
+      - generic [ref=e285]:
+        - link "ANestLand." [ref=e286] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e290]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e291]:
+        - heading "Khám phá" [level=2] [ref=e292]
+        - link "Câu chuyện" [ref=e293] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e294] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e295] [cursor=pointer]:
+          - /url: values.html
+        - link "Blog" [ref=e296] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e297]:
+        - heading "Hỗ trợ" [level=2] [ref=e298]
+        - link "Liên hệ" [ref=e299] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e300] [cursor=pointer]
+        - button "Giao hàng" [ref=e301] [cursor=pointer]
+      - generic [ref=e302]:
+        - heading "Theo dõi" [level=2] [ref=e303]
+        - button "Facebook ↗" [ref=e304] [cursor=pointer]
+        - button "Instagram ↗" [ref=e305] [cursor=pointer]
+        - button "TikTok ↗" [ref=e306] [cursor=pointer]
+    - generic [ref=e307]:
+      - paragraph [ref=e308]: © 2026 ANestLand.
+      - generic [ref=e309]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - status
+  - navigation "Liên hệ nhanh ANestLand" [ref=e312]:
+    - link "Liên hệ qua Messenger (demo)" [ref=e313] [cursor=pointer]:
+      - /url: contact.html?channel=facebook
+    - link "Liên hệ qua Zalo (demo)" [ref=e317] [cursor=pointer]:
+      - /url: contact.html?channel=zalo
+      - img [aria-hidden] [ref=e318]:
+        - generic [ref=e320]: Zalo
+    - link "Liên hệ điện thoại (demo)" [ref=e321] [cursor=pointer]:
+      - /url: contact.html?channel=phone

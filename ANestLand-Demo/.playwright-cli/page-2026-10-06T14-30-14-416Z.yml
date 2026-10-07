@@ -1,0 +1,177 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - link "ANestLand, trang chủ" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e7]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e8]:
+      - link "TRANG CHỦ" [ref=e9] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e10] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e11] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e12] [cursor=pointer]:
+        - /url: values.html
+      - link "BLOG" [ref=e13] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e14] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e15]:
+      - search [ref=e17]:
+        - generic [ref=e18]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e19]
+        - button "Tìm kiếm" [ref=e20] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e23] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e24]: Giỏ hàng
+        - generic [aria-hidden] [ref=e27]: "0"
+      - button "Mở tài khoản ANestLand" [ref=e28] [cursor=pointer]
+  - main [ref=e31]:
+    - generic [ref=e34]:
+      - paragraph [ref=e35]: NHỮNG GIÁ TRỊ CHÚNG TÔI GÌN GIỮ
+      - heading [level=1] [ref=e36]:
+        - text: Vì Sao Chọn
+        - emphasis [ref=e37]: ANestLand?
+      - paragraph [ref=e38]: Từ nguồn nguyên liệu đến món quà trao tay, mỗi lựa chọn đều bắt đầu bằng sự tận tâm.
+      - navigation "Đường dẫn" [ref=e39]:
+        - link "Trang chủ" [ref=e40] [cursor=pointer]:
+          - /url: index.html
+        - generic [aria-hidden] [ref=e41]: /
+        - generic [ref=e42]: Giá trị
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - paragraph [ref=e47]: BỐN ĐIỀU LÀM NÊN ANESTLAND
+        - heading [level=2] [ref=e48]:
+          - text: Giá Trị Được Gìn Giữ
+          - emphasis [ref=e49]: Trong Từng Lựa Chọn
+      - generic [ref=e50]:
+        - article [ref=e51]:
+          - generic [ref=e52]: "01"
+          - heading "Nguồn nguyên liệu chọn lọc" [level=3] [ref=e56]
+          - paragraph [ref=e57]: Bắt đầu từ nguồn gốc rõ ràng và những tổ yến được lựa chọn kỹ. Mỗi dòng sản phẩm mang theo sự trân trọng dành cho nguyên liệu và người thưởng thức.
+          - link "TÌM HIỂU NGUỒN GỐC" [ref=e58] [cursor=pointer]:
+            - /url: "#sourcing"
+        - article [ref=e61]:
+          - generic [ref=e62]: "02"
+          - heading "Giữ trọn giá trị tự nhiên" [level=3] [ref=e66]
+          - paragraph [ref=e67]: Sự tinh giản trong cách chế biến đi cùng sự chỉn chu trong từng công đoạn. Chúng tôi trân trọng cấu trúc sợi yến và hương vị dịu nhẹ của nguyên liệu.
+          - link "KHÁM PHÁ CÔNG ĐOẠN" [ref=e68] [cursor=pointer]:
+            - /url: "#craft"
+        - article [ref=e71]:
+          - generic [ref=e72]: "03"
+          - heading "Phù hợp nhiều thế hệ" [level=3] [ref=e76]
+          - paragraph [ref=e77]: Sự quan tâm có thể bắt đầu từ một khẩu phần nhỏ. Những lựa chọn đa dạng giúp mỗi gia đình tìm thấy cách thưởng thức phù hợp với nhu cầu và thói quen riêng.
+          - link "CHĂM SÓC GIA ĐÌNH" [ref=e78] [cursor=pointer]:
+            - /url: "#family-care"
+        - article [ref=e81]:
+          - generic [ref=e82]: "04"
+          - heading "Quà tặng tinh tế" [level=3] [ref=e86]
+          - paragraph [ref=e87]: Một món quà đẹp cần cả sự phù hợp và một lời gửi trao chân thành. Từ lựa chọn sản phẩm đến cách trình bày, sự chăm chút giúp lời quan tâm trở nên trọn vẹn.
+          - link "GỬI TRAO YÊU THƯƠNG" [ref=e88] [cursor=pointer]:
+            - /url: "#gifting"
+    - generic [ref=e91]:
+      - generic [ref=e92]:
+        - paragraph [ref=e93]: CHẤT LƯỢNG BẮT ĐẦU TỪ NGUỒN GỐC
+        - heading [level=2] [ref=e94]:
+          - text: Chọn Kỹ Nguyên Liệu,
+          - emphasis [ref=e95]: Gìn Giữ Niềm Tin
+        - paragraph [ref=e97]: ANestLand giới thiệu yến sào Khánh Hòa cùng những lựa chọn được tuyển chọn từ các thương hiệu uy tín. Nguồn gốc, thông tin thành phần và hướng dẫn bảo quản là những điều chúng tôi luôn muốn khách hàng hiểu rõ trước khi lựa chọn.
+        - paragraph [ref=e98]: Mỗi tổ yến là kết quả của một hành trình tự nhiên. Sự tuyển chọn cẩn trọng giúp hành trình ấy tiếp tục bằng một sản phẩm được chăm chút, thay vì chỉ dừng lại ở vẻ ngoài.
+        - link "CÂU CHUYỆN ANESTLAND" [ref=e99] [cursor=pointer]:
+          - /url: about.html
+      - generic [ref=e102]:
+        - img "Tổ yến tinh chế màu ngà được tuyển chọn" [ref=e104]
+        - paragraph [ref=e105]: Trân trọng nguồn gốc. Chăm chút từng sợi yến.
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - paragraph [ref=e109]: SỰ TỈ MỈ TẠO NÊN KHÁC BIỆT
+        - heading [level=2] [ref=e110]:
+          - text: Chăm Chút Trong
+          - emphasis [ref=e111]: Từng Công Đoạn
+        - paragraph [ref=e112]: Từ tuyển chọn đến hoàn thiện, sự kiên nhẫn và tinh thần chỉn chu luôn có mặt. Một sản phẩm đáng tin cần sự quan tâm xuyên suốt, kể cả ở những chi tiết nhỏ khó nhìn thấy.
+        - list [ref=e113]:
+          - listitem [ref=e114]:
+            - generic [ref=e115]: "01"
+            - heading "Tuyển chọn" [level=3] [ref=e116]
+            - paragraph [ref=e117]: Tìm hiểu nguồn gốc, chọn nguyên liệu phù hợp cho từng dòng sản phẩm.
+          - listitem [ref=e118]:
+            - generic [ref=e119]: "02"
+            - heading "Làm sạch" [level=3] [ref=e120]
+            - paragraph [ref=e121]: Tỉ mỉ xử lý, trân trọng cấu trúc và vẻ tự nhiên của sợi yến.
+          - listitem [ref=e122]:
+            - generic [ref=e123]: "03"
+            - heading "Hoàn thiện" [level=3] [ref=e124]
+            - paragraph [ref=e125]: Chăm chút quy cách, thông tin và cách trình bày trước khi trao tay.
+      - generic [ref=e126]:
+        - img "Đôi bàn tay tỉ mỉ làm sạch tổ yến trên khay tre" [ref=e127]
+        - generic [ref=e128]: Tận tâm từ những điều nhỏ nhất.
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - img "Chén yến chưng táo đỏ bên khăn linen" [ref=e132]
+        - paragraph [ref=e133]: Quan tâm mỗi ngày, theo cách của gia đình bạn.
+      - generic [ref=e134]:
+        - paragraph [ref=e135]: SỨC KHỎE & SỰ QUAN TÂM
+        - heading [level=2] [ref=e136]:
+          - text: Một Thói Quen Nhỏ,
+          - emphasis [ref=e137]: Một Sự Chăm Sóc Lớn
+        - paragraph [ref=e138]: "Một chén yến chuẩn bị cho người thân, một khoảng nghỉ dành cho bản thân: sự chăm sóc thường nằm trong những điều giản dị. ANestLand mong muốn đồng hành cùng những khoảnh khắc ấy bằng các lựa chọn dễ tìm hiểu và thuận tiện thưởng thức."
+        - paragraph [ref=e139]: Mỗi thế hệ có nhu cầu riêng. Hãy đọc thành phần và hướng dẫn trên bao bì, cân nhắc khẩu phần phù hợp; khi có yêu cầu dinh dưỡng đặc biệt, hãy hỏi người có chuyên môn.
+        - link "ĐỌC CHUYỆN VỀ YẾN" [ref=e140] [cursor=pointer]:
+          - /url: blog.html
+    - generic [ref=e144]:
+      - generic [ref=e145]:
+        - paragraph [ref=e146]: QUÀ TẶNG MANG THEO TẤM LÒNG
+        - heading [level=2] [ref=e147]:
+          - text: Tinh Tế Khi Chọn,
+          - emphasis [ref=e148]: Trọn Vẹn Khi Trao
+        - paragraph [ref=e149]: "Dành cho một dịp sum họp, một lời cảm ơn hay một dấu mốc đáng nhớ: món quà sức khỏe mang ý nghĩa của sự quan tâm bền lâu."
+        - paragraph [ref=e150]: Những lựa chọn quà tặng của ANestLand kết hợp sản phẩm được tuyển chọn với cách trình bày trang nhã. Chọn theo sở thích người nhận, thêm một lời nhắn riêng, để món quà thực sự thuộc về khoảnh khắc của bạn.
+        - link "KHÁM PHÁ QUÀ TẶNG" [ref=e151] [cursor=pointer]:
+          - /url: products.html
+      - generic [ref=e154]:
+        - img "Hộp quà yến sào được trình bày trang nhã" [ref=e155]
+        - generic [ref=e156]: Gửi trao sự quan tâm.
+    - generic [ref=e158]:
+      - paragraph [ref=e159]: TÌM LỰA CHỌN CỦA BẠN
+      - heading [level=2] [ref=e160]:
+        - text: Trao Gửi Điều Tốt Lành
+        - emphasis [ref=e161]: Cùng ANestLand
+      - paragraph [ref=e162]: Khám phá tổ yến, yến chưng và những món quà dành cho người bạn yêu thương.
+      - link "KHÁM PHÁ SẢN PHẨM" [ref=e163] [cursor=pointer]:
+        - /url: products.html
+  - contentinfo [ref=e166]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - link "ANestLand." [ref=e169] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e173]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e174]:
+        - heading "Khám phá" [level=2] [ref=e175]
+        - link "Câu chuyện" [ref=e176] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e177] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e178] [cursor=pointer]:
+          - /url: values.html
+        - link "Blog" [ref=e179] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e180]:
+        - heading "Hỗ trợ" [level=2] [ref=e181]
+        - link "Liên hệ" [ref=e182] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e183] [cursor=pointer]
+        - button "Giao hàng" [ref=e184] [cursor=pointer]
+      - generic [ref=e185]:
+        - heading "Theo dõi" [level=2] [ref=e186]
+        - button "Facebook ↗" [ref=e187] [cursor=pointer]
+        - button "Instagram ↗" [ref=e188] [cursor=pointer]
+        - button "TikTok ↗" [ref=e189] [cursor=pointer]
+    - generic [ref=e190]:
+      - paragraph [ref=e191]: © 2026 ANestLand.
+      - generic [ref=e192]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - link "Về đầu trang":
+    - /url: "#header"
+    - text: ↑
+  - status

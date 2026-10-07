@@ -1,0 +1,186 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - link "ANestLand, trang chủ" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e7]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e8]:
+      - link "TRANG CHỦ" [ref=e9] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e10] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e11] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e12] [cursor=pointer]:
+        - /url: values.html
+      - link "TIN TỨC" [ref=e13] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e14] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e15]:
+      - search [ref=e17]:
+        - generic [ref=e18]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e19]
+        - button "Tìm kiếm" [ref=e20] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e23] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e24]: Giỏ hàng
+        - generic [aria-hidden] [ref=e27]: "0"
+      - 'button "Ngôn ngữ: Tiếng Việt" [ref=e29] [cursor=pointer]':
+        - generic [aria-hidden] [ref=e34]: ⌄
+      - button "Mở tài khoản ANestLand" [ref=e35] [cursor=pointer]
+  - main [ref=e38]:
+    - generic [ref=e41]:
+      - paragraph [ref=e42]: KIẾN THỨC & CẢM HỨNG
+      - heading [level=1] [ref=e43]:
+        - text: Chuyện
+        - emphasis [ref=e44]: Về Yến
+      - paragraph [ref=e45]: Những câu chuyện nhỏ về yến sào, sự quan tâm và nhịp sống nhẹ nhàng.
+      - navigation "Đường dẫn" [ref=e46]:
+        - link "Trang chủ" [ref=e47] [cursor=pointer]:
+          - /url: index.html
+        - generic [aria-hidden] [ref=e48]: /
+        - generic [ref=e49]: TIN TỨC
+      - button "QUAY LẠI" [ref=e50] [cursor=pointer]:
+        - generic [aria-hidden] [ref=e51]: ←
+    - generic [ref=e57]:
+      - generic "Chủ đề bài viết" [ref=e58]:
+        - button "TẤT CẢ" [pressed] [ref=e59] [cursor=pointer]
+        - button "SỐNG KHỎE" [ref=e60] [cursor=pointer]
+        - button "KIẾN THỨC VỀ YẾN" [ref=e61] [cursor=pointer]
+        - button "QUÀ TẶNG" [ref=e62] [cursor=pointer]
+      - article [ref=e63]:
+        - link [ref=e64] [cursor=pointer]:
+          - /url: blog-detail.html?article=thoi-diem
+          - img "Một chén yến chưng táo đỏ trong buổi sáng nhẹ nhàng" [ref=e65]
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: BÀI VIẾT NỔI BẬT · SỐNG KHỎE
+          - heading [level=2] [ref=e68]:
+            - link [ref=e69] [cursor=pointer]:
+              - /url: blog-detail.html?article=thoi-diem
+              - text: Yến sào nên dùng
+              - emphasis [ref=e70]: vào thời điểm nào?
+          - paragraph [ref=e71]: Một buổi sáng chậm rãi hay một khoảng nghỉ trong ngày đều có thể trở thành khoảnh khắc chăm sóc bản thân. Điều gì khiến thói quen ấy phù hợp với bạn?
+          - paragraph [ref=e72]: 12.09.2026
+          - link "ĐỌC CÂU CHUYỆN" [ref=e73] [cursor=pointer]:
+            - /url: blog-detail.html?article=thoi-diem
+      - generic [ref=e76]:
+        - article [ref=e77]:
+          - 'link "Đọc: Yến sào nên dùng vào thời điểm nào?" [ref=e78] [cursor=pointer]':
+            - /url: blog-detail.html?article=thoi-diem
+            - img "Yến sào nên dùng vào thời điểm nào?" [ref=e79]
+          - paragraph [ref=e80]:
+            - text: SỐNG KHỎE
+            - time [ref=e81]: 12.09.2026
+          - heading [level=3] [ref=e82]:
+            - link "Yến sào nên dùng vào thời điểm nào?" [ref=e83] [cursor=pointer]:
+              - /url: blog-detail.html?article=thoi-diem
+          - link "Đọc thêm" [ref=e84] [cursor=pointer]:
+            - /url: blog-detail.html?article=thoi-diem
+        - article [ref=e87]:
+          - 'link "Đọc: Cách nhận biết tổ yến chất lượng" [ref=e88] [cursor=pointer]':
+            - /url: blog-detail.html?article=chat-luong
+            - img "Cách nhận biết tổ yến chất lượng" [ref=e89]
+          - paragraph [ref=e90]:
+            - text: KIẾN THỨC VỀ YẾN
+            - time [ref=e91]: 08.09.2026
+          - heading [level=3] [ref=e92]:
+            - link "Cách nhận biết tổ yến chất lượng" [ref=e93] [cursor=pointer]:
+              - /url: blog-detail.html?article=chat-luong
+          - link "Đọc thêm" [ref=e94] [cursor=pointer]:
+            - /url: blog-detail.html?article=chat-luong
+        - article [ref=e97]:
+          - 'link "Đọc: Ai nên sử dụng yến sào?" [ref=e98] [cursor=pointer]':
+            - /url: blog-detail.html?article=doi-tuong
+            - img "Ai nên sử dụng yến sào?" [ref=e99]
+          - paragraph [ref=e100]:
+            - text: SỐNG KHỎE
+            - time [ref=e101]: 06.09.2026
+          - heading [level=3] [ref=e102]:
+            - link "Ai nên sử dụng yến sào?" [ref=e103] [cursor=pointer]:
+              - /url: blog-detail.html?article=doi-tuong
+          - link "Đọc thêm" [ref=e104] [cursor=pointer]:
+            - /url: blog-detail.html?article=doi-tuong
+        - article [ref=e107]:
+          - 'link "Đọc: Cách bảo quản tổ yến đúng cách" [ref=e108] [cursor=pointer]':
+            - /url: blog-detail.html?article=bao-quan
+            - img "Cách bảo quản tổ yến đúng cách" [ref=e109]
+          - paragraph [ref=e110]:
+            - text: KIẾN THỨC VỀ YẾN
+            - time [ref=e111]: 04.09.2026
+          - heading [level=3] [ref=e112]:
+            - link "Cách bảo quản tổ yến đúng cách" [ref=e113] [cursor=pointer]:
+              - /url: blog-detail.html?article=bao-quan
+          - link "Đọc thêm" [ref=e114] [cursor=pointer]:
+            - /url: blog-detail.html?article=bao-quan
+        - article [ref=e117]:
+          - 'link "Đọc: Gợi ý quà sức khỏe cho gia đình" [ref=e118] [cursor=pointer]':
+            - /url: blog-detail.html?article=qua-tang
+            - img "Gợi ý quà sức khỏe cho gia đình" [ref=e119]
+          - paragraph [ref=e120]:
+            - text: QUÀ TẶNG
+            - time [ref=e121]: 02.09.2026
+          - heading [level=3] [ref=e122]:
+            - link "Gợi ý quà sức khỏe cho gia đình" [ref=e123] [cursor=pointer]:
+              - /url: blog-detail.html?article=qua-tang
+          - link "Đọc thêm" [ref=e124] [cursor=pointer]:
+            - /url: blog-detail.html?article=qua-tang
+        - article [ref=e127]:
+          - 'link "Đọc: Yến chưng táo đỏ có gì đặc biệt?" [ref=e128] [cursor=pointer]':
+            - /url: blog-detail.html?article=tao-do
+            - img "Yến chưng táo đỏ có gì đặc biệt?" [ref=e129]
+          - paragraph [ref=e130]:
+            - text: KIẾN THỨC VỀ YẾN
+            - time [ref=e131]: 28.08.2026
+          - heading [level=3] [ref=e132]:
+            - link "Yến chưng táo đỏ có gì đặc biệt?" [ref=e133] [cursor=pointer]:
+              - /url: blog-detail.html?article=tao-do
+          - link "Đọc thêm" [ref=e134] [cursor=pointer]:
+            - /url: blog-detail.html?article=tao-do
+    - generic [ref=e138]:
+      - paragraph [ref=e139]: MÓN QUÀ TỪ THIÊN NHIÊN
+      - heading [level=2] [ref=e140]:
+        - text: Chọn một món quà.
+        - emphasis [ref=e141]: Gửi trọn sự quan tâm.
+      - link "KHÁM PHÁ SẢN PHẨM" [ref=e142] [cursor=pointer]:
+        - /url: products.html
+  - contentinfo [ref=e145]:
+    - generic [ref=e146]:
+      - generic [ref=e147]:
+        - link "ANestLand." [ref=e148] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e152]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e153]:
+        - heading "Khám phá" [level=2] [ref=e154]
+        - link "Câu chuyện" [ref=e155] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e156] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e157] [cursor=pointer]:
+          - /url: values.html
+        - link "TIN TỨC" [ref=e158] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e159]:
+        - heading "Hỗ trợ" [level=2] [ref=e160]
+        - link "Liên hệ" [ref=e161] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e162] [cursor=pointer]
+        - button "Giao hàng" [ref=e163] [cursor=pointer]
+      - generic [ref=e164]:
+        - heading "Theo dõi" [level=2] [ref=e165]
+        - button "Facebook" [ref=e166] [cursor=pointer]
+        - button "Instagram" [ref=e167] [cursor=pointer]
+        - button "TikTok" [ref=e168] [cursor=pointer]
+    - generic [ref=e169]:
+      - paragraph [ref=e170]: © 2026 ANestLand.
+      - generic [ref=e171]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - status
+  - navigation "Liên hệ nhanh ANestLand" [ref=e174]:
+    - link "Liên hệ qua Messenger" [ref=e175] [cursor=pointer]:
+      - /url: contact.html?channel=facebook
+    - link "Liên hệ qua Zalo" [ref=e177] [cursor=pointer]:
+      - /url: contact.html?channel=zalo
+    - link "Gọi điện" [ref=e179] [cursor=pointer]:
+      - /url: contact.html?channel=phone
+  - status [ref=e181]

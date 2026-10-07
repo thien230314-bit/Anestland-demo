@@ -1,0 +1,88 @@
+- generic [active] [ref=e1]:
+  - link "Đến nội dung chính" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - link "ANestLand, trang chủ" [ref=e4] [cursor=pointer]:
+      - /url: index.html
+      - generic [ref=e7]: ANestLand.
+    - navigation "Điều hướng chính" [ref=e8]:
+      - link "TRANG CHỦ" [ref=e9] [cursor=pointer]:
+        - /url: index.html
+      - link "CÂU CHUYỆN" [ref=e10] [cursor=pointer]:
+        - /url: about.html
+      - link "SẢN PHẨM" [ref=e11] [cursor=pointer]:
+        - /url: products.html
+      - link "GIÁ TRỊ" [ref=e12] [cursor=pointer]:
+        - /url: values.html
+      - link "BLOG" [ref=e13] [cursor=pointer]:
+        - /url: blog.html
+      - link "LIÊN HỆ" [ref=e14] [cursor=pointer]:
+        - /url: contact.html
+    - generic [ref=e15]:
+      - search [ref=e17]:
+        - generic [ref=e18]: Tìm sản phẩm, bài viết
+        - searchbox "Tìm sản phẩm, bài viết" [ref=e19]
+        - button "Tìm kiếm" [ref=e20] [cursor=pointer]
+      - link "Giỏ hàng, 0 sản phẩm" [ref=e23] [cursor=pointer]:
+        - /url: cart.html
+        - generic [ref=e24]: Giỏ hàng
+        - generic [aria-hidden] [ref=e27]: "0"
+      - button "Mở tài khoản ANestLand" [ref=e28] [cursor=pointer]
+      - 'button "Ngôn ngữ: Tiếng Việt" [ref=e32] [cursor=pointer]':
+        - generic [aria-hidden] [ref=e37]: ⌄
+  - main [ref=e38]:
+    - generic [ref=e41]:
+      - paragraph [ref=e42]: NHỮNG LỰA CHỌN CỦA BẠN
+      - heading "GIỎ HÀNG" [level=1] [ref=e43]
+      - paragraph [ref=e44]: Mỗi lựa chọn là một cách gửi trao sự quan tâm.
+      - navigation "Đường dẫn" [ref=e45]:
+        - link "Trang chủ" [ref=e46] [cursor=pointer]:
+          - /url: index.html
+        - generic [aria-hidden] [ref=e47]: /
+        - generic [ref=e48]: Giỏ hàng
+    - region "Giỏ hàng của bạn" [ref=e51]:
+      - generic [ref=e52]:
+        - heading "Chưa có sản phẩm nào trong giỏ hàng." [level=2] [ref=e55]
+        - paragraph [ref=e56]: Khám phá những lựa chọn được chăm chút dành cho bạn và người thân.
+        - link "QUAY TRỞ LẠI CỬA HÀNG" [ref=e57] [cursor=pointer]:
+          - /url: products.html
+  - contentinfo [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - link "ANestLand." [ref=e63] [cursor=pointer]:
+          - /url: index.html
+        - paragraph [ref=e67]: Tinh hoa yến Việt.Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.
+      - generic [ref=e68]:
+        - heading "Khám phá" [level=2] [ref=e69]
+        - link "Câu chuyện" [ref=e70] [cursor=pointer]:
+          - /url: about.html
+        - link "Sản phẩm" [ref=e71] [cursor=pointer]:
+          - /url: products.html
+        - link "Giá trị" [ref=e72] [cursor=pointer]:
+          - /url: values.html
+        - link "Blog" [ref=e73] [cursor=pointer]:
+          - /url: blog.html
+      - generic [ref=e74]:
+        - heading "Hỗ trợ" [level=2] [ref=e75]
+        - link "Liên hệ" [ref=e76] [cursor=pointer]:
+          - /url: contact.html
+        - button "Chính sách" [ref=e77] [cursor=pointer]
+        - button "Giao hàng" [ref=e78] [cursor=pointer]
+      - generic [ref=e79]:
+        - heading "Theo dõi" [level=2] [ref=e80]
+        - button "Facebook ↗" [ref=e81] [cursor=pointer]
+        - button "Instagram ↗" [ref=e82] [cursor=pointer]
+        - button "TikTok ↗" [ref=e83] [cursor=pointer]
+    - generic [ref=e84]:
+      - paragraph [ref=e85]: © 2026 ANestLand.
+      - generic [ref=e86]: ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN
+  - status
+  - navigation "Liên hệ nhanh ANestLand" [ref=e89]:
+    - link "Liên hệ qua Messenger" [ref=e90] [cursor=pointer]:
+      - /url: contact.html?channel=facebook
+    - link "Liên hệ qua Zalo" [ref=e94] [cursor=pointer]:
+      - /url: contact.html?channel=zalo
+      - img [aria-hidden] [ref=e95]:
+        - generic [ref=e97]: Zalo
+    - link "Gọi điện" [ref=e98] [cursor=pointer]:
+      - /url: contact.html?channel=phone
