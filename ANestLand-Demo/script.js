@@ -3028,10 +3028,16 @@ syncFavorites();
 // Shared static refraction map: only selection-panel background layers reference it.
 if (!document.getElementById('anestland-selection-refraction')) {
   const glassDefinitions = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  glassDefinitions.className = 'svg-library';
   glassDefinitions.setAttribute('aria-hidden', 'true');
   glassDefinitions.setAttribute('width', '0');
   glassDefinitions.setAttribute('height', '0');
   glassDefinitions.style.position = 'absolute';
+  glassDefinitions.style.top = '0';
+  glassDefinitions.style.left = '0';
+  glassDefinitions.style.width = '0';
+  glassDefinitions.style.height = '0';
+  glassDefinitions.style.overflow = 'hidden';
   glassDefinitions.style.pointerEvents = 'none';
   glassDefinitions.innerHTML = '<defs><filter id="anestland-selection-refraction" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency="0.001 0.005" numOctaves="1" seed="17" result="noise"/><feGaussianBlur in="noise" stdDeviation="3" result="softMap"/><feDisplacementMap in="SourceGraphic" in2="softMap" scale="28" xChannelSelector="R" yChannelSelector="G"/></filter></defs>';
   document.body.append(glassDefinitions);
