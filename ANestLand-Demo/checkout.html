@@ -6,7 +6,9 @@
   <meta name="description" content="Thông tin người nhận, sản phẩm đã chọn và hướng dẫn xác nhận đơn hàng cùng ANestLand.">
   <meta name="theme-color" content="#660b05">
   <title>Thanh Toán — ANestLand</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M5 18Q20 40 35 18M7 24Q20 40 33 24M20 18Q17 2 32 5Q30 18 20 18' fill='none' stroke='%23BF9F70' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/anestland-official-favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/anestland-official-favicon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/anestland-official-apple-touch.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +31,7 @@
   </defs></svg>
   <a class="skip-link" href="#main">Đến nội dung chính</a>
   <header class="site-header" id="header">
-    <a class="logo" href="index.html" aria-label="ANestLand, trang chủ"><svg><use href="#i-nest"/></svg><span>ANestLand<span class="logo-dot">.</span></span></a>
+    <a class="logo" href="index.html" aria-label="ANestLand, trang chủ"><img class="brand-logo" src="assets/icons/anestland-official-logo.png" width="500" height="500" alt="ANestLand"></a>
     <nav class="desktop-nav" aria-label="Điều hướng chính"><a href="index.html">TRANG CHỦ</a><a href="about.html">CÂU CHUYỆN</a><a href="products.html">SẢN PHẨM</a><a href="values.html">GIÁ TRỊ</a><a href="blog.html">BLOG</a><a href="contact.html">LIÊN HỆ</a></nav>
     <div class="header-tools"><div class="header-search">
       <button type="button" class="icon-button search-trigger" id="search-toggle" aria-label="Mở tìm kiếm" aria-expanded="false" aria-controls="search-panel"><svg><use href="#i-search"/></svg></button>
@@ -57,7 +59,7 @@
             <div class="form-full"><label for="checkout-ward">Phường / Xã *</label><input id="checkout-ward" name="ward" autocomplete="address-level3" maxlength="100" required placeholder="Phường / Xã" aria-describedby="checkout-ward-error"><p id="checkout-ward-error" class="checkout-field-error" hidden></p></div>
           </div></fieldset>
           <fieldset><legend>Ghi chú đơn hàng</legend><label class="sr-only" for="checkout-notes">Ghi chú đơn hàng</label><textarea id="checkout-notes" name="notes" maxlength="1000" rows="3" placeholder="Lời nhắn hoặc hướng dẫn giao hàng (tùy chọn)"></textarea></fieldset>
-          <fieldset class="checkout-payment"><legend>Phương thức thanh toán dự kiến</legend>
+          <fieldset class="checkout-payment"><legend class="sr-only">Phương thức thanh toán</legend><h2 class="checkout-payment-heading" aria-hidden="true">Phương thức thanh toán</h2>
             <label><input type="radio" name="payment" value="cod" checked><span>Trả tiền mặt khi nhận hàng</span></label>
             <label><input type="radio" name="payment" value="bank"><span>Chuyển khoản ngân hàng</span></label>
             <p>Phương thức thanh toán và phí giao hàng sẽ được ANestLand xác nhận trực tiếp. Không thực hiện thanh toán trên trang này.</p>
@@ -66,11 +68,11 @@
           <button class="button checkout-submit" type="submit">KIỂM TRA THÔNG TIN</button>
           <div id="checkout-confirmation" class="checkout-confirmation" role="status" tabindex="-1" hidden><p>Thông tin đã hợp lệ. Đơn hàng chưa được gửi. Vui lòng liên hệ ANestLand để xác nhận sản phẩm, giao hàng và thanh toán.</p><a href="tel:0853793535">085 379 3535</a><a href="contact.html">LIÊN HỆ ANESTLAND</a></div>
         </form>
-        <aside class="checkout-summary" aria-labelledby="checkout-summary-title"><p class="eyebrow">LỰA CHỌN CỦA BẠN</p><h2 id="checkout-summary-title">ĐƠN HÀNG CỦA BẠN</h2><div id="checkout-items"></div><dl class="checkout-totals"><div><dt>Tạm tính</dt><dd id="checkout-subtotal"></dd></div><div><dt>Phí giao hàng</dt><dd>Liên hệ để xác nhận</dd></div><div class="checkout-total"><dt>Tổng sản phẩm</dt><dd id="checkout-total"></dd></div></dl><p class="checkout-hint">Chưa bao gồm phí giao hàng. Tổng thanh toán được xác nhận trực tiếp.</p><a class="text-link" href="cart.html"><svg class="return-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 4 9l5 5M4 9h9a7 7 0 0 1 7 7v4"/></svg> QUAY LẠI GIỎ HÀNG</a></aside>
+        <aside class="checkout-summary" aria-labelledby="checkout-summary-title"><p class="eyebrow">LỰA CHỌN CỦA BẠN</p><h2 id="checkout-summary-title">ĐƠN HÀNG CỦA BẠN</h2><div id="checkout-items"></div><dl class="checkout-totals"><div><dt>Tạm tính</dt><dd id="checkout-subtotal"></dd></div><div><dt>Phí giao hàng</dt><dd>Liên hệ để xác nhận</dd></div><div class="checkout-total"><dt>Tổng sản phẩm</dt><dd id="checkout-total"></dd></div></dl><p class="checkout-hint">Chưa bao gồm phí giao hàng. Tổng thanh toán được xác nhận trực tiếp.</p><a class="text-link button-secondary" href="cart.html"><svg class="return-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 4 4 9l5 5M4 9h9a7 7 0 0 1 7 7v4"/></svg> QUAY LẠI GIỎ HÀNG</a></aside>
       </div>
     </section>
   </main>
-  <footer id="footer"><div class="container footer-grid"><div class="footer-brand"><a class="logo" href="index.html"><svg><use href="#i-nest"/></svg><span>ANestLand<span class="logo-dot">.</span></span></a><p>Tinh hoa yến Việt.<br>Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.</p></div><div><h2>Khám phá</h2><a href="about.html">Câu chuyện</a><a href="products.html">Sản phẩm</a><a href="values.html">Giá trị</a><a href="blog.html">Blog</a></div><div><h2>Hỗ trợ</h2><a href="contact.html">Liên hệ</a><button data-info="policy">Chính sách</button><button data-info="shipping">Giao hàng</button></div><div><h2>Theo dõi</h2><button data-info="social">Facebook</button><button data-info="social">Instagram</button><button data-info="social">TikTok</button></div></div><div class="container footer-bottom"><p>© 2026 ANestLand.</p><span>ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN <svg><use href="#i-leaf"/></svg></span></div></footer>
+  <footer id="footer"><div class="container footer-grid"><div class="footer-brand"><a class="logo" href="index.html"><img class="brand-logo" src="assets/icons/anestland-official-logo.png" width="500" height="500" alt="ANestLand"></a><p>Tinh hoa yến Việt.<br>Trọn vẹn một món quà từ thiên nhiên, gửi đến những người bạn yêu thương.</p></div><div><h2>Khám phá</h2><a href="about.html">Câu chuyện</a><a href="products.html">Sản phẩm</a><a href="values.html">Giá trị</a><a href="blog.html" data-i18n="footer.news">Tin tức</a></div><div><h2>Hỗ trợ</h2><a href="contact.html">Liên hệ</a><button data-info="policy">Chính sách</button><button data-info="shipping">Giao hàng</button></div><div><h2>Theo dõi</h2><button data-info="social">Facebook</button><button data-info="social">Instagram</button><button data-info="social">TikTok</button></div></div><div class="container footer-bottom"><p>© 2026 ANestLand.</p><div class="footer-credit-group"><span>ĐƯỢC CHĂM CHÚT TỪ THIÊN NHIÊN <svg><use href="#i-leaf"/></svg></span><span class="footer-credit">Sản phẩm được làm bởi Xuân Thiên</span></div></div></footer>
   
   <div class="toast" role="status" aria-live="polite"></div>
   <dialog id="content-dialog"><button class="dialog-close icon-button" aria-label="Đóng nội dung"><svg><use href="#i-close"/></svg></button><p class="eyebrow" id="dialog-label"></p><h2 id="dialog-title"></h2><div id="dialog-body"></div></dialog>

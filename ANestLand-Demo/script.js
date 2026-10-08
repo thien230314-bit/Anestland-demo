@@ -12,6 +12,7 @@ const mobileNav = document.querySelector('#mobile-nav');
 const toast = document.querySelector('.toast');
 function positionToastBelowHeader() {
   document.documentElement.style.setProperty('--toast-header-height', Math.max(0, header.getBoundingClientRect().bottom) + 'px');
+  utilityBar.style.setProperty('--language-header-height', header.offsetHeight + 'px');
 }
 positionToastBelowHeader();
 if ('ResizeObserver' in window) new ResizeObserver(positionToastBelowHeader).observe(header);
@@ -22,29 +23,33 @@ floatingContact.className = 'floating-contact';
 floatingContact.setAttribute('aria-label', 'Liên hệ nhanh ANestLand');
 floatingContact.innerHTML = '<a class="floating-contact-link contact-facebook" href="contact.html?channel=facebook" aria-label="Liên hệ qua Messenger"><img src="assets/icons/contact-messenger.svg" width="54" height="54" alt="" aria-hidden="true"><span>Messenger</span></a><a class="floating-contact-link contact-zalo" href="contact.html?channel=zalo" aria-label="Liên hệ qua Zalo"><img src="assets/icons/contact-zalo.svg" width="54" height="54" alt="" aria-hidden="true"><span>Zalo</span></a><a class="floating-contact-link contact-phone" href="contact.html?channel=phone" aria-label="Gọi điện"><img src="assets/icons/contact-phone.svg" width="54" height="54" alt="" aria-hidden="true"><span>Gọi điện</span></a>';
 document.body.append(floatingContact);
-// Keep fixed contact links from covering page controls, without moving page content.
-let contactClearanceFrame = 0;
-function updateContactClearance() {
-  contactClearanceFrame = 0;
-  const contacts = [...floatingContact.children].map(link => link.getBoundingClientRect());
-  const obstructed = [...document.querySelectorAll('main :is(a, button, input, select, textarea), footer :is(a, button, input, select, textarea)')].some(control => {
-    if (!control.getClientRects().length || getComputedStyle(control).visibility !== 'visible') return false;
-    const rect = control.getBoundingClientRect();
-    return contacts.some(contact => rect.left < contact.right && rect.right > contact.left && rect.top < contact.bottom && rect.bottom > contact.top);
-  });
-  floatingContact.classList.toggle('is-obstructing-controls', obstructed && !floatingContact.contains(document.activeElement));
+document.querySelector('.article-end-top')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth' }));
+// Only home waits for a scroll; reveal state belongs to this document visit.
+const contactsOnHome = /\/(?:index\.html)?$/.test(window.location.pathname);
+let contactsEntered = false;
+function revealContacts() {
+  if (contactsEntered || (contactsOnHome && window.scrollY < 24)) return;
+  contactsEntered = true;
+  floatingContact.classList.add('has-entered');
+  window.removeEventListener('scroll', revealContacts);
 }
-function scheduleContactClearance() {
-  if (!contactClearanceFrame) contactClearanceFrame = requestAnimationFrame(updateContactClearance);
+function syncContactMotion() {
+  floatingContact.classList.toggle('is-page-hidden', document.hidden);
+  revealContacts();
 }
-window.addEventListener('scroll', scheduleContactClearance, { passive: true });
-window.addEventListener('resize', scheduleContactClearance);
-window.addEventListener('anestland:languagechange', scheduleContactClearance);
-document.addEventListener('focusin', scheduleContactClearance);
-document.addEventListener('focusout', scheduleContactClearance);
-if ('ResizeObserver' in window) new ResizeObserver(scheduleContactClearance).observe(document.body);
-document.fonts.ready.then(scheduleContactClearance);
-scheduleContactClearance();
+window.addEventListener('scroll', revealContacts, { passive: true });
+window.addEventListener('pageshow', event => {
+  if (event.persisted && contactsOnHome) {
+    contactsEntered = false;
+    floatingContact.classList.remove('has-entered');
+    window.addEventListener('scroll', revealContacts, { passive: true });
+  } else revealContacts();
+});
+document.addEventListener('visibilitychange', syncContactMotion);
+reducedMotion.addEventListener('change', syncContactMotion);
+syncContactMotion();
+requestAnimationFrame(revealContacts);
+
 let toastTimer;
 function hideToast() {
   toast.classList.remove('visible');
@@ -70,7 +75,7 @@ function updateHeader() {
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
 // Desktop uses its navbar; narrow layouts use the popover with a separate account button.
-const narrowNavigation = window.matchMedia('(max-width: 1200px)');
+const narrowNavigation = window.matchMedia('(max-width: 1023px)');
 mobileNav.querySelector('.mobile-account-entry')?.remove();
 const menuPopover = document.createElement('div');
 menuPopover.className = 'navigation-popover'; menuPopover.hidden = true;
@@ -79,7 +84,7 @@ const accountAvatar = document.createElement('button');
 accountAvatar.type = 'button'; accountAvatar.id = 'account-avatar'; accountAvatar.className = 'account-avatar';
 accountAvatar.setAttribute('aria-controls','account-menu');
 accountAvatar.setAttribute('aria-haspopup','dialog'); accountAvatar.setAttribute('aria-expanded','false');
-accountAvatar.innerHTML = '<span class="account-avatar-surface"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="11" r="5"/><path d="M6 27v-3a10 10 0 0 1 20 0v3Z"/></svg></span>';
+accountAvatar.innerHTML = '<span class="account-avatar-surface"><img src="assets/icons/default-avatar.svg" width="38" height="38" alt="" aria-hidden="true"></span>';
 menuToggle.after(accountAvatar);
 const headerFavorite = document.createElement('button');
 headerFavorite.type = 'button'; headerFavorite.id = 'header-favorite'; headerFavorite.className = 'account-menu-item account-wishlist';
@@ -93,22 +98,22 @@ const accountMenu = document.createElement('section');
 accountMenu.id = 'account-menu'; accountMenu.className = 'account-menu'; accountMenu.hidden = true;
 accountMenu.setAttribute('role', 'dialog'); accountMenu.setAttribute('aria-modal', 'false');
 accountMenu.setAttribute('aria-labelledby', 'account-menu-title');
-accountMenu.innerHTML = '<h2 id="account-menu-title" class="sr-only" data-i18n="Tài khoản">Tài khoản</h2><button type="button" class="account-menu-item" data-account-action="login" data-i18n="Đăng nhập">Đăng nhập</button><button type="button" class="account-menu-item" data-account-action="register" data-i18n="Đăng ký">Đăng ký</button><button type="button" class="account-menu-item" data-account-action="account" data-i18n="Tài khoản" hidden>Tài khoản</button><button type="button" class="account-menu-item" data-account-action="logout" data-i18n="Đăng xuất" hidden>Đăng xuất</button><div id="account-language-slot"><p data-i18n="Ngôn ngữ">Ngôn ngữ</p></div>';
+accountMenu.innerHTML = '<h2 id="account-menu-title" class="sr-only" data-i18n="Tài khoản">Tài khoản</h2><button type="button" class="account-menu-item" data-account-action="login" data-i18n="Đăng nhập">Đăng nhập</button><button type="button" class="account-menu-item" data-account-action="register" data-i18n="Đăng ký">Đăng ký</button><button type="button" class="account-menu-item" data-account-action="account" data-i18n="Tài khoản" hidden>Tài khoản</button><button type="button" class="account-menu-item" data-account-action="logout" data-i18n="Đăng xuất" hidden>Đăng xuất</button>';
 accountMenu.append(headerFavorite); header.append(accountMenu);
-accountMenu.querySelector('#account-language-slot').append(document.querySelector('.language-selector'));
+utilityBar.append(document.querySelector('.language-selector'));
 const brandNavigation = document.createElement('div'); brandNavigation.className = 'header-brand-nav';
 const headerLogo = header.querySelector('.logo'); headerLogo.before(brandNavigation);
 brandNavigation.append(headerLogo, menuToggle);
 function closeAccountMenu(restoreFocus = false) {
   accountMenu.hidden = true; accountAvatar.setAttribute('aria-expanded', 'false');
-  document.querySelector('.language-options')?.setAttribute('hidden', '');
-  document.querySelector('.language-trigger')?.setAttribute('aria-expanded', 'false');
   if (restoreFocus) accountAvatar.focus({ preventScroll: true });
 }
 function openAccountMenu() {
   if (document.querySelector('dialog[open]')) return;
   closeMenu(); closeSearch(); closeMiniCart(); updateAccountAvatar();
+  closeHeaderLanguage();
   accountMenu.hidden = false; accountAvatar.setAttribute('aria-expanded', 'true');
+  positionAccountMenu();
   accountMenu.querySelector('button:not([hidden])').focus({ preventScroll: true });
 }
 accountAvatar.addEventListener('click', () => accountMenu.hidden ? openAccountMenu() : closeAccountMenu(true));
@@ -129,6 +134,25 @@ document.addEventListener('focusin', event => {
 });
 accountMenu.addEventListener('keydown', event => {
   if (event.key === 'Escape') { event.preventDefault(); closeAccountMenu(true); }
+});
+function closeHeaderLanguage() {
+  document.querySelector('.language-options')?.setAttribute('hidden', '');
+  document.querySelector('.language-trigger')?.setAttribute('aria-expanded', 'false');
+}
+function positionAccountMenu() {
+  if (accountMenu.hidden) return;
+  const bounds = header.getBoundingClientRect(), avatar = accountAvatar.getBoundingClientRect();
+  const width = accountMenu.offsetWidth;
+  const left = Math.max(8, Math.min(avatar.right - width, document.documentElement.clientWidth - width - 8));
+  accountMenu.style.left = (left - bounds.left) + 'px';
+  accountMenu.style.top = (avatar.bottom - bounds.top - header.clientTop + 8) + 'px';
+  accountMenu.style.setProperty('--account-caret-x', ((avatar.left + avatar.right) / 2 - left) + 'px');
+}
+new ResizeObserver(positionAccountMenu).observe(header);
+window.addEventListener('resize', positionAccountMenu);
+window.addEventListener('scroll', positionAccountMenu, { passive: true });
+document.querySelector('.language-trigger').addEventListener('click', () => {
+  closeAccountMenu(); closeMenu(); closeSearch(); closeMiniCart();
 });
 window.ANestI18n?.refresh(accountMenu);
 let menuAnimation;
@@ -191,8 +215,7 @@ menuPopover.addEventListener('focusout',event=>{if(!menuPopover.contains(event.r
 const currentPage = location.pathname.split('/').pop() || 'index.html';
 const backFallbacks = {
   'product-detail.html': 'products.html',
-  'blog-detail.html': 'blog.html',
-  'blog.html': 'index.html'
+  'blog-detail.html': 'blog.html'
 };
 if (backFallbacks[currentPage]) {
   const breadcrumb = document.querySelector('.breadcrumbs');
@@ -327,6 +350,29 @@ function setupEditorialMotion() {
   } catch { restore(); }
 }
 setupEditorialMotion();
+
+// Animate decorative birds independently without replacing their mirrored transforms.
+function setupBirdEntrance() {
+  if (reducedMotion.matches || !('IntersectionObserver' in window)) return;
+  const birds = document.querySelectorAll('.benefits .section-heading,.philosophy h2,.contact-info>h2,.pre-footer-bird');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('bird-entrance-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+  birds.forEach(bird => {
+    bird.classList.add('bird-entrance');
+    observer.observe(bird);
+  });
+  reducedMotion.addEventListener('change', event => {
+    if (!event.matches) return;
+    observer.disconnect();
+    birds.forEach(bird => bird.classList.add('bird-entrance-visible'));
+  });
+}
+setupBirdEntrance();
 function updateNavigation() {
   const page = currentPage === 'product-detail.html' ? 'products.html' : currentPage === 'blog-detail.html' ? 'blog.html' : currentPage;
   document.querySelectorAll('.desktop-nav a, .mobile-nav a').forEach(link => {
@@ -365,6 +411,16 @@ hotspotLayer.hidden = true;
 heroArt.removeAttribute('aria-hidden');
 [...heroArt.children].forEach(child => child.setAttribute('aria-hidden', 'true'));
 heroArt.append(hotspotLayer);
+let heroHintVisible = false;
+function updateHotspotPointer() {
+  hotspotLayer.classList.toggle('has-pointer-hint', heroHintVisible && !document.hidden && !reducedMotion.matches && !hotspotCardOpen && !hotspotLayer.hidden);
+}
+new IntersectionObserver(entries => {
+  heroHintVisible = entries[0].isIntersecting;
+  updateHotspotPointer();
+}, { threshold: 0 }).observe(hero);
+document.addEventListener('visibilitychange', updateHotspotPointer);
+reducedMotion.addEventListener('change', updateHotspotPointer);
 const hotspotCard = document.createElement('section');
 hotspotCard.className = 'hero-hotspot-info';
 hotspotCard.id = 'hero-hotspot-info';
@@ -469,6 +525,7 @@ function closeHotspot(restoreFocus = false) {
   if (!hotspotCardOpen) return;
   hotspotCardOpen = false;
   hotspotCard.hidden = true;
+  updateHotspotPointer();
   popupConnector.style.display = 'none';
   popupConnector.querySelector('path').removeAttribute('d');
   const endpoint = hotspotLayer.querySelector('button');
@@ -497,6 +554,7 @@ function openHotspot() {
   details.textContent = 'XEM CHI TIẾT';
   window.ANestI18n?.refresh(hotspotCard);
   hotspotCardOpen = true;
+  updateHotspotPointer();
   hotspotCard.hidden = false;
   positionHotspotCard();
   if (!reducedMotion.matches && popupConnector.style.display !== 'none') {
@@ -511,14 +569,16 @@ function openHotspot() {
 async function activateHotspots() {
   const version = ++hotspotVersion;
   hotspotLayer.hidden = true;
+  updateHotspotPointer();
   try { await heroProduct.decode(); } catch { return; }
   // Let the EXISTING image entrance/transform finish; never animate the image here.
   await Promise.allSettled(heroProduct.getAnimations().map(animation => animation.finished));
   if (version !== hotspotVersion) return;
   const config = heroHotspots[currentSlide];
-  hotspotLayer.innerHTML = `<svg viewBox="0 0 ${config.size} ${config.size}" aria-hidden="true">${config.paths.map((path,i) => `<path d="${path}" pathLength="1" style="--draw-delay:${i===3?'.65s':'.15s'}"/>`).join('')}${config.points.map(([x,y]) => `<g class="hero-hotspot-source"><circle class="hero-hotspot-ring" cx="${x}" cy="${y}" r="16"/><circle cx="${x}" cy="${y}" r="8"/></g>`).join('')}</svg><button type="button" class="hero-hotspot-endpoint" aria-label="${config.label}" aria-controls="hero-hotspot-info" aria-expanded="false" style="--endpoint-delay:${currentSlide===1?'1.1s':'.75s'}"><span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></span></button>`;
+  hotspotLayer.innerHTML = `<svg viewBox="0 0 ${config.size} ${config.size}" aria-hidden="true">${config.paths.map((path,i) => `<path d="${path}" pathLength="1" style="--draw-delay:${i===3?'.65s':'.15s'}"/>`).join('')}${config.points.map(([x,y]) => `<g class="hero-hotspot-source"><circle class="hero-hotspot-ring" cx="${x}" cy="${y}" r="16"/><circle cx="${x}" cy="${y}" r="8"/></g>`).join('')}</svg><button type="button" class="hero-hotspot-endpoint" aria-label="${config.label}" aria-controls="hero-hotspot-info" aria-expanded="false" style="--endpoint-delay:${currentSlide===1?'1.1s':'.75s'}"><span aria-hidden="true"></span><img class="hero-hotspot-pointer" src="assets/icons/hotspot-finger.svg" width="26" height="32" alt="" aria-hidden="true"></button>`;
   placeHotspots();
   hotspotLayer.hidden = false;
+  updateHotspotPointer();
   window.ANestI18n?.refresh(hotspotLayer);
   hotspotLayer.querySelector('button').addEventListener('click', openHotspot);
 }
@@ -538,6 +598,7 @@ function setSlide(index) {
   closeHotspot();
   ++hotspotVersion;
   hotspotLayer.hidden = true;
+  updateHotspotPointer();
   currentSlide = index;
   slides.forEach((slide, i) => {
     const active = i === index;
@@ -585,6 +646,165 @@ document.addEventListener('visibilitychange', startSlider);
 updatePauseButton();
 startSlider();
 activateHotspots();
+}
+
+// Process and Brand Showcases: 10s autoplay with manual reset, offscreen pause, and multilingual sync.
+function setupCraftShowcase(sectionSelector, stages, customOptions = {}) {
+  const section = document.querySelector(sectionSelector);
+  const visual = section?.querySelector('.craft-visual, .about-journey-visual, .values-showcase-media');
+  if (!section || !visual) return;
+  const image = visual.querySelector('img');
+  const caption = visual.querySelector('.craft-note');
+  const controls = [...section.querySelectorAll('[data-process-step]')];
+  if (!image || !controls.length) return;
+
+  const prepared = stages.map(stage => {
+    const preload = new Image();
+    preload.src = stage.src;
+    return preload.decode().then(() => true, () => false);
+  });
+  let selected = 0;
+  let requested = 0;
+  let revision = 0;
+  let transition;
+  let autoplayTimer = null;
+  let isSectionVisible = false;
+
+  function stopAutoplay() {
+    if (autoplayTimer !== null) {
+      clearTimeout(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function scheduleAutoplay() {
+    stopAutoplay();
+    if (reducedMotion.matches || !isSectionVisible || document.hidden) return;
+    autoplayTimer = setTimeout(() => {
+      const nextIndex = (selected + 1) % stages.length;
+      selectStage(nextIndex);
+    }, 10000);
+  }
+
+  async function selectStage(index) {
+    if (index === selected && index === requested) {
+      scheduleAutoplay();
+      return;
+    }
+    requested = index;
+    const current = ++revision;
+    transition?.cancel();
+    visual.setAttribute('aria-busy', 'true');
+    const ready = await prepared[index];
+    if (current !== revision) return;
+    if (!ready) {
+      requested = selected;
+      visual.removeAttribute('aria-busy');
+      scheduleAutoplay();
+      return;
+    }
+    try {
+      if (!reducedMotion.matches) {
+        transition = image.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: 'ease-in-out', fill: 'forwards' });
+        await transition.finished;
+      }
+      if (current !== revision) return;
+      const stage = stages[index];
+      image.src = stage.src;
+      image.alt = window.ANestI18n?.text(stage.alt) || stage.alt;
+      if (caption) caption.textContent = window.ANestI18n?.text(stage.caption) || stage.caption;
+      controls.forEach((control, i) => {
+        const isMatch = i === index;
+        if (control.hasAttribute('aria-pressed')) control.setAttribute('aria-pressed', String(isMatch));
+        if (control.hasAttribute('aria-selected')) control.setAttribute('aria-selected', String(isMatch));
+      });
+      selected = index;
+      transition?.cancel();
+      if (!reducedMotion.matches) {
+        transition = image.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: 'ease-in-out' });
+        await transition.finished;
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') throw error;
+    } finally {
+      if (current === revision) {
+        visual.removeAttribute('aria-busy');
+        scheduleAutoplay();
+      }
+    }
+  }
+
+  controls.forEach((control, index) => {
+    control.addEventListener('click', () => {
+      selectStage(index);
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        isSectionVisible = entry.isIntersecting;
+        if (isSectionVisible) {
+          scheduleAutoplay();
+        } else {
+          stopAutoplay();
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(section);
+  } else {
+    isSectionVisible = true;
+    scheduleAutoplay();
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+    } else if (isSectionVisible) {
+      scheduleAutoplay();
+    }
+  });
+
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) {
+      stopAutoplay();
+      if (transition?.playState === 'running') transition.finish();
+    } else if (isSectionVisible && !document.hidden) {
+      scheduleAutoplay();
+    }
+  });
+
+  window.addEventListener('anestland:languagechange', () => {
+    const stage = stages[selected];
+    if (stage) {
+      image.alt = window.ANestI18n?.text(stage.alt) || stage.alt;
+      if (caption) caption.textContent = window.ANestI18n?.text(stage.caption) || stage.caption;
+    }
+  });
+}
+
+// 1. Homepage Craft Showcase
+if (currentPage === 'index.html') {
+  setupCraftShowcase('#craft', [
+    { src: 'assets/images/process-selection.png', alt: 'Đôi bàn tay kiểm tra tổ yến thô trên khay tre', caption: 'Chọn những tổ yến nguyên vẹn.' },
+    { src: 'assets/images/craftsmanship.jpg', alt: 'Đôi bàn tay tỉ mỉ làm sạch tổ yến bằng nhíp trên khay tre', caption: 'Tỉ mỉ từ những điều nhỏ nhất.' },
+    { src: 'assets/images/gift-box.jpg', alt: 'Hộp quà yến sào được trình bày trang nhã', caption: 'Chăm chút đến khi trao tay.' }
+  ]);
+}
+
+if (currentPage === 'about.html') {
+  setupCraftShowcase('#craft', [
+    { src: 'assets/images/refined-nest.jpg', alt: 'Những tổ yến tinh chế màu ngà', caption: 'Khởi đầu từ sự trân trọng.' },
+    { src: 'assets/images/wellness-bowl.jpg', alt: 'Chén yến chưng táo đỏ bên khăn linen', caption: 'Chăm chút một khoảnh khắc mỗi ngày.' },
+    { src: 'assets/images/value-family-ai.jpg', alt: 'Chén yến cho khoảnh khắc chăm sóc gia đình', caption: 'Món quà nối những yêu thương.' }
+  ]);
+}
+if (currentPage === 'values.html') {
+  setupCraftShowcase('#craft', [
+    { src: 'assets/images/value-selection-ai.jpg', alt: 'Tổ yến thô được tuyển chọn', caption: 'Chọn kỹ để an tâm.' },
+    { src: 'assets/images/lotus-jar.jpg', alt: 'Hũ yến chưng hạt sen', caption: 'Giữ nét thanh nhẹ tự nhiên.' },
+    { src: 'assets/images/value-gift-ai.jpg', alt: 'Hộp quà yến sào trình bày trang nhã', caption: 'Tinh tế trong cách trao tặng.' }
+  ]);
 }
 
 // This client-side flag controls presentation only, not server authentication.
@@ -705,9 +925,17 @@ function pausePlaceholder() {
   clearTimeout(placeholderTimer);
   searchInput.placeholder = translate('Tìm sản phẩm...');
 }
+function startPlaceholder() {
+  pausePlaceholder();
+  placeholderLength = 0;
+  placeholderDeleting = false;
+  if (headerSearch.classList.contains('is-open') && !searchInput.value && !document.hidden && !reducedMotion.matches) {
+    placeholderTimer = setTimeout(cyclePlaceholder, 500);
+  }
+}
 function cyclePlaceholder() {
   clearTimeout(placeholderTimer);
-  if (reducedMotion.matches || document.hidden || searchInput.value || !searchPanel.hidden || !searchInput.getBoundingClientRect().width) {
+  if (reducedMotion.matches || document.hidden || searchInput.value || !headerSearch.classList.contains('is-open') || !searchInput.getBoundingClientRect().width) {
     searchInput.placeholder = translate('Tìm sản phẩm...');
     return;
   }
@@ -725,14 +953,20 @@ function cyclePlaceholder() {
 }
 function openSearch(focusInput = true) {
   closeAccountMenu();
+  closeHeaderLanguage();
   closeMenu(); closeMiniCart();
   pausePlaceholder();
   headerSearch.classList.add('is-open');
+  positionSearch();
   searchPanel.hidden = false;
   searchInput.setAttribute('aria-expanded', 'true');
   searchToggle.setAttribute('aria-expanded', 'true');
   renderSearch();
-  if (focusInput) searchInput.focus({ preventScroll: true });
+  startPlaceholder();
+  if (focusInput) requestAnimationFrame(() => {
+    // Let the opening visibility state apply before focusing the animated field.
+    if (headerSearch.classList.contains('is-open')) searchInput.focus({ preventScroll: true });
+  });
 }
 function closeSearch(restoreFocus = false) {
   searchPanel.hidden = true;
@@ -740,20 +974,43 @@ function closeSearch(restoreFocus = false) {
   searchInput.setAttribute('aria-expanded', 'false');
   searchToggle.setAttribute('aria-expanded', 'false');
   if (restoreFocus) {
-    const mobile = getComputedStyle(searchToggle).display !== 'none';
-    (mobile ? searchToggle : headerSearch.querySelector('.search-submit')).focus({ preventScroll: true });
+    searchToggle.focus({ preventScroll: true });
   }
-  placeholderTimer = setTimeout(cyclePlaceholder, 1200);
+  pausePlaceholder();
 }
 searchToggle.addEventListener('click', () => searchPanel.hidden ? openSearch() : closeSearch(true));
+// Expand into genuine desktop whitespace; use an anchored panel when that space is too small.
+function positionSearch() {
+  const nav = header.querySelector('.desktop-nav');
+  const available = searchToggle.getBoundingClientRect().right - nav.getBoundingClientRect().right - 20;
+  const inline = !narrowNavigation.matches && available >= 200;
+  headerSearch.classList.toggle('is-inline', inline);
+  headerSearch.style.setProperty('--search-width', (inline ? Math.min(340, available) : 360) + 'px');
+}
+new ResizeObserver(positionSearch).observe(header);
+window.addEventListener('resize', positionSearch);
 searchInput.addEventListener('focus', () => openSearch(false));
 searchInput.addEventListener('click', () => { if (searchPanel.hidden) openSearch(false); });
-searchInput.addEventListener('input', () => { pausePlaceholder(); renderSearch(); });
+searchInput.addEventListener('input', () => { startPlaceholder(); renderSearch(); });
 headerSearch.querySelector('.search-close').addEventListener('click', () => closeSearch(true));
 headerSearch.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !searchPanel.hidden) {
     event.preventDefault();
     closeSearch(true);
+  }
+  if (!searchPanel.hidden && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
+    const results = [...searchPanel.querySelectorAll('.search-result')];
+    if (!results.length) return;
+    event.preventDefault();
+    const current = results.indexOf(document.activeElement);
+    const next = current < 0 ? (event.key === 'ArrowDown' ? 0 : results.length - 1)
+      : (current + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
+    results[next].focus({ preventScroll: true });
+    const row = results[next], list = document.querySelector('#search-results');
+    // Scroll only the result list, never the document containing the sticky header.
+    const rowBounds = row.getBoundingClientRect(), listBounds = list.getBoundingClientRect();
+    if (rowBounds.top < listBounds.top) list.scrollTop -= listBounds.top - rowBounds.top;
+    else if (rowBounds.bottom > listBounds.bottom) list.scrollTop += rowBounds.bottom - listBounds.bottom;
   }
 });
 document.addEventListener('pointerdown', event => {
@@ -764,11 +1021,7 @@ document.addEventListener('focusin', event => {
 });
 document.addEventListener('visibilitychange', () => document.hidden ? pausePlaceholder() : cyclePlaceholder());
 reducedMotion.addEventListener('change', () => reducedMotion.matches ? pausePlaceholder() : cyclePlaceholder());
-window.addEventListener('resize', () => {
-  clearTimeout(placeholderTimer);
-  placeholderTimer = setTimeout(cyclePlaceholder, 1200);
-});
-placeholderTimer = setTimeout(cyclePlaceholder, 1200);
+window.addEventListener('resize', startPlaceholder);
 document.querySelector('#search-form').addEventListener('submit', event => {
   event.preventDefault();
   const query = document.querySelector('#search-input').value.trim();
@@ -1182,12 +1435,20 @@ miniCartTrigger.setAttribute('aria-controls', miniCart.id);
 miniCartTrigger.setAttribute('aria-expanded', 'false');
 miniCartTrigger.setAttribute('aria-haspopup', 'dialog');
 function positionMiniCart() {
-  const bottom = Math.max(0, header.getBoundingClientRect().bottom);
-  miniCart.style.setProperty('--mini-cart-top', Math.min(bottom + 8, Math.max(8, innerHeight - 220)) + 'px');
   const viewportWidth = document.documentElement.clientWidth;
   const popupWidth = Math.min(390, viewportWidth - 24);
-  const right = innerWidth <= 600 ? 12 : Math.max(12, Math.min(viewportWidth - popupWidth - 12, viewportWidth - miniCartTrigger.getBoundingClientRect().right));
-  miniCart.style.right = right + 'px';
+  const trigger = miniCartTrigger.getBoundingClientRect();
+  const left = Math.max(12, Math.min(viewportWidth - popupWidth - 12, trigger.right - popupWidth + 12));
+  miniCart.style.left = left + 'px';
+  miniCart.style.right = 'auto';
+  miniCart.style.setProperty('--mini-cart-top', Math.max(8, trigger.bottom + 10) + 'px');
+  miniCart.style.setProperty('--mini-cart-caret', Math.max(16, Math.min(popupWidth - 16, trigger.left + trigger.width / 2 - left)) + 'px');
+  if (!miniCart.hidden && innerWidth <= 600 && document.querySelector('.cart-undo-toast')) {
+    const reserve = document.body.classList.contains('news-detail-page') ? 252 : 192;
+    const available = innerHeight - trigger.bottom - 10 - reserve;
+    const minimum = miniCart.querySelector('.mini-cart-heading').scrollHeight + miniCart.querySelector('.mini-cart-summary').scrollHeight + 112;
+    if (available < minimum) closeMiniCart(true);
+  }
 }
 function closeMiniCart(restoreFocus = false) {
   miniCart.hidden = true;
@@ -1197,11 +1458,13 @@ function closeMiniCart(restoreFocus = false) {
 function openMiniCart(focus = false) {
   if (document.querySelector('dialog[open]')) return;
   closeAccountMenu();
+  closeHeaderLanguage();
   closeMenu();
   closeSearch();
   renderMiniCart();
-  positionMiniCart();
   miniCart.hidden = false;
+  positionMiniCart();
+  if (miniCart.hidden) return;
   miniCartTrigger.setAttribute('aria-expanded', 'true');
   if (focus) miniCart.querySelector('.mini-cart-close').focus({ preventScroll: true });
 }
@@ -1216,7 +1479,7 @@ function renderMiniCart() {
     const row = document.createElement('article');
     row.className = 'mini-cart-item';
     row.dataset.cartId = item.id;
-    row.innerHTML = '<a class="mini-cart-image"><img width="56" height="56" alt=""></a><div class="mini-cart-copy"><a class="mini-cart-name"></a><p class="mini-cart-prices"><span class="mini-cart-unit" title="Đơn giá"></span><span aria-hidden="true">·</span><strong class="mini-cart-item-total" title="Thành tiền"></strong></p><div class="mini-cart-quantity-controls"><button type="button" class="mini-cart-decrement">−</button><span class="mini-cart-quantity"></span><button type="button" class="mini-cart-increment">+</button><button type="button" class="mini-cart-remove">×</button></div></div>';
+    row.innerHTML = '<a class="mini-cart-image"><img width="56" height="56" alt=""></a><div class="mini-cart-copy"><a class="mini-cart-name"></a><p class="mini-cart-unit-label"></p><p class="mini-cart-prices"><span class="mini-cart-factor"><span class="mini-cart-unit"></span> × <span class="mini-cart-formula-quantity"></span></span><span class="mini-cart-result">= <strong class="mini-cart-item-total" title="Thành tiền"></strong></span></p><div class="mini-cart-quantity-controls"><button type="button" class="mini-cart-decrement">−</button><span class="mini-cart-quantity"></span><button type="button" class="mini-cart-increment">+</button><button type="button" class="mini-cart-remove">×</button></div></div>';
     row.querySelectorAll('a').forEach(link => { link.href = 'product-detail.html?product=' + item.id; });
     row.querySelector('.mini-cart-image').setAttribute('aria-label', 'Xem chi tiết ' + item.name);
     row.querySelector('img').src = item.image;
@@ -1226,6 +1489,9 @@ function renderMiniCart() {
     const quantity = row.querySelector('.mini-cart-quantity');
     quantity.dataset.quantity = item.quantity;
     quantity.textContent = new Intl.NumberFormat(document.documentElement.lang).format(item.quantity);
+    row.querySelector('.mini-cart-formula-quantity').textContent = quantity.textContent;
+    row.querySelector('.mini-cart-formula-quantity').dataset.quantity = item.quantity;
+    displayPrice(row.querySelector('.mini-cart-unit-label'), item.price, 'Đơn giá');
     displayPrice(row.querySelector('.mini-cart-unit'), item.price);
     displayPrice(row.querySelector('.mini-cart-item-total'), item.price * item.quantity);
     const decrement = row.querySelector('.mini-cart-decrement');
@@ -1240,6 +1506,7 @@ function renderMiniCart() {
   displayPrice(miniCart.querySelector('[data-mini-cart-total]'), cart.reduce((sum, item) => sum + item.quantity * item.price, 0));
   window.ANestI18n?.refresh(miniCart);
   list.scrollTop = scrollTop;
+  syncPendingCartRemoval();
 }
 miniCartTrigger.addEventListener('click', event => {
   if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -1250,7 +1517,7 @@ miniCartTrigger.addEventListener('click', event => {
 miniCart.querySelector('.mini-cart-close').addEventListener('click', () => closeMiniCart(true));
 miniCart.querySelector('.mini-cart-view').addEventListener('click', () => closeMiniCart());
 miniCart.querySelector('.mini-cart-checkout').addEventListener('click', () => {
-  if (readCart().length) location.href = 'checkout.html';
+  if (!pendingCartRemovals.size && readCart().length) location.href = 'checkout.html';
 });
 miniCart.addEventListener('click', event => {
   const button = event.target.closest('.mini-cart-remove,.mini-cart-decrement,.mini-cart-increment');
@@ -1259,7 +1526,7 @@ miniCart.addEventListener('click', event => {
   const index = [...row.parentElement.children].indexOf(row);
   const next = readCart();
   const item = next.find(item => item.id === row.dataset.cartId);
-  if (!item) return;
+  if (!item || pendingCartRemovals.has(item.id)) return;
   if (!button.classList.contains('mini-cart-remove')) {
     const decreasing = button.classList.contains('mini-cart-decrement');
     if (decreasing ? item.quantity <= 1 : item.quantity >= maxCartQuantity) return;
@@ -1270,9 +1537,9 @@ miniCart.addEventListener('click', event => {
     (updatedRow.querySelector(decreasing ? '.mini-cart-decrement:not(:disabled)' : '.mini-cart-increment:not(:disabled)') || updatedRow.querySelector('.mini-cart-name')).focus({ preventScroll: true });
     return;
   }
-  if (!saveCart(next.filter(product => product.id !== item.id))) return;
-  miniCartStatus.textContent = translate(item.name + ' đã được xóa khỏi giỏ hàng.');
-  const buttons = miniCart.querySelectorAll('.mini-cart-remove');
+  const removalOrigin = row.querySelector('img').getBoundingClientRect();
+  if (!removeCartWithFlight(item, next, removalOrigin)) return;
+  const buttons = miniCart.querySelectorAll('[data-cart-id]:not([inert]) .mini-cart-remove');
   (buttons[Math.min(index, buttons.length - 1)] || miniCart.querySelector('.mini-cart-close')).focus({ preventScroll: true });
 });
 document.addEventListener('pointerdown', event => {
@@ -1290,6 +1557,181 @@ document.addEventListener('focusin', event => {
 window.addEventListener('resize', () => { if (!miniCart.hidden) positionMiniCart(); });
 window.addEventListener('scroll', () => { if (!miniCart.hidden) positionMiniCart(); }, { passive: true });
 if ('ResizeObserver' in window) new ResizeObserver(() => { if (!miniCart.hidden) positionMiniCart(); }).observe(header);
+// Transient removals share the existing cart store; each deadline is independent.
+const cartUndoOperations = new Map();
+const pendingCartRemovals = new Map();
+const cartFlightCompletions = new Set();
+window.addEventListener('pagehide', () => { [...cartFlightCompletions].forEach(finish => finish()); });
+let cartUndoSequence = 0;
+let cartUndoTimer;
+let cartUndoOrder = [];
+const cartUndoRegion = document.createElement('section');
+cartUndoRegion.className = 'cart-undo-region';
+cartUndoRegion.setAttribute('aria-label', 'Hoàn tác xóa sản phẩm');
+document.body.append(cartUndoRegion);
+function finishCartUndo(operation) {
+  const focused = operation.toast.contains(document.activeElement);
+  operation.toast.remove();
+  cartUndoOperations.delete(operation.id);
+  if (!cartUndoOperations.size) {
+    clearInterval(cartUndoTimer);
+    cartUndoTimer = undefined;
+    cartUndoOrder = [];
+  }
+  if (focused) miniCartTrigger.focus({ preventScroll: true });
+}
+function tickCartUndo() {
+  const now = Date.now();
+  cartUndoOperations.forEach(operation => {
+    if (operation.state !== 'ready') return;
+    if (now >= operation.expiresAt) { finishCartUndo(operation); return; }
+    const label = translate(Math.ceil((operation.expiresAt - now) / 1000) + 's');
+    if (operation.countdown.textContent !== label) operation.countdown.textContent = label;
+  });
+}
+function animateCartTransfer(item, from, to, restoring, complete) {
+  if (reducedMotion.matches || document.hidden || !from?.width || !to?.width) { complete(); return; }
+  const ghost = document.createElement('img');
+  ghost.src = item.image;
+  ghost.alt = '';
+  ghost.setAttribute('aria-hidden', 'true');
+  ghost.className = 'cart-fly-image cart-transfer-image';
+  const size = Math.min(64, Math.max(40, from.width));
+  const left = Math.max(0, Math.min(innerWidth - size, from.left + (from.width - size) / 2));
+  const top = from.top + (from.height - size) / 2;
+  Object.assign(ghost.style, { left: left + 'px', top: top + 'px', width: size + 'px', height: size + 'px' });
+  document.body.append(ghost);
+  const dx = to.left + to.width / 2 - left - size / 2;
+  const dy = to.top + to.height / 2 - top - size / 2;
+  const animation = ghost.animate([
+    { transform: 'translate(0,0) scale(' + (restoring ? '.55' : '1') + ')', opacity: 1 },
+    { transform: `translate(${dx * .5}px,${dy * .5 - 60}px) scale(.8)`, opacity: 1, offset: .5 },
+    { transform: `translate(${dx}px,${dy}px) scale(.25)`, opacity: .2 }
+  ], { duration: 800, easing: 'cubic-bezier(.3,.05,.35,1)', fill: 'forwards' });
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(fallback);
+    cartFlightCompletions.delete(finish);
+    window.removeEventListener('resize', finish);
+    window.removeEventListener('scroll', finish);
+    reducedMotion.removeEventListener('change', motionChange);
+    document.removeEventListener('visibilitychange', visibilityChange);
+    animation.cancel();
+    ghost.remove();
+    complete();
+  };
+  const motionChange = () => { if (reducedMotion.matches) finish(); };
+  const visibilityChange = () => { if (document.hidden) finish(); };
+  const fallback = setTimeout(finish, 1200);
+  cartFlightCompletions.add(finish);
+  window.addEventListener('resize', finish, { once: true });
+  window.addEventListener('scroll', finish, { once: true, passive: true });
+  reducedMotion.addEventListener('change', motionChange);
+  document.addEventListener('visibilitychange', visibilityChange);
+  animation.finished.then(finish, finish);
+}
+function syncPendingCartRemoval() {
+  document.querySelectorAll('[data-cart-id]').forEach(row => {
+    const pending = pendingCartRemovals.has(row.dataset.cartId);
+    row.toggleAttribute('inert', pending);
+    row.toggleAttribute('data-removing', pending);
+    row.setAttribute('aria-busy', String(pending));
+  });
+  document.querySelectorAll('.mini-cart-checkout,#cart-checkout,.checkout-submit').forEach(button => { button.disabled = !!pendingCartRemovals.size || !cart.length; });
+}
+function removeCartWithFlight(item, originalCart, origin) {
+  if (pendingCartRemovals.has(item.id)) return false;
+  pendingCartRemovals.set(item.id, item);
+  syncPendingCartRemoval();
+  offerCartUndo(item, originalCart, origin);
+  return true;
+}
+function offerCartUndo(item, originalCart, removalOrigin) {
+  originalCart.forEach(product => { if (!cartUndoOrder.includes(product.id)) cartUndoOrder.push(product.id); });
+  const operation = { id: ++cartUndoSequence, item: { ...item }, state: 'removing' };
+  const toast = document.createElement('div');
+  toast.className = 'cart-undo-toast';
+  toast.style.visibility = 'hidden';
+  toast.dataset.undoId = operation.id;
+  const message = document.createElement('p');
+  message.id = 'cart-undo-message-' + operation.id;
+  message.setAttribute('role', 'status');
+  message.textContent = 'Đã xóa ' + item.name;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = 'HOÀN TÁC';
+  button.disabled = true;
+  button.setAttribute('aria-describedby', message.id);
+  const countdown = document.createElement('span');
+  countdown.className = 'cart-undo-countdown';
+  countdown.setAttribute('aria-hidden', 'true');
+  countdown.textContent = translate('5s');
+  toast.append(message, button, countdown);
+  operation.toast = toast;
+  operation.countdown = countdown;
+  cartUndoOperations.set(operation.id, operation);
+  cartUndoRegion.append(toast);
+  window.ANestI18n?.refresh(toast);
+  cartUndoRegion.scrollTop = cartUndoRegion.scrollHeight;
+  const destination = toast.getBoundingClientRect();
+  animateCartTransfer(item, removalOrigin, destination, false, () => {
+    const focusInRow = !!document.activeElement?.closest('[data-cart-id]');
+    pendingCartRemovals.delete(item.id);
+    const next = readCart();
+    const current = next.find(product => product.id === item.id);
+    if (current) current.quantity -= item.quantity;
+    if (!saveCart(next.filter(product => product.quantity > 0))) {
+      syncPendingCartRemoval();
+      finishCartUndo(operation);
+      return;
+    }
+    operation.state = 'ready';
+    miniCartStatus.textContent = translate(item.name + ' đã được xóa khỏi giỏ hàng.');
+    operation.expiresAt = Date.now() + 5000;
+    toast.style.visibility = '';
+    button.disabled = false;
+    if (focusInRow) {
+      const target = !miniCart.hidden ? miniCart.querySelector('[data-cart-id]:not([inert]) .mini-cart-remove') || miniCart.querySelector('.mini-cart-close')
+        : cartList?.querySelector('[data-cart-id]:not([inert]) .cart-remove') || document.querySelector('#cart-empty .button') || miniCartTrigger;
+      target.focus({ preventScroll: true });
+    }
+    tickCartUndo();
+    if (!cartUndoTimer) cartUndoTimer = setInterval(tickCartUndo, 200);
+    requestAnimationFrame(positionMiniCart);
+  });
+  button.addEventListener('click', () => {
+    if (operation.state !== 'ready' || !cartUndoOperations.has(operation.id)) return;
+    if (Date.now() >= operation.expiresAt) { finishCartUndo(operation); return; }
+    operation.state = 'restoring';
+    button.disabled = true;
+    countdown.textContent = '';
+    const origin = toast.getBoundingClientRect();
+    animateCartTransfer(item, origin, miniCartTrigger.getBoundingClientRect(), true, () => {
+      const next = readCart();
+      const existing = next.find(product => product.id === operation.item.id);
+      if (existing) existing.quantity = Math.min(maxCartQuantity, existing.quantity + operation.item.quantity);
+      else {
+        const rank = cartUndoOrder.indexOf(operation.item.id);
+        const after = next.findIndex(product => cartUndoOrder.indexOf(product.id) < 0 || cartUndoOrder.indexOf(product.id) > rank);
+        next.splice(after < 0 ? next.length : after, 0, { ...operation.item });
+      }
+      if (saveCart(next)) { popCartBadge(); finishCartUndo(operation); }
+      else {
+        operation.state = 'ready';
+        operation.expiresAt = Date.now() + 5000;
+        button.disabled = false;
+        tickCartUndo();
+      }
+    });
+  });
+}
+window.addEventListener('anestland:languagechange', () => {
+  tickCartUndo();
+  if (!miniCart.hidden) positionMiniCart();
+});
+document.addEventListener('visibilitychange', tickCartUndo);
 function updateCartBadge() {
   const pending = [...pendingCartAdditions.values()].reduce((sum, amount) => sum + amount, 0);
   const count = Math.max(0, cart.reduce((sum, item) => sum + item.quantity, 0) - pending);
@@ -1307,9 +1749,11 @@ function saveCart(next) {
   renderCart();
   renderMiniCart();
   renderCheckout();
+  syncPendingCartRemoval();
   return true;
 }
 function addToCart(id, quantity = 1, button) {
+  if (pendingCartRemovals.has(id)) return;
   const product = catalog.find(product => product.id === id);
   if (!product) return;
   const amount = Math.max(1, Math.min(maxCartQuantity, Math.trunc(Number(quantity)) || 1));
@@ -1492,6 +1936,7 @@ if (checkoutForm) {
   });
   checkoutForm.addEventListener('submit',event=>{
     event.preventDefault();
+    if (pendingCartRemovals.size) return;
     confirmation.hidden=true;
     cart=readCart();
     if (!cart.length) { renderCheckout(); return; }
@@ -1521,14 +1966,16 @@ if (checkoutForm) {
   });
 }
 function changeCartItem(id, action, value) {
+  if (pendingCartRemovals.has(id)) return false;
   const next = readCart();
+  const originalCart = next.map(product => ({ ...product }));
+  const removalOrigin = [...cartList.children].find(row => row.dataset.cartId === id)?.querySelector('img')?.getBoundingClientRect();
   const item = next.find(item => item.id === id);
   if (!item) return;
-  if (action === 'remove') next.splice(next.indexOf(item), 1);
+  if (action === 'remove') return removeCartWithFlight(item, originalCart, removalOrigin);
   else item.quantity = Math.max(1, Math.min(maxCartQuantity, action === 'plus' ? item.quantity + 1 : action === 'minus' ? item.quantity - 1 : Math.trunc(Number(value)) || 1));
   if (!saveCart(next)) return;
   document.querySelector('#cart-status').textContent = action === 'remove' ? '' : 'Đã cập nhật số lượng ' + item.name + '.';
-  if (action === 'remove') notify(item.name + ' đã được xóa khỏi giỏ hàng.');
   const row = [...cartList.children].find(row => row.dataset.cartId === id);
   const focusTarget = action === 'set' ? row?.querySelector('input') : row?.querySelector('[data-cart-action="' + action + '"]:not(:disabled)');
   (focusTarget || row?.querySelector('input') || cartList.querySelector('.cart-remove') || document.querySelector('#cart-empty .button'))?.focus({ preventScroll: true });
@@ -1564,14 +2011,14 @@ if (cartList) {
   deleteDialog.querySelector('.cart-delete-confirm').addEventListener('click', () => {
     // Read current storage again; do not delete a stale or different item.
     if (!readCart().some(item => item.id === pendingDeleteId)) { deleteDialog.close(); return; }
-    if (changeCartItem(pendingDeleteId, 'remove')) {
-      deleteConfirmed = true;
-      deleteDialog.close();
-    }
+    const id = pendingDeleteId;
+    deleteConfirmed = true;
+    deleteDialog.close();
+    changeCartItem(id, 'remove');
   });
   deleteDialog.addEventListener('close', () => {
     const target = !deleteConfirmed && deleteTrigger?.isConnected ? deleteTrigger
-      : cartList.querySelector('.cart-remove') || document.querySelector('#cart-empty .button');
+      : cartList.querySelector('[data-cart-id]:not([inert]) .cart-remove') || miniCartTrigger;
     target?.focus({ preventScroll: true });
     pendingDeleteId = null;
     deleteTrigger = null;
@@ -1580,7 +2027,7 @@ if (cartList) {
 }
 function confirmCartRemoval(id, trigger) {
   const item = readCart().find(item => item.id === id);
-  if (!item || !deleteDialog || deleteDialog.open) return;
+  if (!item || pendingCartRemovals.has(id) || !deleteDialog || deleteDialog.open) return;
   pendingDeleteId = id;
   deleteTrigger = trigger;
   deleteConfirmed = false;
@@ -1600,10 +2047,10 @@ cartList?.addEventListener('change', event => {
   if (event.target.matches('input')) changeCartItem(event.target.closest('[data-cart-id]').dataset.cartId, 'set', event.target.value);
 });
 document.querySelector('#cart-checkout')?.addEventListener('click', () => {
-  if (readCart().length) location.href = 'checkout.html';
+  if (!pendingCartRemovals.size && readCart().length) location.href = 'checkout.html';
 });
 window.addEventListener('storage', event => {
-  if (event.key === cartStorageKey || event.key === null) { cart = readCart(); updateCartBadge(); renderCart(); renderMiniCart(); renderCheckout(); }
+  if (event.key === cartStorageKey || event.key === null) { cart = readCart(); updateCartBadge(); renderCart(); renderMiniCart(); renderCheckout(); syncPendingCartRemoval(); }
 });
 updateCartBadge();
 renderCart();
@@ -1651,6 +2098,8 @@ if (sortSelect) {
   trigger.setAttribute('aria-haspopup', 'listbox');
   trigger.setAttribute('aria-expanded', 'false');
   trigger.setAttribute('aria-controls', 'sort-options');
+  trigger.dataset.sortIcon = sortSelect.value;
+  sortSelect.addEventListener('change', () => { trigger.dataset.sortIcon = sortSelect.value; });
   const list = document.createElement('div');
   list.id = 'sort-options';
   list.className = 'sort-options';
@@ -1666,7 +2115,7 @@ if (sortSelect) {
     button.setAttribute('aria-selected', String(option.selected));
     button.addEventListener('click', () => {
       sortSelect.value = option.value;
-      trigger.textContent = option.textContent + ' ⌄';
+      trigger.textContent = option.textContent;
       options.forEach(item => item.setAttribute('aria-selected', String(item === button)));
       sortSelect.dispatchEvent(new Event('change', { bubbles: true }));
       close(true);
@@ -1684,7 +2133,7 @@ if (sortSelect) {
     trigger.setAttribute('aria-expanded', 'true');
     (last ? options.at(-1) : options.find(item => item.dataset.value === sortSelect.value)).focus();
   }
-  trigger.textContent = sortSelect.selectedOptions[0].textContent + ' ⌄';
+  trigger.textContent = sortSelect.selectedOptions[0].textContent;
   trigger.addEventListener('click', () => list.hidden ? open() : close());
   sort.addEventListener('keydown', event => {
     if (event.key === 'Escape') { event.preventDefault(); close(true); }
@@ -1766,14 +2215,33 @@ if (currentPage === 'blog.html') {
   const featured = document.querySelector('.featured-article');
   if (categories && featured) {
     featured.before(categories);
-    featured.dataset.blogCategory = articleCatalog[0].category;
+    // The same post already exists in the archive; keep a single entry per ID.
+    featured.remove();
   }
+  document.querySelectorAll('.blog-grid .blog-card').forEach(card => {
+    const id = new URL(card.querySelector('.article-image').href).searchParams.get('article');
+    const article = articleCatalog.find(item => item.id === id);
+    if (!article) return;
+    const copy = document.createElement('div');
+    copy.className = 'archive-copy';
+    const metadata = card.querySelector('.article-meta');
+    const category = document.createElement('p');
+    category.className = 'archive-category';
+    category.textContent = article.category;
+    const date = metadata.querySelector('time');
+    metadata.replaceChildren(date);
+    const title = card.querySelector('h3');
+    const excerpt = document.createElement('p');
+    excerpt.className = 'archive-excerpt';
+    excerpt.textContent = article.summary;
+    copy.append(category, title, metadata, excerpt, card.querySelector('.text-link'));
+    card.append(copy);
+  });
   // Keep the established controls and only categories represented by real articles.
   document.querySelectorAll('[data-blog-filter]').forEach(button => {
     if (button.dataset.blogFilter === 'all') button.textContent = translate('TẤT CẢ');
     else if (!articleCatalog.some(article => article.category === button.dataset.blogFilter)) button.remove();
   });
-  document.querySelector('.featured-article .article-date').textContent = articleCatalog[0].date;
 }
 document.querySelectorAll('[data-blog-filter]').forEach(button => button.addEventListener('click', () => {
   const category = button.dataset.blogFilter;
@@ -1989,6 +2457,38 @@ if (currentPage === 'blog-detail.html') {
   }
   // Reading duration is derived from the rendered editorial copy, never a fixed claim.
   const body = document.querySelector('#article-body');
+  // Emphasize only curated existing phrases in paragraph text nodes; leave copy,
+  // anchors, nested emphasis, headings and TOC identifiers untouched.
+  const editorialPhrases = {
+    'thoi-diem': ['thực phẩm trong chế độ ăn', 'đọc hướng dẫn trên nhãn', 'thành phần, khẩu phần, hạn dùng'],
+    'mua-yen-lan-dau': ['tổ yến tinh chế', 'yến chưng sẵn', 'đọc hướng dẫn'],
+    'chat-luong': ['thành phần và cách bảo quản', 'đọc nhãn', 'thông tin nguồn gốc'],
+    'doi-tuong': ['đọc thành phần', 'hướng dẫn bảo quản', 'người có chuyên môn'],
+    'bao-quan': ['hướng dẫn của nhà sản xuất', 'thông tin hạn dùng', 'khẩu phần phù hợp'],
+    'qua-tang': ['nghĩ đến người nhận', 'lời nhắn viết tay', 'thông tin sản phẩm rõ ràng'],
+    'tao-do': ['táo đỏ', 'thông tin thành phần', 'không gian thưởng thức']
+  };
+  (editorialPhrases[article.id] || []).forEach(phrase => {
+    for (const paragraph of body.querySelectorAll('p:not(.article-lead)')) {
+      const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT, {
+        acceptNode: node => node.parentElement.closest('a,strong,em,mark,code') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+      });
+      let node, highlighted = false;
+      while ((node = walker.nextNode())) {
+        const index = node.textContent.toLocaleLowerCase('vi').indexOf(phrase);
+        if (index < 0) continue;
+        const selected = node.splitText(index);
+        selected.splitText(phrase.length);
+        const emphasis = document.createElement('strong');
+        emphasis.className = 'article-keyword';
+        selected.replaceWith(emphasis);
+        emphasis.append(selected);
+        highlighted = true;
+        break;
+      }
+      if (highlighted) break;
+    }
+  });
   const minutes = Math.max(1,Math.ceil(body.textContent.trim().split(/\s+/).length/220));
   document.querySelector('.article-reading-meta > span:last-child').textContent = minutes + ' phút đọc';
   const related = document.querySelector('.article-page + section .blog-grid');
@@ -2013,6 +2513,66 @@ if (currentPage === 'blog-detail.html') {
   }
   buildArticleContents(body);
   setupArticleEngagement(article, minutes);
+  setupArticleColumns(article, related?.closest('section'));
+}
+
+function setupArticleColumns(article, recommendations) {
+  const layout = document.querySelector('.article-reading-layout');
+  const column = layout.querySelector('.article-content-column');
+  const toc = layout.querySelector('.article-contents');
+  const heading = document.querySelector('.article-heading');
+  column.prepend(heading);
+  const library = document.createElement('details');
+  library.className = 'article-library';
+  const summary = document.createElement('summary');
+  summary.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="sr-only" data-i18n="news.otherArticles">Bài viết khác</span>';
+  const links = document.createElement('nav');
+  articleCatalog.forEach(item => {
+    const link = document.createElement('a');
+    link.href = 'blog-detail.html?article=' + item.id;
+    if (item.id === article.id) link.setAttribute('aria-current', 'page');
+    link.setAttribute('aria-label', item.title);
+    link.dataset.i18nAria = 'article.title.' + item.id;
+    link.title = item.title;
+    link.dataset.i18nTitle = 'article.title.' + item.id;
+    const thumbnail = document.createElement('img');
+    thumbnail.src = 'assets/images/' + item.image;
+    thumbnail.alt = item.title;
+    thumbnail.dataset.i18nAlt = 'article.title.' + item.id;
+    thumbnail.width = 88;
+    thumbnail.height = 60;
+    thumbnail.loading = 'lazy';
+    link.append(thumbnail);
+    links.append(link);
+  });
+  library.append(summary, links);
+  const right = document.createElement('div');
+  right.className = 'article-right-sidebar';
+  right.append(toc);
+  layout.append(right);
+  // Sidebars stop with the reading content, before the engagement/ending flow.
+  const closing = document.createElement('div');
+  closing.className = 'article-closing container';
+  const closingContent = document.createElement('div');
+  closingContent.className = 'article-closing-content';
+  column.querySelectorAll(':scope > .article-meta-wrap, :scope > .article-engagement, :scope > .article-end').forEach(element => closingContent.append(element));
+  closing.append(closingContent);
+  layout.after(closing);
+  const home = document.createComment('Related articles return here on compact layouts.');
+  recommendations?.before(home);
+  recommendations?.classList.add('article-recommendations');
+  const wide = matchMedia('(min-width:1360px)');
+  const desktop = matchMedia('(min-width:1101px)');
+  function syncColumns() {
+    if (wide.matches) { layout.prepend(library); library.open = true; }
+    else { heading.after(library); library.open = false; }
+    if (desktop.matches) { if (recommendations) right.append(recommendations); }
+    else if (recommendations) home.after(recommendations);
+  }
+  wide.addEventListener('change', syncColumns);
+  desktop.addEventListener('change', syncColumns);
+  syncColumns();
+  window.ANestI18n?.refresh(library);
 }
 
 // This demo has only a login flag, not named accounts. One local reader per browser.
@@ -2402,14 +2962,14 @@ accountDrawer.querySelectorAll('form').forEach(form => {
 
 window.addEventListener('anestland:languagechange', () => {
   refreshPrices();
-  document.querySelectorAll('.mini-cart-quantity,.checkout-item-quantity').forEach(node => {
+  document.querySelectorAll('.mini-cart-quantity,.mini-cart-formula-quantity,.checkout-item-quantity').forEach(node => {
     node.textContent = new Intl.NumberFormat(document.documentElement.lang).format(Number(node.dataset.quantity));
   });
   placeholderIndex = placeholderLength = 0;
   placeholderDeleting = false;
   pausePlaceholder();
   if (!searchPanel.hidden) renderSearch();
-  else placeholderTimer = setTimeout(cyclePlaceholder, 1200);
+  startPlaceholder();
   if (accountDrawer.open) requestAnimationFrame(sizeAccountPanel);
 });
 
@@ -2464,3 +3024,15 @@ window.addEventListener('storage', event => {
   if (event.key === favoriteStorageKey || event.key === null) { favoriteIds = readFavoriteIds(favoriteIds); syncFavorites(); }
 });
 syncFavorites();
+
+// Shared static refraction map: only selection-panel background layers reference it.
+if (!document.getElementById('anestland-selection-refraction')) {
+  const glassDefinitions = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  glassDefinitions.setAttribute('aria-hidden', 'true');
+  glassDefinitions.setAttribute('width', '0');
+  glassDefinitions.setAttribute('height', '0');
+  glassDefinitions.style.position = 'absolute';
+  glassDefinitions.style.pointerEvents = 'none';
+  glassDefinitions.innerHTML = '<defs><filter id="anestland-selection-refraction" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency="0.001 0.005" numOctaves="1" seed="17" result="noise"/><feGaussianBlur in="noise" stdDeviation="3" result="softMap"/><feDisplacementMap in="SourceGraphic" in2="softMap" scale="28" xChannelSelector="R" yChannelSelector="G"/></filter></defs>';
+  document.body.append(glassDefinitions);
+}

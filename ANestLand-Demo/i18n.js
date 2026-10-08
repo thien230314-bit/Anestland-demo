@@ -1,7 +1,44 @@
 /* Shared four-language UI dictionary. Catalog/storage IDs and long journal bodies stay unchanged. */
 (() => {
   'use strict';
-  const rows = `Trang chủ|首页|Home|홈
+  const rows = `QUAY LẠI ĐẦU TRANG|返回顶部|BACK TO TOP|맨 위로
+HOÀN TÁC|撤销|UNDO|실행 취소
+Sản phẩm được làm bởi Xuân Thiên|由 Xuân Thiên 制作|Created by Xuân Thiên|Xuân Thiên 제작
+Hoàn tác xóa sản phẩm|撤销移除商品|Undo product removal|제품 삭제 취소
+Về đầu trang|返回顶部|Back to top|맨 위로
+Bạn có thể bấm vào từng công đoạn để xem hình ảnh chi tiết.|点击各个工序，查看详细图片。|Select a step to view its detailed image.|각 공정을 누르면 자세한 이미지를 볼 수 있습니다.
+Tôn trọng nguồn gốc của từng tổ yến.|尊重每一盏燕窝的来源。|Respect the origin of every nest.|제비집마다 그 원산지를 소중히 여깁니다.
+Khởi đầu từ sự trân trọng.|从珍惜开始。|Begin with respect.|존중에서 시작합니다.
+Chuẩn bị một chén yến bằng sự quan tâm.|用关怀准备一碗燕窝。|Prepare a bowl with care.|정성을 담아 제비집 한 그릇을 준비합니다.
+Chăm chút một khoảnh khắc mỗi ngày.|用心呵护日常片刻。|Care for an everyday moment.|일상의 한 순간을 정성껏 돌봅니다.
+Trao món quà, gửi lời quan tâm.|赠一份礼，传一份关怀。|Give a gift, share your care.|선물에 마음을 담아 전합니다.
+Món quà nối những yêu thương.|礼物连接彼此的爱。|A gift that brings loved ones closer.|사랑하는 이들을 잇는 선물.
+Chọn nguyên liệu với nguồn gốc rõ ràng.|精选来源清晰的原料。|Choose ingredients with clear origins.|원산지가 명확한 재료를 고릅니다.
+Chọn kỹ để an tâm.|细心选择，安心享用。|Choose carefully, feel confident.|세심하게 골라 안심을 전합니다.
+Trân trọng sợi yến và vị thanh nhẹ.|珍惜燕丝与清淡风味。|Respect the strands and delicate flavour.|제비집의 결과 담백한 맛을 소중히 여깁니다.
+Giữ nét thanh nhẹ tự nhiên.|保留自然清雅。|Keep its natural delicacy.|자연의 담백함을 간직합니다.
+Trình bày chỉn chu, gửi trao chân thành.|用心呈现，真诚相赠。|Present with care, give sincerely.|정갈하게 준비해 진심을 전합니다.
+Tinh tế trong cách trao tặng.|雅致地传递心意。|Thoughtful in the way we give.|전하는 방식에도 정성을 담습니다.
+Hũ yến chưng hạt sen|莲子燕窝罐|A jar of bird’s nest with lotus seeds|연꽃 씨앗을 곁들인 제비집 병
+HÀNH TRÌNH GỬI TRAO|用心传递的旅程|A JOURNEY OF GIVING|마음을 전하는 여정
+Từ Khởi Nguồn|从源头开始|From Our Origins|시작에서
+Đến Gửi Trao|到用心传递|To Thoughtful Giving|마음을 전하기까지
+Từ nguồn gốc rõ ràng đến món quà được trao bằng sự quan tâm.|从清晰的来源，到承载关怀的礼物。|From clear origins to a gift shared with care.|명확한 원산지에서 정성을 담은 선물까지.
+Khởi nguồn|起源|Origins|시작
+Chăm chút|用心呵护|Care|정성
+Gửi trao|传递心意|Giving|마음 전하기
+GIÁ TRỊ TRONG TỪNG CHI TIẾT|细节中的价值|VALUES IN EVERY DETAIL|모든 디테일에 담긴 가치
+Chọn Điều Tốt|精选美好|Choose Goodness|좋은 것을 고르고
+Gửi Điều Lành|传递关怀|Share Care|따뜻한 마음을 전합니다
+Chọn lọc nguyên liệu, trân trọng tự nhiên, gửi trao tinh tế.|精选原料，珍惜自然，雅致传情。|Select carefully, respect nature, give thoughtfully.|재료를 엄선하고 자연을 존중하며 정성껏 전합니다.
+Chọn lọc|精选|Select Carefully|엄선
+Trân trọng tự nhiên|珍惜自然|Respect Nature|자연 존중
+Gửi trao tinh tế|雅致传情|Give Thoughtfully|정성스러운 선물
+Tổ yến thô được tuyển chọn|精选毛燕窝|Selected raw bird’s nests|선별한 원물 제비집
+Tỉ mỉ làm sạch tổ yến|细致清理燕窝|Careful bird’s-nest cleaning|제비집의 세심한 세척
+Chén yến cho khoảnh khắc chăm sóc gia đình|一碗燕窝，传递家人的关怀|A bowl of bird’s nest for family-care moments|가족을 돌보는 순간을 위한 제비집 한 그릇
+Hộp quà yến sào trình bày trang nhã|雅致的燕窝礼盒|An elegantly presented bird’s-nest gift box|우아하게 구성한 제비집 선물 상자
+Trang chủ|首页|Home|홈
 Câu chuyện|品牌故事|Our story|브랜드 이야기
 Sản phẩm|产品|Products|제품
 Giá trị|价值理念|Our values|브랜드 가치
@@ -64,6 +101,9 @@ Tỉ mỉ gìn giữ sợi yến tự nhiên.|细致保留天然燕丝。|Carefu
 Hoàn thiện|完成|Finishing|완성
 Chăm chút đến khi trao tay.|用心准备，直至交付。|Thoughtfully prepared for you.|전하는 순간까지 정성을 다합니다.
 Tỉ mỉ từ những điều nhỏ nhất.|用心于每一处细节。|Care in the smallest details.|작은 부분까지 세심하게.
+Tận tâm từ những điều nhỏ nhất.|用心于微小的每一个细节。|Dedication in every small detail.|작은 부분까지 깃든 진심.
+Xem câu chuyện chăm chút|查看用心故事|View our story|정성의 이야기 보기
+Xem giá trị chọn lọc|查看挑选价值|View our values|선택의 가치 보기
 NHỮNG GIÁ TRỊ CHÚNG TÔI GÌN GIỮ|我们珍视的价值|THE VALUES WE PRESERVE|우리가 지키는 가치
 Vì Sao Chọn|为何选择|Why Choose|선택하는 이유
 Nguồn nguyên liệu chọn lọc|精选原料|Selected ingredients|엄선한 원재료
@@ -371,7 +411,7 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
     ['Phường / Xã', '街道 / 乡镇', 'Ward / Commune', '읍 / 면 / 동'],
     ['Ghi chú đơn hàng', '订单备注', 'Order notes', '주문 메모'],
     ['Lời nhắn hoặc hướng dẫn giao hàng (tùy chọn)', '留言或配送说明（选填）', 'Message or delivery instructions (optional)', '메시지 또는 배송 요청 사항 (선택)'],
-    ['Phương thức thanh toán dự kiến', '意向付款方式', 'Preferred payment method', '희망 결제 방법'],
+    ['Phương thức thanh toán', '付款方式', 'Payment method', '결제 방법'],
     ['Trả tiền mặt khi nhận hàng', '货到付款', 'Cash on delivery', '상품 수령 시 현금 결제'],
     ['Chuyển khoản ngân hàng', '银行转账', 'Bank transfer', '은행 이체'],
     ['Phương thức thanh toán và phí giao hàng sẽ được ANestLand xác nhận trực tiếp. Không thực hiện thanh toán trên trang này.', '付款方式和运费将由ANestLand直接确认。本页面不处理付款。', 'ANestLand will confirm payment and delivery charges directly. No payment is processed on this page.', '결제 방법과 배송비는 ANestLand가 직접 확인합니다. 이 페이지에서는 결제가 처리되지 않습니다.'],
@@ -465,6 +505,7 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
     ['Câu chuyện về sự kết hợp giữa sợi yến thanh nhẹ và sắc đỏ ấm áp của táo đỏ.', '清淡燕丝与温暖红枣的搭配故事。', 'The story of delicate nest strands paired with warm red dates.', '담백한 제비집과 따뜻한 빛깔의 대추가 만나는 이야기.'],
     ['Chén yến chưng táo đỏ bên khăn linen và nhành lá xanh', '亚麻布与绿叶旁的红枣燕窝', 'Red date bird’s nest beside linen and green leaves', '리넨 천과 푸른 잎 옆의 대추 제비집'],
     ['Đôi bàn tay tỉ mỉ làm sạch tổ yến bằng nhíp trên khay tre', '在竹盘上用镊子细致清洁燕窝', 'Hands carefully cleaning bird’s nest with tweezers on a bamboo tray', '대나무 쟁반에서 핀셋으로 제비집을 세척하는 손'],
+    ['Đôi bàn tay kiểm tra tổ yến thô trên khay tre', '在竹盘上检查原燕窝的双手', 'Hands inspecting raw bird’s nests on a bamboo tray', '대나무 쟁반에서 원물 제비집을 살펴보는 손'],
     ['Khoảnh khắc thưởng thức chén yến chưng táo đỏ', '享用红枣燕窝的片刻', 'Enjoying a bowl of red date bird’s nest', '대추 제비집 한 그릇을 즐기는 순간'],
     ['Hũ yến chưng táo đỏ nắp xanh', '绿色瓶盖的红枣燕窝', 'Red date bird’s nest jar with a green lid', '초록 뚜껑의 대추 제비집 병'],
     ['Hũ yến chưng hạt sen nắp xanh', '绿色瓶盖的莲子燕窝', 'Lotus seed bird’s nest jar with a green lid', '초록 뚜껑의 연꽃 씨앗 제비집 병'],
@@ -505,8 +546,10 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
   // A text key owns only its first direct text node, preserving <em>, <br>, SVG and controls.
   const semanticSources = {
     'nav.news': ['TIN TỨC', '资讯', 'BLOG', '소식'],
+    'footer.news': ['Tin tức', '资讯', 'Blog', '소식'],
     'nav.back': ['QUAY LẠI', '返回', 'BACK', '뒤로 가기'],
     'news.contents': ['NỘI DUNG', '目录', 'CONTENTS', '목차'],
+    'news.otherArticles': ['Bài viết khác', '其他文章', 'More articles', '다른 글'],
     'contact.nameLabel': 'Họ và tên', 'contact.namePlaceholder': 'Tên của bạn',
     'contact.emailLabel': 'Email', 'contact.emailPlaceholder': 'Email của bạn',
     'contact.phoneLabel': 'Số điện thoại', 'contact.phonePlaceholder': 'Số điện thoại của bạn',
@@ -538,7 +581,8 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
     'article.title.tao-do': 'Yến chưng táo đỏ có gì đặc biệt?'
   };
   const semanticBindings = [
-    ['.desktop-nav a[href="blog.html"],.mobile-nav a[href="blog.html"],footer a[href="blog.html"],.breadcrumbs a[href="blog.html"]', 'data-i18n', 'nav.news'],
+    ['.desktop-nav a[href="blog.html"],.mobile-nav a[href="blog.html"],.breadcrumbs a[href="blog.html"]', 'data-i18n', 'nav.news'],
+    ['footer a[href="blog.html"]', 'data-i18n', 'footer.news'],
     [location.pathname.endsWith('/blog.html') ? '.breadcrumbs [aria-current="page"]' : '#no-news-breadcrumb', 'data-i18n', 'nav.news'],
     ['#contact-name', 'data-i18n-placeholder', 'contact.namePlaceholder'],
     ['#contact-email', 'data-i18n-placeholder', 'contact.emailPlaceholder'],
@@ -745,6 +789,8 @@ Email ANestLand|ANestLand 邮箱|Email ANestLand|ANestLand 이메일`.split('\n'
       return match[1] + ['',' 件产品',' products','개 제품'][slot] + tail;
     }
     const patterns = [
+      [/^Đã xóa (.*)$/, name => [source, '已移除' + text(name), 'Removed ' + text(name), text(name) + ' 삭제됨'][slot]],
+      [/^(\d+)s$/, seconds => seconds + ['s', '秒', 's', '초'][slot]],
       [/^(.*) đã được thêm vào giỏ hàng\.$/, name => [source, text(name) + '已加入购物车。', text(name) + ' was added to your cart.', text(name) + '을(를) 장바구니에 담았습니다.'][slot]],
       [/^(.*) đã được xóa khỏi giỏ hàng\.$/, name => [source, text(name) + '已从购物车移除。', text(name) + ' was removed from your cart.', text(name) + '을(를) 삭제했습니다.'][slot]],
       [/^Đã cập nhật số lượng (.*)\.$/, name => [source, '已更新' + text(name) + '的数量。', 'Quantity updated for ' + text(name) + '.', text(name) + ' 수량을 변경했습니다.'][slot]],
@@ -916,10 +962,10 @@ Email ANestLand|ANestLand 邮箱|Email ANestLand|ANestLand 이메일`.split('\n'
   document.addEventListener('pointerdown', event => { if (!selector.contains(event.target)) close(); });
   selector.append(trigger, list);
   function positionSelector() {
-    const parent = document.querySelector('#account-language-slot') || document.querySelector('.header-tools');
+    const parent = document.querySelector('.utility-bar') || document.querySelector('.header-tools');
     if (selector.parentElement === parent) return;
     close();
-    if (parent.id === 'account-language-slot') parent.append(selector);
+    if (parent.classList.contains('utility-bar')) parent.append(selector);
     else parent.insertBefore(selector, document.querySelector('#menu-toggle'));
   }
   window.addEventListener('resize', positionSelector);

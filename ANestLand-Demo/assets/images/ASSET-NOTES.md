@@ -1,6 +1,6 @@
 # ANestLand demo imagery
 
-All seven images were created with the built-in image generation tool for this educational demo. They are illustrative product mockups, not photographs of commercially available ANestLand products. No Oars images or artwork were copied.
+The original seven images were created with the built-in image generation tool for this educational demo. They are illustrative product mockups, not photographs of commercially available ANestLand products. No Oars images or artwork were copied.
 
 ## Generation prompt set
 
@@ -20,6 +20,14 @@ The sheet was cropped into six JPEG assets and resized to 800 × 800 for use in 
 Extract the single glass jar from `red-date-jar.jpg`. Remove the ivory background and floor. Preserve the glass jar, sage lid, blank cream label, ivory nest strands, red dates, original tilted pose, and photographic texture. Output a photorealistic isolated jar on a genuinely transparent background with a subtle contact shadow. No added decorations.
 
 Saved as `hero-jar.png`. Floating leaves, dates, seeds, and organic shapes are separate CSS decorations.
+
+## Patch 4: user-selected process illustrations
+
+- Step 01: `process-selection.png`, created with the built-in image generation tool using `craftsmanship.jpg` as a tone/lighting reference only. Illustrative raw-material inspection, not documentation of ANestLand staff or facilities.
+- Step 02: the original `craftsmanship.jpg` is retained unchanged and remains the default.
+- Step 03: the existing `gift-box.jpg` from the original demo generation set is reused unchanged.
+
+Final Step 01 prompt: Photorealistic square editorial photograph of two adult hands inspecting an intact raw edible swiftlet nest above a shallow bamboo tray of raw nests, natural ivory/beige strands with small feather inclusions. Match the existing cleaning photograph's soft daylight, warm ivory palette, linen/bamboo textures and close crop. Center nest and hands with safe edges for the existing 1.06:1 frame and rounded top-right corner. No tweezers/cleaning action, text, logos, watermark, borders or UI. This is a visual storytelling illustration, not a real-facility claim.
 
 ## Replacing assets
 
