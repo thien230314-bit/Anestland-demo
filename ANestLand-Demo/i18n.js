@@ -1,7 +1,9 @@
 /* Shared four-language UI dictionary. Catalog/storage IDs and long journal bodies stay unchanged. */
 (() => {
   'use strict';
-  const rows = `QUAY LẠI ĐẦU TRANG|返回顶部|BACK TO TOP|맨 위로
+  const rows = `Tìm sản phẩm hoặc bài viết...|搜索产品或文章...|Search products or articles...|상품 또는 게시글 검색...
+Theo tìm kiếm:|搜索：|Search:|검색:
+QUAY LẠI ĐẦU TRANG|返回顶部|BACK TO TOP|맨 위로
 HOÀN TÁC|撤销|UNDO|실행 취소
 Sản phẩm được làm bởi Xuân Thiên|由 Xuân Thiên 制作|Created by Xuân Thiên|Xuân Thiên 제작
 Hoàn tác xóa sản phẩm|撤销移除商品|Undo product removal|제품 삭제 취소
@@ -545,6 +547,8 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
   // Semantic aliases reuse dictionary entries; no duplicated translations or HTML pages.
   // A text key owns only its first direct text node, preserving <em>, <br>, SVG and controls.
   const semanticSources = {
+    'product.relatedLead': ['Có Thể Bạn', '您也许', 'You May', '함께 보면'],
+    'product.relatedTail': ['Yêu Thích', '会喜欢', 'Also Like', '좋은 제품'],
     'nav.news': ['TIN TỨC', '资讯', 'BLOG', '소식'],
     'footer.news': ['Tin tức', '资讯', 'Blog', '소식'],
     'nav.back': ['QUAY LẠI', '返回', 'BACK', '뒤로 가기'],
@@ -602,6 +606,8 @@ Chọn một hộp quà trang nhã cho những dịp đoàn viên, hay một hũ
     ['.care-banner h2 em', 'data-i18n', 'home.careTail'],
     ['.product-description .detail-section-heading h2', 'data-i18n', 'product.storyLead'],
     ['.product-description .detail-section-heading h2 em', 'data-i18n', 'product.storyTail'],
+    ['.related-products .section-heading h2', 'data-i18n', 'product.relatedLead'],
+    ['.related-products .section-heading h2 em', 'data-i18n', 'product.relatedTail'],
     ['#home', 'data-i18n-role-description', 'home.carouselRole'],
     ['.article-reading-meta > span:first-child', 'data-i18n', 'journal.publisher'],
     ['.featured-article h2 a, #article-title', 'data-i18n', 'journal.featuredTitleLead'],

@@ -864,216 +864,6 @@ function syncFavorites() {
   headerFavorite.classList.toggle('has-favorites', catalog.some(product => favoriteIds.has(product.id)));
   if (favoritesDialog.open) renderFavorites();
 }
-document.querySelectorAll('.wishlist').forEach(button => button.addEventListener('click', () => toggleWishlist(button)));
-
-const filterButtons = [...document.querySelectorAll('[data-filter]')];
-const products = [...document.querySelectorAll('.product-card')];
-const collectionProducts = [...document.querySelectorAll('.collection-section .product-card')];
-// Move the existing filter controls, rather than introducing another filter state.
-if (currentPage === 'products.html') {
-  const section = document.querySelector('.collection-section');
-  const main = document.createElement('div');
-  main.className = 'collection-main';
-  main.append(...section.childNodes);
-  const sidebar = document.createElement('aside');
-  sidebar.className = 'category-sidebar';
-  sidebar.innerHTML = '<details class="category-disclosure" open><summary>DANH MỤC SẢN PHẨM</summary></details>';
-  sidebar.querySelector('details').append(main.querySelector('.product-filters'));
-  section.append(sidebar,main);
-  const labels = {all:'Tất cả sản phẩm',jar:'Yến chưng',nest:'Tổ yến',gift:'Quà tặng'};
-  filterButtons.forEach(button=>{button.textContent=labels[button.dataset.filter];});
-  ['all','jar','nest','gift'].forEach(category=>sidebar.querySelector('.product-filters').append(filterButtons.find(button=>button.dataset.filter===category)));
-  const compact = matchMedia('(max-width:850px)');
-  const setDisclosure = () => {sidebar.querySelector('details').open=!compact.matches;};
-  compact.addEventListener('change',setDisclosure);
-  setDisclosure();
-  filterButtons.forEach(button=>button.addEventListener('click',()=>{
-    if (compact.matches) sidebar.querySelector('details').open=false;
-  }));
-}
-let searchQuery = '';
-const translate = text => window.ANestI18n?.text(text) ?? text;
-const normalize = text => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
-function filterProducts(category = 'all', query = '') {
-  let visibleCount = 0;
-  products.forEach(product => {
-    const matches = (category === 'all' || product.dataset.category === category) && normalize(product.dataset.name + ' ' + translate(product.dataset.name)).includes(normalize(query));
-    product.hidden = !matches;
-    if (matches) { visibleCount++; product.classList.add('is-visible'); }
-  });
-  const emptyState = document.querySelector('.no-results');
-  if (emptyState) emptyState.hidden = visibleCount > 0;
-  const count = document.querySelector('#product-count');
-  if (count) count.textContent = visibleCount + ' sản phẩm';
-  filterButtons.forEach(button => {
-    const selected = button.dataset.filter === category;
-    button.classList.toggle('selected', selected);
-    button.setAttribute('aria-pressed', String(selected));
-  });
-}
-filterButtons.forEach(button => button.addEventListener('click', () => filterProducts(button.dataset.filter, searchQuery)));
-const headerSearch = document.querySelector('.header-search');
-const searchPanel = document.querySelector('#search-panel');
-const searchInput = document.querySelector('#search-input');
-const searchToggle = document.querySelector('#search-toggle');
-let placeholderTimer;
-let placeholderIndex = 0;
-let placeholderLength = 0;
-let placeholderDeleting = false;
-const placeholderQueries = ['Yến chưng táo đỏ', 'Tổ yến tinh chế', 'Hộp quà ANestLand', 'Yến chưng hạt sen'];
-function pausePlaceholder() {
-  clearTimeout(placeholderTimer);
-  searchInput.placeholder = translate('Tìm sản phẩm...');
-}
-function startPlaceholder() {
-  pausePlaceholder();
-  placeholderLength = 0;
-  placeholderDeleting = false;
-  if (headerSearch.classList.contains('is-open') && !searchInput.value && !document.hidden && !reducedMotion.matches) {
-    placeholderTimer = setTimeout(cyclePlaceholder, 500);
-  }
-}
-function cyclePlaceholder() {
-  clearTimeout(placeholderTimer);
-  if (reducedMotion.matches || document.hidden || searchInput.value || !headerSearch.classList.contains('is-open') || !searchInput.getBoundingClientRect().width) {
-    searchInput.placeholder = translate('Tìm sản phẩm...');
-    return;
-  }
-  const query = translate(placeholderQueries[placeholderIndex]);
-  placeholderLength += placeholderDeleting ? -1 : 1;
-  searchInput.placeholder = query.slice(0, placeholderLength) || translate('Tìm sản phẩm...');
-  let delay = placeholderDeleting ? 45 : 110;
-  if (placeholderLength === query.length) { placeholderDeleting = true; delay = 1900; }
-  if (placeholderLength <= 0) {
-    placeholderDeleting = false;
-    placeholderIndex = (placeholderIndex + 1) % placeholderQueries.length;
-    delay = 500;
-  }
-  placeholderTimer = setTimeout(cyclePlaceholder, delay);
-}
-function openSearch(focusInput = true) {
-  closeAccountMenu();
-  closeHeaderLanguage();
-  closeMenu(); closeMiniCart();
-  pausePlaceholder();
-  headerSearch.classList.add('is-open');
-  positionSearch();
-  searchPanel.hidden = false;
-  searchInput.setAttribute('aria-expanded', 'true');
-  searchToggle.setAttribute('aria-expanded', 'true');
-  renderSearch();
-  startPlaceholder();
-  if (focusInput) requestAnimationFrame(() => {
-    // Let the opening visibility state apply before focusing the animated field.
-    if (headerSearch.classList.contains('is-open')) searchInput.focus({ preventScroll: true });
-  });
-}
-function closeSearch(restoreFocus = false) {
-  searchPanel.hidden = true;
-  headerSearch.classList.remove('is-open');
-  searchInput.setAttribute('aria-expanded', 'false');
-  searchToggle.setAttribute('aria-expanded', 'false');
-  if (restoreFocus) {
-    searchToggle.focus({ preventScroll: true });
-  }
-  pausePlaceholder();
-}
-searchToggle.addEventListener('click', () => searchPanel.hidden ? openSearch() : closeSearch(true));
-// Expand into genuine desktop whitespace; use an anchored panel when that space is too small.
-function positionSearch() {
-  const nav = header.querySelector('.desktop-nav');
-  const available = searchToggle.getBoundingClientRect().right - nav.getBoundingClientRect().right - 20;
-  const inline = !narrowNavigation.matches && available >= 200;
-  headerSearch.classList.toggle('is-inline', inline);
-  headerSearch.style.setProperty('--search-width', (inline ? Math.min(340, available) : 360) + 'px');
-}
-new ResizeObserver(positionSearch).observe(header);
-window.addEventListener('resize', positionSearch);
-searchInput.addEventListener('focus', () => openSearch(false));
-searchInput.addEventListener('click', () => { if (searchPanel.hidden) openSearch(false); });
-searchInput.addEventListener('input', () => { startPlaceholder(); renderSearch(); });
-headerSearch.querySelector('.search-close').addEventListener('click', () => closeSearch(true));
-headerSearch.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !searchPanel.hidden) {
-    event.preventDefault();
-    closeSearch(true);
-  }
-  if (!searchPanel.hidden && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
-    const results = [...searchPanel.querySelectorAll('.search-result')];
-    if (!results.length) return;
-    event.preventDefault();
-    const current = results.indexOf(document.activeElement);
-    const next = current < 0 ? (event.key === 'ArrowDown' ? 0 : results.length - 1)
-      : (current + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
-    results[next].focus({ preventScroll: true });
-    const row = results[next], list = document.querySelector('#search-results');
-    // Scroll only the result list, never the document containing the sticky header.
-    const rowBounds = row.getBoundingClientRect(), listBounds = list.getBoundingClientRect();
-    if (rowBounds.top < listBounds.top) list.scrollTop -= listBounds.top - rowBounds.top;
-    else if (rowBounds.bottom > listBounds.bottom) list.scrollTop += rowBounds.bottom - listBounds.bottom;
-  }
-});
-document.addEventListener('pointerdown', event => {
-  if (!headerSearch.contains(event.target) && !searchPanel.hidden) closeSearch();
-});
-document.addEventListener('focusin', event => {
-  if (!headerSearch.contains(event.target) && !searchPanel.hidden) closeSearch();
-});
-document.addEventListener('visibilitychange', () => document.hidden ? pausePlaceholder() : cyclePlaceholder());
-reducedMotion.addEventListener('change', () => reducedMotion.matches ? pausePlaceholder() : cyclePlaceholder());
-window.addEventListener('resize', startPlaceholder);
-document.querySelector('#search-form').addEventListener('submit', event => {
-  event.preventDefault();
-  const query = document.querySelector('#search-input').value.trim();
-  if (searchPanel.hidden) { openSearch(); return; }
-  closeSearch();
-  if (currentPage === 'products.html') {
-    searchQuery = query;
-    filterProducts('all', query);
-    updateSearchSummary();
-    const url = new URL(location.href);
-    if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
-    history.replaceState(null, '', url);
-    document.querySelector('#products').scrollIntoView({ behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-  } else {
-    location.href = 'products.html' + (query ? '?q=' + encodeURIComponent(query) : '');
-  }
-});
-document.querySelectorAll('dialog').forEach(dialog => {
-  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', event => { if (event.target === dialog) {
-    const rect = dialog.getBoundingClientRect();
-    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
-  }});
-});
-const contentDialog = document.querySelector('#content-dialog');
-function showContent(label, title, body) {
-  document.querySelector('#dialog-label').textContent = label;
-  document.querySelector('#dialog-title').textContent = title;
-  document.querySelector('#dialog-body').textContent = body;
-  contentDialog.showModal();
-}
-const articles = [
-  ['SỐNG KHỎE · 12.09.2026', 'Yến sào nên dùng vào thời điểm nào?', 'Một buổi sáng chậm rãi hay một khoảng nghỉ trong ngày đều có thể trở thành khoảnh khắc chăm sóc bản thân. Chuẩn bị một khẩu phần vừa đủ, đọc hướng dẫn sử dụng trên bao bì và thưởng thức theo thói quen của bạn.'],
-  ['KIẾN THỨC VỀ YẾN · 08.09.2026', 'Cách nhận biết tổ yến chất lượng', 'Bắt đầu từ nguồn gốc rõ ràng, thông tin thành phần và hướng dẫn bảo quản. Hãy quan sát cấu trúc sợi yến, lựa chọn đơn vị cung cấp đáng tin cậy và tìm hiểu quy trình làm sạch trước khi mua.'],
-  ['QUÀ TẶNG · 02.09.2026', 'Gợi ý quà sức khỏe cho gia đình', 'Một món quà được chọn bằng sự quan tâm luôn mang ý nghĩa riêng. Hộp quà yến sào với sự trình bày trang nhã, những hũ yến nhỏ và một lời nhắn viết tay là gợi ý cho những dịp sum họp. Hãy chọn thành phần phù hợp với sở thích của người nhận.']
-];
-document.querySelectorAll('[data-article]').forEach(button => button.addEventListener('click', () => showContent(...articles[Number(button.dataset.article)])));
-const information = {
-  contact: ['LIÊN HỆ', 'Kết nối với ANestLand', 'Liên hệ ANestLand qua trang Liên hệ để trao đổi về sản phẩm và những lựa chọn phù hợp với bạn.'],
-  policy: ['CHÍNH SÁCH', 'Thông tin chính sách', 'Vui lòng liên hệ ANestLand để được hướng dẫn về chính sách mua hàng, bảo quản và đổi trả sản phẩm.'],
-  shipping: ['GIAO HÀNG', 'Trao gửi sự chăm sóc', 'Vui lòng trao đổi trực tiếp với ANestLand về địa chỉ nhận hàng, thời gian vận chuyển và điều kiện đổi trả.'],
-  social: ['THEO DÕI', 'Hẹn gặp bạn ở những câu chuyện mới', 'Các kênh mạng xã hội sẽ được liên kết khi ANestLand có tài khoản chính thức. Bạn có thể khám phá thêm những câu chuyện về yến ngay trên trang này.']
-};
-document.querySelectorAll('[data-info]').forEach(button => button.addEventListener('click', () => showContent(...information[button.dataset.info])));
-document.querySelector('#newsletter-form')?.addEventListener('submit', event => {
-  event.preventDefault();
-  document.querySelector('#newsletter-message').textContent = 'Cảm ơn bạn đã quan tâm đến ANestLand.';
-  event.target.reset();
-});
-
- 
-// Catalog and article selections share one static detail file each.
 const catalog = [
   {
     "id": "tao-do",
@@ -1156,6 +946,334 @@ const catalog = [
     "ingredients": "Tổ yến tuyển chọn. Xem thông tin chi tiết trên bao bì sản phẩm."
   }
 ];
+// Complete the collection from the same catalog used by search and detail pages.
+if (currentPage === 'products.html') {
+  const grid = document.querySelector('.collection-section .product-grid');
+  const template = grid.querySelector('.product-card');
+  const represented = new Set([...grid.querySelectorAll('.product-photo-link')].map(link => new URL(link.href).searchParams.get('product')));
+  catalog.filter(product => !represented.has(product.id)).forEach(product => {
+    const card = template.cloneNode(true);
+    card.dataset.category = product.category;
+    card.dataset.name = product.name;
+    card.dataset.price = product.price;
+    card.classList.add('is-visible');
+    card.querySelectorAll('a').forEach(link => link.href = 'product-detail.html?product=' + product.id);
+    const image = card.querySelector('img');
+    image.src = 'assets/images/' + product.image;
+    image.alt = product.name;
+    card.querySelector('.wishlist').setAttribute('aria-label', 'Yêu thích ' + product.name);
+    card.querySelector('.add-product').dataset.cartAdd = product.id;
+    card.querySelector('.product-type').textContent = product.label;
+    card.querySelector('h3 a').textContent = product.name;
+    card.querySelector('.price').textContent = product.price + '₫';
+    grid.append(card);
+  });
+}
+// Reuse the approved recommendation cards and the single catalog, before bindings.
+if (currentPage === 'product-detail.html') {
+  const grid = document.querySelector('.related-products .product-grid');
+  const cards = [...grid.querySelectorAll('.product-card')];
+  const current = catalog.find(product => product.id === new URLSearchParams(location.search).get('product')) || catalog[0];
+  const alternatives = catalog.filter(product => product.id !== current.id);
+  const recommendations = [
+    ...alternatives.filter(product => product.category === current.category),
+    ...alternatives.filter(product => product.category !== current.category)
+  ].slice(0, 4);
+  grid.replaceChildren(...recommendations.map((product, index) => {
+    const card = cards[index] || cards[0].cloneNode(true);
+    card.dataset.category = product.category;
+    card.dataset.name = product.name;
+    card.dataset.price = product.price;
+    if (!cards[index]) card.classList.add('is-visible');
+    card.querySelectorAll('a').forEach(link => link.href = 'product-detail.html?product=' + product.id);
+    const image = card.querySelector('img');
+    image.src = 'assets/images/' + product.image;
+    image.alt = product.name;
+    card.querySelector('.wishlist').setAttribute('aria-label', 'Yêu thích ' + product.name);
+    card.querySelector('.product-type').textContent = product.label;
+    card.querySelector('h3 a').textContent = product.name;
+    card.querySelector('.price').textContent = product.price + '₫';
+    return card;
+  }));
+}
+document.querySelectorAll('.wishlist').forEach(button => button.addEventListener('click', () => toggleWishlist(button)));
+
+const filterButtons = [...document.querySelectorAll('[data-filter]')];
+const products = [...document.querySelectorAll('.product-card')];
+const collectionProducts = [...document.querySelectorAll('.collection-section .product-card')];
+// Move the existing filter controls, rather than introducing another filter state.
+if (currentPage === 'products.html') {
+  const section = document.querySelector('.collection-section');
+  const main = document.createElement('div');
+  main.className = 'collection-main';
+  main.append(...section.childNodes);
+  const sidebar = document.createElement('aside');
+  sidebar.className = 'category-sidebar';
+  sidebar.innerHTML = '<details class="category-disclosure" open><summary>DANH MỤC SẢN PHẨM</summary></details>';
+  sidebar.querySelector('details').append(main.querySelector('.product-filters'));
+  section.append(sidebar,main);
+  const labels = {all:'Tất cả sản phẩm',jar:'Yến chưng',nest:'Tổ yến',gift:'Quà tặng'};
+  filterButtons.forEach(button=>{button.textContent=labels[button.dataset.filter];});
+  ['all','jar','nest','gift'].forEach(category=>sidebar.querySelector('.product-filters').append(filterButtons.find(button=>button.dataset.filter===category)));
+  const compact = matchMedia('(max-width:850px)');
+  const setDisclosure = () => {sidebar.querySelector('details').open=!compact.matches;};
+  compact.addEventListener('change',setDisclosure);
+  setDisclosure();
+  filterButtons.forEach(button=>button.addEventListener('click',()=>{
+    if (compact.matches) sidebar.querySelector('details').open=false;
+  }));
+}
+let searchQuery = '';
+let selectedProductCategory = 'all';
+let searchCategoryButton;
+const translate = text => window.ANestI18n?.text(text) ?? text;
+const normalize = text => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
+function matchesProduct(product, query) {
+  const text = normalize(product.name + ' ' + product.label + ' ' + translate(product.name) + ' ' + translate(product.label));
+  return normalize(query).split(' ').every(term => text.includes(term));
+}
+function syncSearchCategory() {
+  if (currentPage !== 'products.html') return;
+  if (!searchQuery) {
+    if (searchCategoryButton) filterButtons.splice(filterButtons.indexOf(searchCategoryButton), 1);
+    searchCategoryButton?.remove();
+    searchCategoryButton = null;
+    return;
+  }
+  if (!searchCategoryButton) {
+    searchCategoryButton = document.createElement('button');
+    searchCategoryButton.type = 'button';
+    searchCategoryButton.dataset.filter = 'search';
+    searchCategoryButton.dataset.i18nIgnore = '';
+    searchCategoryButton.addEventListener('click', () => selectProductCategory('search'));
+    document.querySelector('.category-sidebar .product-filters').append(searchCategoryButton);
+    filterButtons.push(searchCategoryButton);
+  }
+  searchCategoryButton.textContent = translate('Theo tìm kiếm:') + ' “' + searchQuery + '”';
+}
+function writeProductState() {
+  const url = new URL(location.href);
+  if (searchQuery) url.searchParams.set('q', searchQuery); else url.searchParams.delete('q');
+  if (selectedProductCategory !== (searchQuery ? 'search' : 'all')) url.searchParams.set('category', selectedProductCategory); else url.searchParams.delete('category');
+  const sort = document.querySelector('#product-sort').value;
+  if (sort !== 'featured') url.searchParams.set('sort', sort); else url.searchParams.delete('sort');
+  if (url.href !== location.href) history.pushState(null, '', url);
+}
+function selectProductCategory(category) {
+  selectedProductCategory = category;
+  filterProducts(category, category === 'search' ? searchQuery : '');
+  updateSearchSummary();
+  if (currentPage === 'products.html') {
+    writeProductState();
+    if (matchMedia('(max-width:850px)').matches) document.querySelector('.category-disclosure').open = false;
+  }
+}
+function filterProducts(category = 'all', query = '') {
+  let visibleCount = 0;
+  products.forEach(product => {
+    const item = catalog.find(item => item.name === product.dataset.name);
+    const matches = (category === 'all' || category === 'search' || product.dataset.category === category) && (!query || (item && matchesProduct(item, query)));
+    product.hidden = !matches;
+    if (matches) { visibleCount++; product.classList.add('is-visible'); }
+  });
+  const emptyState = document.querySelector('.no-results');
+  if (emptyState) {
+    emptyState.hidden = visibleCount > 0;
+    emptyState.closest('.collection-section')?.classList.toggle('has-no-products', visibleCount === 0);
+  }
+  const count = document.querySelector('#product-count');
+  if (count) count.textContent = visibleCount + ' sản phẩm';
+  filterButtons.forEach(button => {
+    const selected = button.dataset.filter === category;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+}
+filterButtons.forEach(button => button.addEventListener('click', () => selectProductCategory(button.dataset.filter)));
+const headerSearch = document.querySelector('.header-search');
+const searchPanel = document.querySelector('#search-panel');
+const searchInput = document.querySelector('#search-input');
+const searchToggle = document.querySelector('#search-toggle');
+let placeholderTimer;
+let placeholderIndex = 0;
+let placeholderLength = 0;
+let placeholderDeleting = false;
+const placeholderQueries = ['Yến chưng táo đỏ', 'Tổ yến tinh chế', 'Hộp quà ANestLand', 'Yến chưng hạt sen'];
+function pausePlaceholder() {
+  clearTimeout(placeholderTimer);
+  searchInput.placeholder = translate('Tìm sản phẩm hoặc bài viết...');
+}
+function startPlaceholder() {
+  pausePlaceholder();
+  placeholderLength = 0;
+  placeholderDeleting = false;
+  if (headerSearch.classList.contains('is-open') && !searchInput.value && !document.hidden && !reducedMotion.matches) {
+    placeholderTimer = setTimeout(cyclePlaceholder, 1000);
+  }
+}
+function cyclePlaceholder() {
+  clearTimeout(placeholderTimer);
+  if (reducedMotion.matches || document.hidden || searchInput.value || !headerSearch.classList.contains('is-open') || !searchInput.getBoundingClientRect().width) {
+    searchInput.placeholder = translate('Tìm sản phẩm hoặc bài viết...');
+    return;
+  }
+  const query = translate(placeholderQueries[placeholderIndex]);
+  placeholderLength += placeholderDeleting ? -1 : 1;
+  searchInput.placeholder = query.slice(0, placeholderLength) || translate('Tìm sản phẩm hoặc bài viết...');
+  let delay = placeholderDeleting ? 45 : 110;
+  if (placeholderLength === query.length) { placeholderDeleting = true; delay = 1900; }
+  if (placeholderLength <= 0) {
+    placeholderDeleting = false;
+    placeholderIndex = (placeholderIndex + 1) % placeholderQueries.length;
+    delay = 500;
+  }
+  placeholderTimer = setTimeout(cyclePlaceholder, delay);
+}
+function openSearch(focusInput = true) {
+  closeAccountMenu();
+  closeHeaderLanguage();
+  closeMenu(); closeMiniCart();
+  pausePlaceholder();
+  headerSearch.classList.add('is-open');
+  positionSearch();
+  searchPanel.hidden = false;
+  searchInput.setAttribute('aria-expanded', 'true');
+  searchToggle.setAttribute('aria-expanded', 'true');
+  renderSearch();
+  startPlaceholder();
+  if (focusInput) requestAnimationFrame(() => {
+    // Let the opening visibility state apply before focusing the animated field.
+    if (headerSearch.classList.contains('is-open')) searchInput.focus({ preventScroll: true });
+  });
+}
+function closeSearch(restoreFocus = false) {
+  searchPanel.hidden = true;
+  headerSearch.classList.remove('is-open');
+  searchInput.setAttribute('aria-expanded', 'false');
+  searchToggle.setAttribute('aria-expanded', 'false');
+  if (restoreFocus) {
+    searchToggle.focus({ preventScroll: true });
+  }
+  pausePlaceholder();
+}
+searchToggle.addEventListener('click', () => searchPanel.hidden ? openSearch() : closeSearch(true));
+// Expand into genuine desktop whitespace; use an anchored panel when that space is too small.
+function positionSearch() {
+  const nav = header.querySelector('.desktop-nav');
+  const available = searchToggle.getBoundingClientRect().right - nav.getBoundingClientRect().right - 20;
+  const inline = !narrowNavigation.matches && available >= 200;
+  headerSearch.classList.toggle('is-inline', inline);
+  headerSearch.style.setProperty('--search-width', (inline ? Math.min(340, available) : 360) + 'px');
+}
+new ResizeObserver(positionSearch).observe(header);
+window.addEventListener('resize', positionSearch);
+searchInput.addEventListener('focus', () => { if (searchPanel.hidden) openSearch(false); });
+searchInput.addEventListener('click', () => { if (searchPanel.hidden) openSearch(false); });
+searchInput.addEventListener('input', () => { startPlaceholder(); renderSearch(); });
+headerSearch.querySelector('.search-close').addEventListener('click', () => closeSearch(true));
+headerSearch.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !searchPanel.hidden) {
+    event.preventDefault();
+    closeSearch(true);
+  }
+  if (!searchPanel.hidden && ['ArrowDown', 'ArrowUp'].includes(event.key)) {
+    const results = [...searchPanel.querySelectorAll('.search-result')];
+    if (!results.length) return;
+    event.preventDefault();
+    const current = results.indexOf(document.activeElement);
+    const next = current < 0 ? (event.key === 'ArrowDown' ? 0 : results.length - 1)
+      : (current + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
+    results[next].focus({ preventScroll: true });
+    const row = results[next], list = document.querySelector('#search-results');
+    // Scroll only the result list, never the document containing the sticky header.
+    const rowBounds = row.getBoundingClientRect(), listBounds = list.getBoundingClientRect();
+    if (rowBounds.top < listBounds.top) list.scrollTop -= listBounds.top - rowBounds.top;
+    else if (rowBounds.bottom > listBounds.bottom) list.scrollTop += rowBounds.bottom - listBounds.bottom;
+  }
+});
+document.addEventListener('pointerdown', event => {
+  if (!headerSearch.contains(event.target) && !searchPanel.hidden) closeSearch();
+});
+document.addEventListener('focusin', event => {
+  if (!headerSearch.contains(event.target) && !searchPanel.hidden) closeSearch();
+});
+document.addEventListener('visibilitychange', () => document.hidden ? pausePlaceholder() : cyclePlaceholder());
+reducedMotion.addEventListener('change', () => reducedMotion.matches ? pausePlaceholder() : cyclePlaceholder());
+window.addEventListener('resize', startPlaceholder);
+let cancelCatalogScroll;
+function scrollToProductCatalog() {
+  cancelCatalogScroll?.();
+  const section = document.querySelector('.collection-section');
+  if (!section) return;
+  const target = () => Math.max(0, window.scrollY + section.getBoundingClientRect().top + parseFloat(getComputedStyle(section).paddingTop) - header.getBoundingClientRect().height - 20);
+  if (Math.abs(target() - window.scrollY) < 1) return;
+  let cancelled = false;
+  let fallback;
+  const settle = () => {
+    window.removeEventListener('scrollend', settle);
+    clearTimeout(fallback);
+    // Browser scroll anchoring can compensate for the shrinking header.
+    // Recheck once after native scrolling and its existing transition finish.
+    Promise.allSettled(header.getAnimations().map(animation => animation.finished)).then(() => {
+      if (cancelled) return;
+      if (Math.abs(target() - window.scrollY) >= 1) window.scrollTo({ top: target(), behavior: 'instant' });
+      cancelCatalogScroll = undefined;
+    });
+  };
+  cancelCatalogScroll = () => { cancelled = true; window.removeEventListener('scrollend', settle); clearTimeout(fallback); };
+  window.addEventListener('scrollend', settle, { once: true });
+  if (!('onscrollend' in window)) fallback = setTimeout(settle, 1200);
+  window.scrollTo({ top: target(), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+}
+document.querySelector('#search-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const query = document.querySelector('#search-input').value.trim();
+  if (searchPanel.hidden) { openSearch(); return; }
+  closeSearch();
+  if (currentPage === 'products.html') {
+    searchQuery = query;
+    syncSearchCategory();
+    selectProductCategory(query ? 'search' : 'all');
+    scrollToProductCatalog();
+  } else {
+    location.href = 'products.html' + (query ? '?q=' + encodeURIComponent(query) : '');
+  }
+});
+document.querySelectorAll('dialog').forEach(dialog => {
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog) {
+    const rect = dialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+  }});
+});
+const contentDialog = document.querySelector('#content-dialog');
+function showContent(label, title, body) {
+  document.querySelector('#dialog-label').textContent = label;
+  document.querySelector('#dialog-title').textContent = title;
+  document.querySelector('#dialog-body').textContent = body;
+  contentDialog.showModal();
+}
+const articles = [
+  ['SỐNG KHỎE · 12.09.2026', 'Yến sào nên dùng vào thời điểm nào?', 'Một buổi sáng chậm rãi hay một khoảng nghỉ trong ngày đều có thể trở thành khoảnh khắc chăm sóc bản thân. Chuẩn bị một khẩu phần vừa đủ, đọc hướng dẫn sử dụng trên bao bì và thưởng thức theo thói quen của bạn.'],
+  ['KIẾN THỨC VỀ YẾN · 08.09.2026', 'Cách nhận biết tổ yến chất lượng', 'Bắt đầu từ nguồn gốc rõ ràng, thông tin thành phần và hướng dẫn bảo quản. Hãy quan sát cấu trúc sợi yến, lựa chọn đơn vị cung cấp đáng tin cậy và tìm hiểu quy trình làm sạch trước khi mua.'],
+  ['QUÀ TẶNG · 02.09.2026', 'Gợi ý quà sức khỏe cho gia đình', 'Một món quà được chọn bằng sự quan tâm luôn mang ý nghĩa riêng. Hộp quà yến sào với sự trình bày trang nhã, những hũ yến nhỏ và một lời nhắn viết tay là gợi ý cho những dịp sum họp. Hãy chọn thành phần phù hợp với sở thích của người nhận.']
+];
+document.querySelectorAll('[data-article]').forEach(button => button.addEventListener('click', () => showContent(...articles[Number(button.dataset.article)])));
+const information = {
+  contact: ['LIÊN HỆ', 'Kết nối với ANestLand', 'Liên hệ ANestLand qua trang Liên hệ để trao đổi về sản phẩm và những lựa chọn phù hợp với bạn.'],
+  policy: ['CHÍNH SÁCH', 'Thông tin chính sách', 'Vui lòng liên hệ ANestLand để được hướng dẫn về chính sách mua hàng, bảo quản và đổi trả sản phẩm.'],
+  shipping: ['GIAO HÀNG', 'Trao gửi sự chăm sóc', 'Vui lòng trao đổi trực tiếp với ANestLand về địa chỉ nhận hàng, thời gian vận chuyển và điều kiện đổi trả.'],
+  social: ['THEO DÕI', 'Hẹn gặp bạn ở những câu chuyện mới', 'Các kênh mạng xã hội sẽ được liên kết khi ANestLand có tài khoản chính thức. Bạn có thể khám phá thêm những câu chuyện về yến ngay trên trang này.']
+};
+document.querySelectorAll('[data-info]').forEach(button => button.addEventListener('click', () => showContent(...information[button.dataset.info])));
+document.querySelector('#newsletter-form')?.addEventListener('submit', event => {
+  event.preventDefault();
+  document.querySelector('#newsletter-message').textContent = 'Cảm ơn bạn đã quan tâm đến ANestLand.';
+  event.target.reset();
+});
+
+ 
+// Catalog and article selections share one static detail file each.
 const articleCatalog = [
   {
     "id": "thoi-diem",
@@ -1291,7 +1409,7 @@ document.querySelectorAll('.product-card .price').forEach(node => {
 // Local catalog results; user-entered text is never interpreted as HTML.
 function renderSearch() {
   const query = normalize(document.querySelector('#search-input').value.trim());
-  const products = query ? catalog.filter(item => normalize(item.name + ' ' + item.label + ' ' + translate(item.name) + ' ' + translate(item.label)).includes(query)) : catalog;
+  const products = query ? catalog.filter(item => matchesProduct(item, query)) : catalog;
   const articles = query ? articleCatalog.filter(item => normalize(item.title + ' ' + item.category + ' ' + translate(item.title) + ' ' + translate(item.category)).includes(query)) : [];
   const results = document.querySelector('#search-results');
   results.replaceChildren();
@@ -2061,30 +2179,26 @@ renderCheckout();
 function updateSearchSummary() {
   const summary = document.querySelector('#search-summary');
   if (!summary) return;
-  summary.hidden = !searchQuery;
-  summary.textContent = searchQuery ? 'Kết quả tìm kiếm cho “' + searchQuery + '”' : '';
-}
-if (currentPage === 'products.html') {
-  searchQuery = pageParams.get('q') || '';
-  filterProducts('all', searchQuery);
-  updateSearchSummary();
+  summary.hidden = !searchQuery || selectedProductCategory !== 'search';
+  summary.dataset.i18nIgnore = '';
+  summary.textContent = !summary.hidden ? translate('Theo tìm kiếm:') + ' “' + searchQuery + '”' : '';
 }
 document.querySelector('#clear-search')?.addEventListener('click', () => {
   searchQuery = '';
-  filterProducts();
-  updateSearchSummary();
-  const url = new URL(location.href);
-  url.searchParams.delete('q');
-  history.replaceState(null, '', url);
+  syncSearchCategory();
+  selectProductCategory('all');
 });
-document.querySelector('#product-sort')?.addEventListener('change', event => {
-  const order = event.target.value;
+function sortCollection(order) {
   const sorted = [...collectionProducts];
   if (order === 'price-asc') sorted.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
   if (order === 'price-desc') sorted.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
   if (order === 'name') sorted.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name, 'vi'));
   const grid = document.querySelector('.collection-section .product-grid');
   sorted.forEach(card => grid.append(card));
+}
+document.querySelector('#product-sort')?.addEventListener('change', event => {
+  sortCollection(event.target.value);
+  writeProductState();
 });
 
 // Keep the existing select/change sorting contract as the no-JS fallback.
@@ -2151,6 +2265,27 @@ if (sortSelect) {
   sortSelect.after(sort);
   sortSelect.hidden = true;
   document.querySelector('label[for="product-sort"]').htmlFor = trigger.id;
+}
+
+function restoreProductState() {
+  const params = new URLSearchParams(location.search);
+  searchQuery = (params.get('q') || '').trim();
+  syncSearchCategory();
+  selectedProductCategory = params.get('category') || (searchQuery ? 'search' : 'all');
+  if (!filterButtons.some(button => button.dataset.filter === selectedProductCategory)) selectedProductCategory = searchQuery ? 'search' : 'all';
+  filterProducts(selectedProductCategory, selectedProductCategory === 'search' ? searchQuery : '');
+  updateSearchSummary();
+  sortSelect.value = [...sortSelect.options].some(option => option.value === params.get('sort')) ? params.get('sort') : 'featured';
+  sortCollection(sortSelect.value);
+  const trigger = document.querySelector('#sort-trigger');
+  trigger.dataset.sortIcon = sortSelect.value;
+  trigger.textContent = translate(sortSelect.selectedOptions[0].textContent);
+  document.querySelectorAll('#sort-options button').forEach(button => button.setAttribute('aria-selected', String(button.dataset.value === sortSelect.value)));
+}
+if (currentPage === 'products.html') {
+  restoreProductState();
+  if (pageParams.get('q')) requestAnimationFrame(scrollToProductCatalog);
+  window.addEventListener('popstate', restoreProductState);
 }
 
 let selectedProduct = catalog[0];
@@ -2269,7 +2404,7 @@ function buildArticleContents(body) {
     heading.id = id;
     used.add(id);
   });
-  const layout = document.createElement('div');
+  const layout = document.querySelector('.article-reading-layout') || document.createElement('div');
   layout.className = 'article-reading-layout container';
   const toc = document.createElement('aside');
   toc.className = 'article-contents';
@@ -2304,10 +2439,14 @@ function buildArticleContents(body) {
     } else { list.append(item); parentItem = heading.tagName === 'H2' ? item : undefined; }
     return link;
   });
-  body.before(layout);
-  const column = document.createElement('div'); column.className = 'article-content-column';
-  column.append(document.querySelector('.article-hero-image'), body);
-  layout.append(toc,column);
+  let column = layout.querySelector('.article-content-column');
+  if (!column) {
+    body.before(layout);
+    column = document.createElement('div'); column.className = 'article-content-column';
+    column.append(document.querySelector('.article-hero-image'), body);
+    layout.append(column);
+  }
+  (layout.querySelector('.article-right-sidebar') || layout).append(toc);
   const compact = matchMedia('(max-width:1100px)');
   const trigger = toc.querySelector('button');
   const sheetHeading = document.createElement('div'); sheetHeading.className = 'contents-sheet-heading';
@@ -2522,7 +2661,7 @@ function setupArticleColumns(article, recommendations) {
   const toc = layout.querySelector('.article-contents');
   const heading = document.querySelector('.article-heading');
   column.prepend(heading);
-  const library = document.createElement('details');
+  const library = layout.querySelector('.article-library') || document.createElement('details');
   library.className = 'article-library';
   const summary = document.createElement('summary');
   summary.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="sr-only" data-i18n="news.otherArticles">Bài viết khác</span>';
@@ -2546,7 +2685,7 @@ function setupArticleColumns(article, recommendations) {
     links.append(link);
   });
   library.append(summary, links);
-  const right = document.createElement('div');
+  const right = layout.querySelector('.article-right-sidebar') || document.createElement('div');
   right.className = 'article-right-sidebar';
   right.append(toc);
   layout.append(right);
@@ -2962,6 +3101,11 @@ accountDrawer.querySelectorAll('form').forEach(form => {
 
 window.addEventListener('anestland:languagechange', () => {
   refreshPrices();
+  if (currentPage === 'products.html') {
+    syncSearchCategory();
+    filterProducts(selectedProductCategory, selectedProductCategory === 'search' ? searchQuery : '');
+    updateSearchSummary();
+  }
   document.querySelectorAll('.mini-cart-quantity,.mini-cart-formula-quantity,.checkout-item-quantity').forEach(node => {
     node.textContent = new Intl.NumberFormat(document.documentElement.lang).format(Number(node.dataset.quantity));
   });
@@ -3028,7 +3172,7 @@ syncFavorites();
 // Shared static refraction map: only selection-panel background layers reference it.
 if (!document.getElementById('anestland-selection-refraction')) {
   const glassDefinitions = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  glassDefinitions.className = 'svg-library';
+  glassDefinitions.setAttribute('class', 'svg-library');
   glassDefinitions.setAttribute('aria-hidden', 'true');
   glassDefinitions.setAttribute('width', '0');
   glassDefinitions.setAttribute('height', '0');
